@@ -32,7 +32,37 @@ public function __construct(){
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Tambah Barang";
 		$data['active']="2";
-		$this->blade->render('tambahBarang',$data);	
+		$bahan=$this->input->post('bahanBarang');
+		if ($bahan==NULL) {
+			# code...
+			$this->blade->render('tambahBarang',$data);
+		}
+		else{
+			
+		/*input barang untuk tambah Barang*/
+		$barangs=[
+		'bahan'=>$this->input->post('bahanBarang'),
+		'cara_peroleh'=>$this->input->post('caraBarang'),
+		'tanggal_pengadaan'=>$this->input->post('tglBarang'),
+		'warna_barang'=>$this->input->post('warnaBarang'),
+		'satuan'=>$this->input->post('satuanBarang'),
+		'keadaan_barang'=>$this->input->post('keadaanBarang'),
+		'harga_satuan'=>$this->input->post('hargaBarang'),
+		'tanggal_rusak'=>NULL,
+		'lokasi'=>$this->input->post('lokasiBarang')
+		];
+
+		$spesifikasi=[
+		'nama_barang'=>$this->input->post('namaBarang'),
+		'merk'=>$this->input->post('merkBarang'),
+		'no_pabrik'=>$this->input->post('noSertif')
+		];
+
+		$tambah=$this->BarangModel->setTambah($barangs,$spesifikasi);
+		redirect(barang); 	
+		}
+		
+		
 	}
 
 
