@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require('vendor/autoload.php') ;
+
+
+
 class Barang extends MY_Controller {
 public function __construct(){
 		parent :: __construct();
@@ -65,6 +69,14 @@ public function __construct(){
 		
 	}
 
+	public function barcode()
+	{
+	$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+	/*SVG*///echo $generator->getBarcode('1', $generator::TYPE_CODE_128);
+	$generatorPNG = new Picqer\Barcode\BarcodeGeneratorPNG();
+	echo '<img src="data:image/png;base64,' . base64_encode($generatorPNG->getBarcode('123111299', $generatorPNG::TYPE_CODE_128)) . '">';
+
+	}
 
 	public function daftarbarang()
 	{
