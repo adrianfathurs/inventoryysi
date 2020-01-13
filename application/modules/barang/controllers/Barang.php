@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 require('vendor/autoload.php') ;
+include "phpqrcode/qrlib.php"; //<-- LOKASI FILE UTAMA PLUGINNYA
 
 
 
@@ -11,6 +12,7 @@ public function __construct(){
 		
 		$this->load->helper('form');
 		$this->load->model('BarangModel');
+		$this->load->model('DepartementModel');
 		/*Agar dapat ngeload user model tanpa deklasrasi disetiap fungsi yang ada dia auth*/
 		
 		
@@ -62,11 +64,35 @@ public function __construct(){
 		'no_pabrik'=>$this->input->post('noSertif')
 		];
 
+
+
 		$tambah=$this->BarangModel->setTambah($barangs,$spesifikasi);
-		redirect(barang); 	
-		}
-		
-		
+	//Ambil data table departement
+		$data['dept']=$this->DepartementModel->getDepartement();	
+	//contoh pengambilan id setelah proses insert dilakukan dengan mengambil id paling akhir
+		$id=$this->BarangModel->get_id();
+		$data['get']=$this->BarangModel->getAllbyId($id);
+		$data['id']=$this->BarangModel->get_id();
+	//disini tempat untuk memanggil model khusus convert bulan dan tahun dari tabel barangs coloumn date
+			
+	//load function getdepartement model;
+		$this->blade->render('verifikasiBarang',$data);
+
+
+	//contoh awal pembuatan id yang diambil setelah input
+		//$data['no']=$this->BarangModel->get_id();
+		//$data['get']=$this->BarangModel->getAllbyId($id);
+		//$this->blade->render('tambahBarcode',$data);
+
+		}	
+	}
+
+	public function tambahbarcode($id,$bulan,$tahunb)
+	{
+		$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Data ID Barang";
+		$data['active']="1";
+		$this->blade->render('dashBoard');	
 	}
 
 	public function barcode()
@@ -75,7 +101,31 @@ public function __construct(){
 	/*SVG*///echo $generator->getBarcode('1', $generator::TYPE_CODE_128);
 	$generatorPNG = new Picqer\Barcode\BarcodeGeneratorPNG();
 	echo '<img src="data:image/png;base64,' . base64_encode($generatorPNG->getBarcode('123111299', $generatorPNG::TYPE_CODE_128)) . '">';
+	
+	/*kalo mau menyimpan qr ccode disuatu local dist*/
+	/*$tempdir = "temp/"; //<-- Nama Folder file QR Code kita nantinya akan disimpan
+	if (!file_exists($tempdir))#kalau folder belum ada, maka buat.
+    mkdir($tempdir);
+	
+ 
+	$isi_teks = "1111111";
+	$namafile = "tono.png";
+	$quality = 'H'; //ada 4 pilihan, L (Low), M(Medium), Q(Good), H(High)
+	$ukuran = 5; //batasan 1 paling kecil, 10 paling besar
+	$padding = 0;
+ 
+	$Qrcode=QRCode::png($isi_teks,$tempdir.$namafile,$quality,$ukuran,$padding);
+	echo '<img src=templateyysi/temp/coba.png>';*/
+	}
 
+	public function qrcode()
+	{
+		$code=123170051;
+		$qrCode= new Endroid\QrCode\QrCode($code);
+
+		$qrCode->writeFile('temp/'.$code.'.png');
+		;
+		redirect('barang');
 	}
 
 	public function daftarbarang()

@@ -85,9 +85,8 @@
                 <div class="form-label-group">
                   <label for="keadaanBarang">Keadaan Barang</label>
                   <select class="form-control" id="keadaanBarang" name ="keadaanBarang" required="required">
-		    		<option>Keadaan Barang</option>
-			    	<option value="Baik">Baik</option>
-			    	<option value="Rusak">Rusak</option>
+		    		      <option value="Baik">Baik</option>
+			    	      <option value="Rusak">Rusak</option>
 		    	</select>
                 </div>
               </div>
