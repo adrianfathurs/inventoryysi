@@ -13,6 +13,7 @@ public function __construct(){
 		$this->load->helper('form');
 		$this->load->model('BarangModel');
 		$this->load->model('DepartementModel');
+		$this->load->model('YayasanModel');
 		/*Agar dapat ngeload user model tanpa deklasrasi disetiap fungsi yang ada dia auth*/
 		
 		
@@ -31,6 +32,15 @@ public function __construct(){
 		$data['subtitle']="Dashboard";
 		$data['active']="1";
 		$this->blade->render('dashBoard',$data);	
+	}
+
+	public function daftarbarang()
+	{
+		$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Daftar Barang";
+		$data['active']="3";
+		$data['daftar']=$this->BarangModel->getAll();
+		$this->blade->render('daftarBarang',$data);
 	}
 
 	public function tambahbarang()
@@ -67,13 +77,15 @@ public function __construct(){
 
 
 		$tambah=$this->BarangModel->setTambah($barangs,$spesifikasi);
+	//Ambil data table Yayasan
+		$data['yas']=$this->YayasanModel->getyayasan();
 	//Ambil data table departement
 		$data['dept']=$this->DepartementModel->getDepartement();	
 	//contoh pengambilan id setelah proses insert dilakukan dengan mengambil id paling akhir
 		$id=$this->BarangModel->get_id();
 		$data['get']=$this->BarangModel->getAllbyId($id);
 		$data['id']=$this->BarangModel->get_id();
-	//disini tempat untuk memanggil model khusus convert bulan dan tahun dari tabel barangs coloumn date
+	
 			
 	//load function getdepartement model;
 		$this->blade->render('verifikasiBarang',$data);
@@ -87,14 +99,57 @@ public function __construct(){
 		}	
 	}
 
-	public function tambahbarcode($id,$bulan,$tahunb)
+	public function tambahbarcode($id,$id_yas,$bulan,$tahunb)
 	{
 		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Data ID Barang";
-		$data['active']="1";
-		$this->blade->render('dashBoard');	
+		$data['subtitle']="Barcode";
+		$depart=$this->input->post('departement');
+		echo $depart;
+		echo $id.$id_yas.$bulan.$tahunb;
+		$barcode=[
+			'id_barang'=>$id,
+			'id_departement'=>$this->input->post('departement'),
+			'id_yayasan'=>$id_yas,
+			'bulan'=>$bulan,
+			'tahun'=>$tahunb,
+			'id_spesifikasi'=>$id
+		];
+	//untuk memanggil function setBarcode di Barang Model
+		$this->BarangModel->setBarcode($barcode);
+		$data['daftar']=$this->BarangModel->getAll();
+		$this->blade->render('daftarBarang',$data);
 	}
 
+	//function hapus data pada tombol back verifikasi barang
+	public function deleteproses($id)
+	{
+		$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Tambah Proses";
+		$this->BarangModel->setDelete($id);
+		$data['daftar']=$this->BarangModel->getAll();
+		$this->blade->render('daftarBarang',$data);	
+	}
+	//function yang digunakan untuk menselect id barcode dari view daftarbarang
+	public function selectidbarcode($id)
+	{
+
+	}
+
+	//function yang digunakan untuk mendelete id baarcode dari view daftar barang beserta data di table barangs dan spesifikasi
+	public function deleteidbarcode($id)
+	{
+		$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Daftar Barang";
+		$id_barang=$this->BarangModel->getIdBaranginBarcode($id);
+		$this->BarangModel->setDeleteIdBarcode($id);
+		$this->BarangModel->setDelete($id_barang);
+		$data['daftar']=$this->BarangModel->getAll();
+		$this->blade->render('daftarBarang',$data);	
+	}
+
+
+
+	//function 
 	public function barcode()
 	{
 	$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
@@ -128,13 +183,6 @@ public function __construct(){
 		redirect('barang');
 	}
 
-	public function daftarbarang()
-	{
-		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Daftar Barang";
-		$data['active']="3";
-		$data['daftar']=$this->BarangModel->getAll();
-		$this->blade->render('daftarBarang',$data);
-	}
-		
+	
+	
 }

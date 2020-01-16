@@ -2,7 +2,7 @@
 
   @section('content')
    
-      <!-- Begin Page Content -->
+    <a href="{{base_url('barang/deleteproses/').$id}}"><i id="icon" class="fas fa-arrow-circle-left fa-2x"></i></a>
 
       <!-- Dokumentasi tentang pengambilan id terakhir setelah input dilakukan -->
   <!-- <div class="container-fluid">
@@ -21,11 +21,13 @@
 
 <!-- $tahun//=YEAR($g['tanggal_pengadaan']);
     $tahunb//=$tahun-2000; -->
+
+  <!--  Begin Page Content --> 
   <?php foreach ($get as $g):
     $date=strtotime($g['tanggal_pengadaan']);
     $date_month=date('n',$date);
-
-    
+    $date_year=date('y',$date);
+    echo $id.$yas.$date_month.$date_year;
     ?> 
 
     <div class="container">
@@ -34,7 +36,7 @@
           <div class="card-header">Verifikasi Input Barang</div>
           </center>
           <div class="card-body">
-            <form action="#" method="POST">
+            <form action="{{base_url('barang/tambahbarcode/').$id.'/'.$yas.'/'.$date_month.'/'.$date_year}}" method="POST">
               <div class="form-group">
                 <!-- als -->
                 <div class="form-row">
@@ -113,7 +115,7 @@
                     <p class="font-weight-bold">Tanggal Peroleh</p>
                   </div>
                   <div>
-                  <p>{{$date_month}}</p>
+                  <p>{{$g['tanggal_pengadaan']}}</p>
                   </div>
                 </div>
 
@@ -140,7 +142,7 @@
                     <p class="font-weight-bold">Departemen</p>
                   </div>
                    <div>
-                    <select class="form-control" id="Departemen" required="required">
+                    <select class="form-control" id="Departement" name="departement" required="required">
                       <?php foreach($dept as $de):?>
                         <option value="{{$de['id_departement']}}">{{$de['nama_departement']}}</option>
                       <?php endforeach;?>
@@ -149,7 +151,7 @@
                 </div>
               </div>
               
-              <a class="btn btn-success btn-block" href="login.html">PROSES</a>
+              <button class="btn btn-success btn-block" >PROSES</button>
             </form>
           </div>
         </div>

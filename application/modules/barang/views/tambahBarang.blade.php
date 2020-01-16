@@ -1,11 +1,20 @@
     @layout('template/main/barang/main')
     @section('content')
-   
+    
    <!-- Begin Page Content -->
+    
+    <style type="text/css">
+      #icon{
+        margin-left: 10px;
+      }
+    </style>
+
    <div class="container-fluid">
     <div class="card card-register mx-auto mt-5">
       <center>
-      <div class="card-header">Form Input Barang</div>
+      <div class="card-header">
+        <a href="#"><i class="fas fa-arrow-circle-left fa-3x" id="icon"></i></a>Form Input Barang
+      </div>
       </center>
       <div class="card-body">
         <form method="POST" action="{{base_url('barang/tambahbarang')}}">
