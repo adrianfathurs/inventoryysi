@@ -11,9 +11,25 @@
     .deleting{
         color: red;
         }
+    #exampleModalCenter
+      {
+        display:none;
+        position: fixed;
+      }
    </style>
   @endsection
-
+  @section('scripts-js')
+  <script>
+    $(document).ready(function(){
+      $("#search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#bodyTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  </script>
+  @endsection
   @section('content')
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -27,9 +43,9 @@
                <div class="card-header">
             <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <input id="search" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
+                <button class="btn btn-primary">
                   <i class="fas fa-search fa-sm"></i>
                 </button>
               </div>
@@ -58,7 +74,7 @@
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="bodyTable">
               <!-- load table spesifikasi barang dan barang kedalam tabel  -->
                     <?php foreach($daftar as $d):
                    
@@ -81,9 +97,37 @@
                       <td><?=$d['lokasi']?></td>
                       <td>
                         <!-- selecting Barang -->
-                        <a href="{{base_url('barang/selectidbarcode/').$id}}"><i class="fas selecting fa-hand-pointer "></i></a>
+                        <a href="{{base_url('transaksi/selectidbarcode/').$id}}"><i class="fas selecting fa-hand-pointer "></i></a>
                         <!-- Hapus Barang -->
-                        <a href="{{base_url('barang/deleteidbarcode/').$id}}"><i class="fas deleting fa-trash-alt " ></i></a>
+                        <!-- <a href="{{base_url('barang/deleteidbarcode/').$id}}"><i class="fas deleting fa-trash-alt " ></i></a> -->
+
+                        <!-- link trigger modal -->
+                        <a   id="button" data-toggle="modal" data-target="#exampleModalCenter">
+                          <i class="fas deleting fa-trash-alt " ></i>
+                        </a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Warning</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                Benarkah Anda Akan Menghapus Data Ini?
+                              </div>
+                              <div class="modal-footer">
+                                  <a href="{{base_url('barang/daftarbarang/')}}"><button type="button" class="btn btn-light">Cancel</button></a> 
+                                  <a href="{{base_url('barang/deleteidbarcode/').$id}}"><button type="button" class="btn btn-danger">DELETE</button></a>                              
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
                       </td>
                     </tr>
                     <?php

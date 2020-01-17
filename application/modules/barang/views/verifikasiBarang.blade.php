@@ -27,7 +27,7 @@
     $date=strtotime($g['tanggal_pengadaan']);
     $date_month=date('n',$date);
     $date_year=date('y',$date);
-    echo $id.$yas.$date_month.$date_year;
+    
     ?> 
 
     <div class="container">

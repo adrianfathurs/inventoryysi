@@ -129,11 +129,6 @@ public function __construct(){
 		$data['daftar']=$this->BarangModel->getAll();
 		$this->blade->render('daftarBarang',$data);	
 	}
-	//function yang digunakan untuk menselect id barcode dari view daftarbarang
-	public function selectidbarcode($id)
-	{
-
-	}
 
 	//function yang digunakan untuk mendelete id baarcode dari view daftar barang beserta data di table barangs dan spesifikasi
 	public function deleteidbarcode($id)

@@ -43,13 +43,13 @@ public function getAll(){
 		return $this->db->query($query)->result_array();
 	}
 //function buat menampilkan di view cetak surat serahterima 	
-public function getAllbyIdbarcode($id){
+/*public function getAllbyIdbarcode($id){
 		$query="SELECT b.*,s.*,bc.* from barcode bc 
 		inner join spesifikasi_barang s on s.id_spesifikasi=bc.id_spesifikasi
 	 	inner join barangs b on  b.id_barang=bc.id_barang 
 	 	where bc.id_barcode='$id'";
 		return $this->db->query($query)->result_array();
-	}
+	}*/
 //function untuk mendapatkan id_barang dan spesifikasi melalui id barcode pada table barcode
 public function getIdBaranginBarcode($id)
 	{

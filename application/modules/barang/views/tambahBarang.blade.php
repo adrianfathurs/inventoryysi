@@ -13,7 +13,7 @@
     <div class="card card-register mx-auto mt-5">
       <center>
       <div class="card-header">
-        <a href="#"><i class="fas fa-arrow-circle-left fa-3x" id="icon"></i></a>Form Input Barang
+        Form Input Barang
       </div>
       </center>
       <div class="card-body">
