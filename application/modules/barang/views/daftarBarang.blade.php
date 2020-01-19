@@ -82,7 +82,16 @@
                     
                     <tr>
                       <td>1</td>
-                     <?php $id=$d['id_barcode'];?>
+                     <?php 
+                     $id=$d['id_barcode'];
+                     $idbarang=$d['id_barang'];
+                     $iddepartement=$d['id_departement'];
+                     $idyayasan=$d['id_yayasan'];
+                      $date=strtotime($d['tanggal_pengadaan']);
+                          $date_month=date('n',$date);
+                          $date_year=date('y',$date);
+
+                     ?>
                       <td><?=$d['nama_barang']?></td>
                       <td><?=$d['merk']?></td>
                       <td><?=$d['no_pabrik']?></td>
@@ -97,7 +106,7 @@
                       <td><?=$d['lokasi']?></td>
                       <td>
                         <!-- selecting Barang -->
-                        <a href="{{base_url('transaksi/selectidbarcode/').$id}}"><i class="fas selecting fa-hand-pointer "></i></a>
+                        <a href="{{base_url('transaksi/selectidbarcode/').$id.'/'.$idbarang.'/'.$iddepartement.'/'.$idyayasan.'/'.$date_month.'/'.$date_year}}" ><i class="fas selecting fa-hand-pointer "></i></a>
                         <!-- Hapus Barang -->
                         <!-- <a href="{{base_url('barang/deleteidbarcode/').$id}}"><i class="fas deleting fa-trash-alt " ></i></a> -->
 
@@ -121,13 +130,12 @@
                               </div>
                               <div class="modal-footer">
                                   <a href="{{base_url('barang/daftarbarang/')}}"><button type="button" class="btn btn-light">Cancel</button></a> 
-                                  <a href="{{base_url('barang/deleteidbarcode/').$id}}"><button type="button" class="btn btn-danger">DELETE</button></a>                              
-
+                                  <a href="{{base_url('barang/deleteidbarcode/').$id}}"><button type="button" class="btn btn-danger">DELETE</button></a>                           
                               </div>
                             </div>
                           </div>
                         </div>
-
+                          
                       </td>
                     </tr>
                     <?php

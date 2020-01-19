@@ -8,12 +8,11 @@
         margin-left: 10px;
       }
     </style>
-
+  <center><h2><strong>Form Tambah Barang</strong></h2></center>
    <div class="container-fluid">
     <div class="card card-register mx-auto mt-5">
-      <center>
+      <center> 
       <div class="card-header">
-        Form Input Barang
       </div>
       </center>
       <div class="card-body">

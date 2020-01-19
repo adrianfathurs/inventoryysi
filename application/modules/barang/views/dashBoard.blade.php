@@ -9,7 +9,7 @@
          <center> <h1 class="h3 mb-2 text-gray-800"><strong>INVENTARIS BARANG</strong></h1></center>
          <center> <h1 class="h3 mb-2 text-gray-800"><strong>YAYASAN SINAI INDONESIA</strong></h1></center>
 
-         <img src="{{base_url('temp/123170051.png')}}"></img>
+         <img src="{{base_url('temp/123170051.png')}}" width="100px" height="100px"></img>
 
 
          
