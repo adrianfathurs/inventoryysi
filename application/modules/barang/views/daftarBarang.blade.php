@@ -16,6 +16,10 @@
         display:none;
         position: fixed;
       }
+    #btncheckbox{
+      margin-top: 20px;
+      margin-left: 40px;
+    }
    </style>
   @endsection
   @section('scripts-js')
@@ -27,7 +31,15 @@
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
       });
+
+       /*$("#cek").click(function(){
+          $("#btncheckbox").css({ "background-color":"  #7CFC00"});     
+        });*/
+
+        $('#btncheckbox').click(function() {
+    $('#form_cek').submit();
     });
+      });
   </script>
   @endsection
   @section('content')
@@ -36,23 +48,25 @@
 
           <!-- Page Heading -->
          <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
-
+         <?= $this->session->tempdata('message');?>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
                <div class="card-header">
-            <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input id="search" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-            
-            </div>
+                  <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    <div class="input-group">
+                      <input id="search" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                       <div class="input-group-append">
+                         <button class="btn btn-primary"><i class="fas fa-search fa-sm"></i></button>
+                      </div>  
+                   </div>
+                </form>
+                
+               </div>
+                <button name="btnsubmit" id="btncheckbox" class="btn btn-primary py-8 px-8"  type="submit">PILIH BARANG</button>
+
+
+
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -76,12 +90,13 @@
                   </thead>
                   <tbody id="bodyTable">
               <!-- load table spesifikasi barang dan barang kedalam tabel  -->
+                    <form id="form_cek" name="form_cek" method="POST" action="{{base_url('barang/selectbarcode/')}}" >  
                     <?php foreach($daftar as $d):
                    
                     ?>
-                    
+                 
                     <tr>
-                      <td>1</td>
+                      <td>{{$d['id_barcode']}}</td>
                      <?php 
                      $id=$d['id_barcode'];
                      $idbarang=$d['id_barang'];
@@ -105,14 +120,22 @@
                       <td><?=$d['tanggal_rusak']?></td>
                       <td><?=$d['lokasi']?></td>
                       <td>
-                        <!-- selecting Barang -->
-                        <a href="{{base_url('transaksi/selectidbarcode/').$id.'/'.$idbarang.'/'.$iddepartement.'/'.$idyayasan.'/'.$date_month.'/'.$date_year}}" ><i class="fas selecting fa-hand-pointer "></i></a>
-                        <!-- Hapus Barang -->
+
+
+
+                        <!-- SYNTAX CHECK BOX -->
+                  
+                     <input id="cek" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}">
+                  
+                  <!-- INI YANG NGGA ERROR -->    
+                      <!-- selecting Barang -->
+ <!--                        <a href="{{base_url('transaksi/selectidbarcode/').$id.'/'.$idbarang.'/'.$iddepartement.'/'.$idyayasan.'/'.$date_month.'/'.$date_year}}" ><i class="fas selecting fa-hand-pointer "></i></a>
+  -->                       <!-- Hapus Barang -->
                         <!-- <a href="{{base_url('barang/deleteidbarcode/').$id}}"><i class="fas deleting fa-trash-alt " ></i></a> -->
 
                         <!-- link trigger modal -->
                         <a   id="button" data-toggle="modal" data-target="#exampleModalCenter">
-                          <i class="fas deleting fa-trash-alt " ></i>
+                          <i class="fas deleting fa-trash-alt fa-2x " ></i>
                         </a>
 
                         <!-- Modal -->
@@ -138,9 +161,11 @@
                           
                       </td>
                     </tr>
+
                     <?php
                     endforeach;
                     ?>
+                     </form>
                   </tbody>
                 </table>
               </div>

@@ -42,4 +42,29 @@ public function get_idtransaksi()
 			return $this->db->query($query)->row()->id_transaksi;
 	}
 
+	//function buat menampilkan di view cetak surat serahterima 	
+	public function getAllbyIdbarcodewherein(array $where){
+		/*$query="SELECT b.*,s.*,bc.*,dept.*,yas.* from barcode bc 
+		inner join spesifikasi_barang s on s.id_spesifikasi=bc.id_spesifikasi
+	 	inner join barangs b on  b.id_barang=bc.id_barang 
+	 	inner join departement dept on  dept.id_departement=bc.id_departement
+	 	inner join yayasan yas on  yas.id_yayasan=bc.id_yayasan
+	 	where_in bc.id_barcode='$id'";
+		return $this->db->query($query)->result_array();*/
+
+
+		$query = $this->db->select('b.*, s.* ,bc.* ,dept.* ,yas.*')
+                  ->from('barcode bc')
+                  ->join('spesifikasi_barang s', 'bc.id_spesifikasi = s.id_spesifikasi')
+                  ->join('barangs b', 'b.id_barang = bc.id_barang')
+                  ->join('departement dept', 'dept.id_departement = bc.id_departement')
+                  ->join('yayasan yas', 'yas.id_yayasan = bc.id_yayasan')
+                  ->where_in('bc.id_barcode',$where)
+                  ->get();
+                  return $query->result_array();
+
+
+
+	}
+
 }

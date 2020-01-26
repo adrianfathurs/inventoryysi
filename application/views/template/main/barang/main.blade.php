@@ -104,6 +104,9 @@
   </script>
   <script src="{{base_url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
   <script src="{{base_url('assets/plugins/moment/moment.min.js')}}"></script>
+  <script src="{{base_url('assets/plugins/jquery/printThis.jquery.json')}}"></script>
+  <script src="{{base_url('assets/plugins/jquery/printThis.js')}}"></script>
+  
   <script src="{{base_url('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
   <script src="{{base_url('assets/dist/js/adminlte.js')}}"></script>
   <!-- DataTables -->

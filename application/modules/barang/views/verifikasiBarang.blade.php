@@ -59,7 +59,7 @@
     
     ?> 
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="card card-register mx-auto mt-5">
           <center>
           <div class="card-header">Verifikasi Input Barang</div>
