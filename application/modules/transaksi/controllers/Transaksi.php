@@ -135,12 +135,34 @@ public function __construct(){
 			];
 			$this->TransaksiModel->setTambahttransaksi($ttransaksi);
 			$id_transaksi=$this->TransaksiModel->get_idtransaksi();
-		}*/	
+		}*/
+		
 
+
+		$this->session->set_tempdata('cardcetak','
+			<p>Cetak</p>',5);
+
+		$this->session->set_tempdata('cetak','
+						<div class="row">
+						<div class="col-1"></div>
+							<div class="col-4">
+                              
+								</center>
+									<button type="button" class="btn btn-success" id="cetaksertibar">Cetak Sertibar</button>
+								</center>
+                            </div>
+                            <div class="col-6">
+                              
+  								<center>
+  									<button type="button" class="btn btn-success" id="cetakqrdanbarcode">Cetak Barcode & QRcode</button>
+  								</center>
+                            </div>
+						</div>',5);	
+		
 		$ttransaksi=[
 				'jabatan_penerima'=>$this->input->post('jabpenerima'),
 				'jabatan_penyerah'=>$this->input->post('jabpenyerah'),
-				'ket'=>$this->input->post('ket'),
+				//'ket'=>$this->input->post('ket'),
 				'lokasi_peletakan'=>$this->input->post('lokasibarang'),
 				'nama_penerima'=>$this->input->post('penerima'),
 				'nama_penyerah'=>$this->input->post('penyerah'),
@@ -162,7 +184,12 @@ public function __construct(){
 			$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
 				$i++;
 			}
+			error_reporting(0);
 		$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
+		//Ambil id_transaksi
+		$id_transaksi=$this->TransaksiModel->get_idtransaksi();
+		//ambil data di tabel ttransaksi
+		$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
 		$this->blade->render("transaksiBarang",$data);
 	}
 

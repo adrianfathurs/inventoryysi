@@ -53,17 +53,19 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3">
                <div class="card-header">
+                  <button name="btnsubmit" id="btncheckbox" class="btn btn-primary py-8 px-8"  type="submit">PILIH BARANG</button>
                   <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+
                     <div class="input-group">
                       <input id="search" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                        <div class="input-group-append">
                          <button class="btn btn-primary"><i class="fas fa-search fa-sm"></i></button>
                       </div>  
-                   </div>
+                    </div>
                 </form>
                 
                </div>
-                <button name="btnsubmit" id="btncheckbox" class="btn btn-primary py-8 px-8"  type="submit">PILIH BARANG</button>
+                
 
 
 
@@ -72,20 +74,20 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>No</th>
-                      <th>Nama Barang</th>
-                      <th>Merk</th>
-                      <th>No Pabrik</th>
-                      <th>Bahan</th>
-                      <th>Cara Peroleh</th>
-                      <th>Perolehan</th>
-                      <th>Warna Barang</th>
-                      <th>Satuan</th>
-                      <th>Keadaan Barang</th>
-                      <th>Harga/satuan</th>
-                      <th>Tgl_rusak</th>
-                      <th>Lokasi</th>
-                      <th>Action</th>
+                      <th><center>No</center></th>
+                      <th><center>Nama Barang</center></th>
+                      <th><center>Merk</center></th>
+                      <th><center>No. Pabrik</center></th>
+                      <th><center>Bahan</center></th>
+                      <th><center>Cara Peroleh</center></th>
+                      <th><center>Tanggal Perolehan</center></th>
+                      <th><center>Warna Barang</center></th>
+                      <th><center>Satuan</center></th>
+                      <th><center>Keadaan Barang</center></th>
+                      <th><center>Harga/Satuan</center></th>
+                      <th><center>Tanggal Rusak</center></th>
+                      <th><center>Lokasi</center></th>
+                      <th><center>Action</center></th>
                     </tr>
                   </thead>
                   <tbody id="bodyTable">
@@ -107,25 +109,25 @@
                           $date_year=date('y',$date);
 
                      ?>
-                      <td><?=$d['nama_barang']?></td>
-                      <td><?=$d['merk']?></td>
-                      <td><?=$d['no_pabrik']?></td>
-                      <td><?=$d['bahan']?></td>
-                      <td><?=$d['cara_peroleh']?></td>
-                      <td><?=$d['tanggal_pengadaan']?></td>
-                      <td><?=$d['warna_barang']?></td>
-                      <td><?=$d['satuan']?></td>
-                      <td><?=$d['keadaan_barang']?></td>
-                      <td><?=$d['harga_satuan']?></td>
-                      <td><?=$d['tanggal_rusak']?></td>
-                      <td><?=$d['lokasi']?></td>
+                      <td><center><?=strtoupper($d['nama_barang'])?></center></td>
+                      <td><center><?=strtoupper($d['merk'])?></center></td>
+                      <td><center><?=strtoupper($d['no_pabrik'])?></center></td>
+                      <td><center><?=strtoupper($d['bahan'])?></center></td>
+                      <td><center><?=strtoupper($d['cara_peroleh'])?></center></td>
+                      <td><center><?=$d['tanggal_pengadaan']?></center></td>
+                      <td><center><?=strtoupper($d['warna_barang'])?></center></td>
+                      <td><center><?=strtoupper($d['satuan'])?></center></td>
+                      <td><center><?=strtoupper($d['keadaan_barang'])?></center></td>
+                      <td><center><?=$d['harga_satuan']?></center></td>
+                      <td><center><?=$d['tanggal_rusak']?></center></td>
+                      <td><center><?=strtoupper($d['lokasi'])?></center></td>
                       <td>
 
 
 
                         <!-- SYNTAX CHECK BOX -->
                   
-                     <input id="cek" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}">
+                     <input id="cek" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}"> &nbsp;
                   
                   <!-- INI YANG NGGA ERROR -->    
                       <!-- selecting Barang -->
@@ -135,7 +137,7 @@
 
                         <!-- link trigger modal -->
                         <a   id="button" data-toggle="modal" data-target="#exampleModalCenter">
-                          <i class="fas deleting fa-trash-alt fa-2x " ></i>
+                           <i class="fas deleting fa-trash-alt fa-1x "></i>
                         </a>
 
                         <!-- Modal -->

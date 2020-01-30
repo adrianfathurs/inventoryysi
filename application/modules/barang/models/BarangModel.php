@@ -32,6 +32,13 @@ public function setDelete($id_barang)
 			$this->db->delete('spesifikasi_barang');
 			
 	} 
+
+//setupdate data keterangan barang
+public function setupdateket($array,$where)
+{
+		return $this->db->where($where)
+				->update('barangs',$array);
+}
 //setupdate digunakan untuk mengupdate tanggla rusak dan keadaan barang berdasarkan id_barang
 public function setUpdateku($array,$where)
 {
@@ -113,7 +120,7 @@ public function getAllbyId($id)
 					
 	}
 
- 
+
 
 
 	

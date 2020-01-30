@@ -93,9 +93,9 @@
                 <div class="form-label-group">
                   <label for="keadaanBarang">Keadaan Barang</label>
                   <select class="form-control" id="keadaanBarang" name ="keadaanBarang" required="required">
-		    		      <option value="Baik">Baik</option>
-			    	      <option value="Rusak">Rusak</option>
-		    	</select>
+		    		        <option value="Baik">Baik</option>
+			    	        <option value="Rusak">Rusak</option>
+		            	</select>
                 </div>
               </div>
               <div class="col-md-6">
@@ -106,6 +106,15 @@
               </div>
             </div>
           </div>
+
+          <div class="form-group">
+            <div class="form-group">
+                <div class="form-label-group">
+                  <label for="keterangan">Keterangan Barang</label>
+                  <textarea class="form-control" id="ketBarang" rows="3" placeholder="Keterangan" required="required" name="ket"></textarea>
+                </div>
+              </div>
+            </div>
           <button class="btn btn-success btn-block">Tambah</button>
         </form>
       </div>

@@ -35,11 +35,29 @@ class TransaksiModel extends CI_Model {
 	
 
 	//untuk mengambil id_transaksi terakhir setelah data di insert
-public function get_idtransaksi()
+	public function get_idtransaksi()
 	{
 			$query="SELECT id_transaksi FROM ttransaksi where id_transaksi IN (SELECT MAX(id_transaksi) FROM ttransaksi)";
 			//return $this->db->query($query)->row_array();
 			return $this->db->query($query)->row()->id_transaksi;
+	}
+	//untuk mengambil id_dat_transaksi terakhir setelah data di insert
+	public function get_id_data_transaksi($id)
+	{
+			$query = $this->db->select('dt.id_barcode')
+                  ->from('data_transaksi dt')
+                  ->where('id_transaksi',$id)
+                  ->get();
+                  return $query->result_array();
+	}
+	//untuk mengambil semua data di tabel ttransaksi
+	public function getAllttransaksi($id_transaksi)
+	{
+		$query=$this->db->select('d.*')
+					->from('ttransaksi d')
+					->where('id_transaksi',$id_transaksi)
+					->get();
+					return $query->result_array();
 	}
 
 	//function buat menampilkan di view cetak surat serahterima 	
