@@ -22,26 +22,7 @@
     }
    </style>
   @endsection
-  @section('scripts-js')
-  <script>
-    $(document).ready(function(){
-      $("#search").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#bodyTable tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-      });
-
-       /*$("#cek").click(function(){
-          $("#btncheckbox").css({ "background-color":"  #7CFC00"});     
-        });*/
-
-        $('#btncheckbox').click(function() {
-    $('#form_cek').submit();
-    });
-      });
-  </script>
-  @endsection
+  
   @section('content')
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -53,17 +34,8 @@
           <div class="card shadow mb-4">
             <div class="card-header py-3">
                <div class="card-header">
-                  <button name="btnsubmit" id="btncheckbox" class="btn btn-primary py-8 px-8"  type="submit">PILIH BARANG</button>
-                  <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-
-                    <div class="input-group">
-                      <input id="search" type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                       <div class="input-group-append">
-                         <button class="btn btn-primary"><i class="fas fa-search fa-sm"></i></button>
-                      </div>  
-                    </div>
-                </form>
-                
+                 
+                   
                </div>
                 
 
@@ -71,6 +43,10 @@
 
             <div class="card-body">
               <div class="table-responsive">
+                <form id="form_cek" name="form_cek" method="POST"  >  
+                  <p>select rows data</p>
+                  <pre id="views-row"></pre>
+                  <button name="btnsubmit" id="btncheckbox" class="btn btn-primary py-8 px-8"  type="submit">PILIH BARANG</button>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
@@ -92,12 +68,11 @@
                   </thead>
                   <tbody id="bodyTable">
               <!-- load table spesifikasi barang dan barang kedalam tabel  -->
-                    <form id="form_cek" name="form_cek" method="POST" action="{{base_url('barang/selectbarcode/')}}" >  
                     <?php foreach($daftar as $d):
                    
                     ?>
                  
-                    <tr>
+                    <tr >
                       <td>{{$d['id_barcode']}}</td>
                      <?php 
                      $id=$d['id_barcode'];
@@ -127,7 +102,7 @@
 
                         <!-- SYNTAX CHECK BOX -->
                   
-                     <input id="cek" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}"> &nbsp;
+                     <input id="cek" class="cek selected" type="checkbox" onclick="{{$id;}}" name="idbarcode" value="{{$d['id_barcode']}}"> &nbsp;
                   
                   <!-- INI YANG NGGA ERROR -->    
                       <!-- selecting Barang -->
@@ -160,19 +135,108 @@
                             </div>
                           </div>
                         </div>
-                          
+                                     
                       </td>
                     </tr>
 
                     <?php
                     endforeach;
                     ?>
-                     </form>
                   </tbody>
                 </table>
+                </form>
               </div>
             </div>
           </div>
       </div>  
       <!-- End of Main Content -->
 @endsection
+
+@section('scripts-js')
+  <script type="text/javascript" src="{{base_url('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" src="{{base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+  <script>
+    $(document).ready(function(){
+      var table = $('#dataTable').DataTable();
+     
+      $('#dataTable tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');});
+          $('#btncheckbox').click( function() {
+            alert( table.rows('.selected').data().length +' row(s) selected' );
+      });
+      }); 
+      //check box selection
+      /*{
+        ajax:'data.json',
+         columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
+        select: {
+            style:    'os',
+            selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]]
+      })
+
+      $("#form_cek").on('submit',function(e){
+        var form =this
+        var rowsel=table.column(0).checkboxes.selected();
+        $.each(rowsel,function(index,rowId){
+          $(form).append(
+            $('<input>').attr('type','hidden').attr('name','id[]').val(rowId)
+
+            )
+        })
+        $("#views-row").text(rowsel.join(","))
+        $('input[name="id\[\]"]',form).remove();
+        e.preventDefault()
+      }*/
+               
+
+
+
+
+
+
+
+               //var act= $('#cek').val();
+     
+/*          $.ajax({
+              type:"POST",              
+              data:'id='+ act,
+              url:'<?php //echo base_url('barang/selectbarcode')?>',
+              dataType:'json',
+              success:function(result)
+              {
+                  
+                         console.log(result)
+    
+              }
+
+            });
+
+
+      } );*/
+
+
+     /* $("#search").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#bodyTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+      });
+*/
+
+      
+   
+   
+   
+
+
+  </script>
+
+
+  @endsection

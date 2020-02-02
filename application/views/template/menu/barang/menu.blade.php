@@ -17,7 +17,7 @@
         
         
         <li class="nav-item">
-            <a href="{{base_url('barang/daftarbarang')}}" class="nav-link">
+            <a href="{{base_url('barang/daftarbarang')}}" class="nav-link ">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Daftar Barang</p>
             </a>

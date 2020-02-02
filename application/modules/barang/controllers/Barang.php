@@ -41,8 +41,15 @@ public function __construct(){
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Daftar Barang";
 		$data['active']="3";
+		//mencoba untuk json
+		$data['daftar']=$this->BarangModel->getAll();
+		$daftarku=$this->BarangModel->getAll();
+		echo json_encode($daftarku);
+		$this->blade->render('daftar',$data);
+
+
 		//jika terdapat session pda awal load daftar barang maka akan di unset
-		if(isset($_SESSION['idcode']))
+		/*if(isset($_SESSION['idcode']))
 			{
 				unset($_SESSION['idcode']);
 				$data['daftar']=$this->BarangModel->getAll();
@@ -52,7 +59,7 @@ public function __construct(){
 			{		
 				$data['daftar']=$this->BarangModel->getAll();
 				$this->blade->render('daftarBarang',$data);
-			}
+			}*/
 	}
 
 	public function tambahbarang()
@@ -116,6 +123,7 @@ public function __construct(){
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Daftar Barang";
+		$data['active']="3";
 		$depart=$this->input->post('departement');
 		echo $depart;
 		echo $id.$id_yas.$bulan.$tahunb;
@@ -138,6 +146,7 @@ public function __construct(){
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Tambah Proses";
+		$data['active']="2";
 		$this->BarangModel->setDelete($id);
 		//$data['daftar']=$this->BarangModel->getAll();
 		$this->blade->render('tambahBarang',$data);	
@@ -148,6 +157,7 @@ public function __construct(){
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Daftar Barang";
+		$data['active']="3";
 		$id_barang=$this->BarangModel->getIdBaranginBarcode($id);
 		$this->BarangModel->setDeleteIdBarcode($id);
 		$this->BarangModel->setDelete($id_barang);
@@ -161,6 +171,7 @@ public function __construct(){
 		//parameter $id adalah parameter id_barcode
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
+		$data['active']="3";
 		$idbar=$_SESSION['idcode'];
 		$data['daftar']=$this->BarangModel->getAllbyIdbarcode($id);
 		var_dump($_SESSION['idcode']);
@@ -174,6 +185,7 @@ public function __construct(){
 		//parameter $id adalah parameter id_barcode
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
+		$data['active']="3";
 		//session utnuk menyimpan id barang
 		$this->session->set_userdata('idrang',$id_barang);
 		$this->session->set_userdata('iddepartement',$iddepartement);
@@ -221,11 +233,29 @@ public function __construct(){
 
 
 	}
-	//funtiom untuk menempilkan daftar berdasarkan id_barcode
+
+	//function untuk menampilkan daftar id menggunkaan ajax
 	public function selectbarcode()
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
+		$data['active']="3";
+		$id=$this->input->post('id');
+		$where=array(
+			'id'=>$id
+		);
+		$databarang=$this->BarangModel->getAllbyIdbarcodewherein($where);
+		echo json_encode($databarang);
+		var_dump($where);
+	}
+
+	//funtiom untuk menempilkan daftar berdasarkan id_barcode
+	/*public function selectbarcode()
+	{
+		$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Transaksi Barang";
+		$data['active']="3";
+		
 			//pengendalian jika terdapat session aktif		
 			if(isset($_SESSION['idcode']))
 				{
@@ -254,7 +284,7 @@ public function __construct(){
 						print_r($_SESSION['idcode']);
 
 						$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
-						$this->blade->render('transaksi/transaksiBarang',$data);
+					$this->blade->render('transaksi/transaksiBarang',$data);
 			}
 		//pengendalian apabila tidak terdapat session dan idbarcoude unidenfined
 		else if(!isset( $_SESSION['idcode']) && !isset($_POST['idbarcode']))
@@ -298,7 +328,7 @@ public function __construct(){
 						$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
 						$this->blade->render('transaksi/transaksiBarang',$data);
 			}	
-	}
+	}*/
 	//function untuk mengedit ketbarang di view update barang
 	public function updateket()
 	{
@@ -427,6 +457,7 @@ public function __construct(){
 	public function updatebarang($id,$idbarang,$iddepartement,$idyayasan,$date_month,$date_year)
 	{	$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
+		$data['active']="3";
 		if(isset($_POST['perbarui'])){
 		/*ditambah statement pengendalian untuk a*/
 		$idbar=$_SESSION['idcode'];
