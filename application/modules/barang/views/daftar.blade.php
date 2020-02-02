@@ -93,7 +93,7 @@
           success:function(daftarku)
           {
             var html='';
-            <?php foreach ($daftarku as $key): ?>
+            <?php foreach ($daftar as $key): ?>
               html+='<tr>';
               html+='<td><input type="checkbox" id="'+<?=$key['id_barcode']?>+'" data-name="'+<?=$key['nama_barang']?>+'" class="check_box"/></td>';
               html+='<td>'+<?= $key['nama_barang']?>+'</td>';

@@ -42,14 +42,14 @@ public function __construct(){
 		$data['subtitle']="Daftar Barang";
 		$data['active']="3";
 		//mencoba untuk json
-		$data['daftar']=$this->BarangModel->getAll();
+		/*$data['daftar']=$this->BarangModel->getAll();
 		$daftarku=$this->BarangModel->getAll();
 		echo json_encode($daftarku);
 		$this->blade->render('daftar',$data);
-
+*/
 
 		//jika terdapat session pda awal load daftar barang maka akan di unset
-		/*if(isset($_SESSION['idcode']))
+		if(isset($_SESSION['idcode']))
 			{
 				unset($_SESSION['idcode']);
 				$data['daftar']=$this->BarangModel->getAll();
@@ -59,7 +59,7 @@ public function __construct(){
 			{		
 				$data['daftar']=$this->BarangModel->getAll();
 				$this->blade->render('daftarBarang',$data);
-			}*/
+			}
 	}
 
 	public function tambahbarang()

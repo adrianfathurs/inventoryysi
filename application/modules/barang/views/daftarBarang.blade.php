@@ -11,7 +11,7 @@
     .deleting{
         color: red;
         }
-    #exampleModalCenter
+    #exampleModalCenterTitle
       {
         display:none;
         position: fixed;
@@ -163,7 +163,11 @@
       $('#dataTable tbody').on( 'click', 'tr', function () {
         $(this).toggleClass('selected');});
           $('#btncheckbox').click( function() {
-            alert( table.rows('.selected').data().length +' row(s) selected' );
+           // alert( table.rows('.selected').data().length +' row(s) selected' );
+
+           //aku ngga paham carane buat menselect idnya mas pennulisane neng javascript, sek ambil neng html
+
+
       });
       }); 
       //check box selection
