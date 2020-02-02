@@ -47,6 +47,9 @@ public function __construct(){
 		echo json_encode($daftarku);
 		$this->blade->render('daftar',$data);
 */
+		if($this->input->post()){
+			echo json_encode($this->input->post());
+		}
 
 		//jika terdapat session pda awal load daftar barang maka akan di unset
 		if(isset($_SESSION['idcode']))

@@ -102,7 +102,7 @@
 
                         <!-- SYNTAX CHECK BOX -->
                   
-                     <input id="cek" class="cek selected" type="checkbox" onclick="{{$id;}}" name="idbarcode" value="{{$d['id_barcode']}}"> &nbsp;
+                     <input id="cek" class="cek selected" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}"> &nbsp;
                   
                   <!-- INI YANG NGGA ERROR -->    
                       <!-- selecting Barang -->
