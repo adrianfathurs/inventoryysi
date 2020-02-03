@@ -43,7 +43,7 @@
 
             <div class="card-body">
               <div class="table-responsive">
-                <form id="form_cek" name="form_cek" method="POST"  >  
+                <form id="form_cek" name="form_cek" method="POST" action="{{base_url('barang/selectbarcode')}}">  
                   <p>select rows data</p>
                   <pre id="views-row"></pre>
                   <button name="btnsubmit" id="btncheckbox" class="btn btn-primary py-8 px-8"  type="submit">PILIH BARANG</button>
@@ -101,8 +101,8 @@
 
 
                         <!-- SYNTAX CHECK BOX -->
-                  
-                     <input id="cek" class="cek selected" type="checkbox" onclick="{{$id;}}" name="idbarcode" value="{{$d['id_barcode']}}"> &nbsp;
+                    
+                     <input id="cek" class="cek selected" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}"> &nbsp;
                   
                   <!-- INI YANG NGGA ERROR -->    
                       <!-- selecting Barang -->
@@ -153,17 +153,17 @@
 @endsection
 
 @section('scripts-js')
-  <script type="text/javascript" src="{{base_url('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-  <script type="text/javascript" src="{{base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+  
   <script>
     $(document).ready(function(){
       var table = $('#dataTable').DataTable();
      
       $('#dataTable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');});
+        $(this).toggleClass('selected'); });
+      var rowData = table.row( this ).data();
           $('#btncheckbox').click( function() {
-           // alert( table.rows('.selected').data().length +' row(s) selected' );
+          
 
            //aku ngga paham carane buat menselect idnya mas pennulisane neng javascript, sek ambil neng html
 

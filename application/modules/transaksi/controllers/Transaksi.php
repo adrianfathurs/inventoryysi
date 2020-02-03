@@ -12,6 +12,7 @@ public function __construct(){
 		
 		$this->load->helper('form');
 		$this->load->model('TransaksiModel');
+		$this->load->model('KaryawanModelTrans');
 		
 		/*Agar dapat ngeload user model tanpa deklasrasi disetiap fungsi yang ada dia auth*/
 		
@@ -98,6 +99,21 @@ public function __construct(){
 //		$data['kode']=$idbarang.$iddepartement.$idyayasan.$date_month.$date_year;
 		$this->blade->render('transaksiBarang',$data);
 	}
+	//function API untuk menampilkan select BOX sertibar
+	public function selectBox()
+	{ 	echo "ok";
+		  $id = $this->input->post('id');
+    $option = $this->input->post('op');
+    if ($option==1)
+	    { 	$nama_jabatan=$this->KaryawanModelTrans->getJabatanKaryawanbyId($id);
+	    	echo "<option value='{{$nama_jabatan}}'>".$nama_jabatan."</option>";
+	    }
+	 else if($option==2)
+	 	{
+	 		$nama_jabatan=$this->KaryawanModelTrans->getJabatanKaryawanbyId($id);
+	    	echo "<option value='{{$nama_jabatan}}'>".$nama_jabatan."</option>";
+	 	}
+	}
 
 	//function untuk insert data transaksi di table ttransaksi
 	public function setTambah($id)
@@ -107,7 +123,17 @@ public function __construct(){
 		/*id_code merupakan nama session yang menunjukan array id barcode yang dipilih*/
 		$idbar=$_SESSION['idcode'];
 		$jumlah=count($idbar);
+		$ketbar=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
+		$ket_bar="";
+		foreach ($ketbar as $key) {
+			$ket_bar.=$key['nama_barang'].":".$key['ket_barang'].",";
+		}
 
+		
+		$idpenerima=$this->input->post('idpenerima');
+		$idpenyerah=$this->input->post('idpenyerah');
+		$nama_penyerah=$this->KaryawanModelTrans->getNamaKaryawanbyId($idpenyerah);
+		$nama_penerima=$this->KaryawanModelTrans->getNamaKaryawanbyId($idpenerima);
 		/*//lokasi ini berbentuk barang tergantung barang diletakan dimana
 		$lokasipeletakan=array();
 		$lokasipeletakan=$_POST['lokasibarang'];
@@ -162,10 +188,10 @@ public function __construct(){
 		$ttransaksi=[
 				'jabatan_penerima'=>$this->input->post('jabpenerima'),
 				'jabatan_penyerah'=>$this->input->post('jabpenyerah'),
-				//'ket'=>$this->input->post('ket'),
+				'ket'=>$ket_bar,
 				'lokasi_peletakan'=>$this->input->post('lokasibarang'),
-				'nama_penerima'=>$this->input->post('penerima'),
-				'nama_penyerah'=>$this->input->post('penyerah'),
+				'nama_penerima'=>$nama_penerima,
+				'nama_penyerah'=>$nama_penyerah,
 				'tgl_peletakan'=>$this->input->post('tglpenyerah')
 			];
 			$this->TransaksiModel->setTambahttransaksi($ttransaksi);

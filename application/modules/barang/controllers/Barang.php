@@ -14,6 +14,7 @@ public function __construct(){
 		$this->load->model('BarangModel');
 		$this->load->model('DepartementModel');
 		$this->load->model('YayasanModel');
+		$this->load->model('KaryawanModel');
 
         $this->load->library('session');
 		/*Agar dapat ngeload user model tanpa deklasrasi disetiap fungsi yang ada dia auth*/
@@ -47,6 +48,9 @@ public function __construct(){
 		echo json_encode($daftarku);
 		$this->blade->render('daftar',$data);
 */
+		if($this->input->post()){
+			echo json_encode($this->input->post());
+		}
 
 		//jika terdapat session pda awal load daftar barang maka akan di unset
 		if(isset($_SESSION['idcode']))
@@ -234,23 +238,8 @@ public function __construct(){
 
 	}
 
-	//function untuk menampilkan daftar id menggunkaan ajax
-	public function selectbarcode()
-	{
-		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Transaksi Barang";
-		$data['active']="3";
-		$id=$this->input->post('id');
-		$where=array(
-			'id'=>$id
-		);
-		$databarang=$this->BarangModel->getAllbyIdbarcodewherein($where);
-		echo json_encode($databarang);
-		var_dump($where);
-	}
-
 	//funtiom untuk menempilkan daftar berdasarkan id_barcode
-	/*public function selectbarcode()
+	public function selectbarcode()
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
@@ -282,8 +271,8 @@ public function __construct(){
 						$this->session->set_userdata('idcode',$idbar);
 						//print_r($idbar);
 						print_r($_SESSION['idcode']);
-
-						$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
+					$data['karyawan']=$this->KaryawanModel->getKaryawan();
+					$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
 					$this->blade->render('transaksi/transaksiBarang',$data);
 			}
 		//pengendalian apabila tidak terdapat session dan idbarcoude unidenfined
@@ -302,7 +291,7 @@ public function __construct(){
 		//pengendalian apabila id barcode identifikasi dan tidak terdapat session aktif 
 		else
 			{
-					$idbarcode=$_POST['idbarcode'];	
+					$idbarcode=$this->input->post('idbarcode');	
 					$i=0;
 					$idbar=array();
 					$jumlah=count($idbarcode);
@@ -324,11 +313,11 @@ public function __construct(){
 						$this->session->set_userdata('idcode',$idbar);
 						//print_r($idbar);
 						print_r($_SESSION['idcode']);
-
+						$data['karyawan']=$this->KaryawanModel->getKaryawan();
 						$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
 						$this->blade->render('transaksi/transaksiBarang',$data);
 			}	
-	}*/
+	}
 	//function untuk mengedit ketbarang di view update barang
 	public function updateket()
 	{

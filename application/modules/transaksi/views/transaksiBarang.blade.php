@@ -30,63 +30,15 @@
    /* #cetakqrdanbarcode
     {
       display: none;
-    }
-    #cetaksertibar
+    }*/
+    #suratsertibar
     {
       display: none;
-    }*/
+    }
    </style>
  @endsection
 
- @section('scripts-js')
-  <script src="{{base_url('assets/plugins/jquery/jquery.PrintArea.js')}}"></script>
-   <script >
-    $(document).ready(function(){
-     $("#suratsertibar").hide();
-      $("#hide").click(function(){
-        $("#containers").hide();
-        
-      });
-      $("#btnqrcode").click(function(){
-        $("#barcode").hide();
-        $("#qrcode").fadeIn(1000);
-      });
-      $("#btnbarcode").click(function(){
-        $("#qrcode").hide();
-        $("#barcode").fadeIn(1000);
-      });
-      $(".btnback").click(function(){
-        $("#qrcode").hide();
-        $("#barcode").hide();
-      });
 
-      /*$("#btndownloadqrcode").click(function(){
-        $("#printqrcode").print(); //Untuk Print Area tertentu bisa menggunakan code ini
-        //window.print();
-      });*/
-      $("#cetaksertibar").click(function(){
-        $("#suratsertibar").show();
-        $("#suratsertibar").printArea();
-      });
-      
-      $("#btndownloadqrcode").click(function() {
-              // cetak data pada area <div id="#data-mahasiswa"></div>
-              $('.printqrcode').printArea();
-       });
-
-
-
-      $("#submit").click(function(){
-       // alert("Terimakasih,Data Anda Telah Direkam");
-        $("#cetaksertibar").show();
-        $("#cetakqrdanbarcode").show();
-      });
-    $("#jsform").click(function(){
-        $("#containers").show();
-      });
-    });
-  </script>
-@endsection
  
 
   @section('content')
@@ -268,13 +220,21 @@
               <div class="form-group">
                 <div class="form-label-group">
                   <label for="ygMenyerahkan">Nama yang Menyerahkan</label>
-                  <input type="text" id="ygMenyerahkan" class="form-control" placeholder="Nama yang Menyerahkan" required="required " name="penyerah">
+                  <!-- <input type="text" id="ygMenyerahkan" class="form-control" placeholder="Nama yang Menyerahkan" required="required " name="penyerah"> -->
+                  <select class=" select2 form-control " name="idpenyerah" id="nama_penyerah">
+                    <option value="">--------Pilih Nama---------</option>
+                    <?php foreach ($karyawan as $key): ?>
+                      <option value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
+                    <?php endforeach;?>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-label-group">
                   <label for="jabMenyerahkan">Jabatan yang Menyerahkan</label>
-                  <input type="text" id="jabMenyerahkan" class="form-control" placeholder="Jabatan yang Menyerahkan" required="required" name="jabpenyerah">
+                  <select class=" select2 form-control " readonly="true" name="jabpenyerah" id="jabMenyerahkan">
+                      <option value="">-------Pilih Jabatan----------</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -283,13 +243,21 @@
               <div class="form-group">
                 <div class="form-label-group">
                   <label for="ygMenerima">Nama Penerima</label>
-                  <input type="text" id="ygMenerima" class="form-control" placeholder="Nama Penerima" required="required" name="penerima">
+                  <!-- <input type="text" id="ygMenerima" class="form-control" placeholder="Nama Penerima" required="required" name="penerima"> -->
+                  <select class="select2 form-control" id="nama_penerima" name="idpenerima">
+                    <option value="">--------Pilih Nama---------</option>
+                    <?php foreach ($karyawan as $key): ?>
+                      <option value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
+                    <?php endforeach?>
+                  </select>
                 </div>
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                  <label for="jabMenyerahkan">Jabatan Penerima</label>
-                  <input type="text" id="jabMenyerahkan" class="form-control" placeholder="Jabatan Penerima" required="required" name="jabpenerima">
+                  <label for="jabPenerima">Jabatan Penerima</label>
+                  <select class=" select2 form-control " readonly="true" name="jabpenerima" id="jabPenerima">
+                      <option value="">-------Pilih Jabatan----------</option>
+                  </select>
                 </div>
               </div>
 
@@ -319,7 +287,7 @@
             <div class="form-group">
                 <div class="form-label-group">
                   <label for="keterangan">Keterangan Barang {{$d['nama_barang']}}</label>
-                  <textarea class="form-control" id="ketBarang" rows="3" placeholder="{{$d['ket_barang']}}" required="required" name="ket[]" readonly="true" value="{{$d['ket_barang']}}"></textarea>
+                  <textarea class="form-control" rows="3" placeholder="{{$d['ket_barang']}}" required="required" name="ket[]" readonly="true" value="{{$d['ket_barang']}}"></textarea>
                 </div>
               </div>
             </div>
@@ -338,74 +306,175 @@
 
 <!-- Form untuk cetak sertibar tetapi di hidden -->
   
-  <div class="container" id="suratsertibar">
-    <div>
-      <div class="col-md-20 mt-3">
-        <table class="table table-bordered table-light">
-          <thead>
-            <tr>
-              <th>
-                <center>No.</center>
-              </th>
-              <th>
-                <center>Nama Barang</center>
-              </th>
-              <th>
-                <center>Barcode</center>
-              </th>
-              <th>
-                <center>Keterangan</center>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php error_reporting(0);?>
-          <?php foreach($ttransaksi as $tr):?>
-            <?php $i=1;foreach($daftar as $k =>$c):
-             $date=strtotime($d['tanggal_pengadaan']);
-                          $date_month=date('M',$date);
-                          $date_year=date('y',$date);
-            ?>
-            <tr>
-              <td>
-                <center>{{$i}}</center>
-              </td>
-              <td>{{$c['nama_barang']}}</td>
-              <td>{{$c['id_barang'].'/'.$c['id_departement'].'/'.$c['id_yayasan'].'/'.$date_month.'/'.$date_year}}</td>
-              <td>{{$c['keadaan_barang']}}</td>
-            </tr>
-          <?php $i++;endforeach;?>
-          </tbody>
-        </table>
-        <br>
-        <div class="col-md-20 mt-3">
-          <table class="table" >
-          <tbody>
-            <tr>
-              <td>
-                <br>
-                <center>Yang Menyerahkan</center>
-                <center>Staff Teknologi Informasi</center>
-                <br><br><br>
-                <center>{{$tr['nama_penyerah']}}</center> <!-- dinamis -->
-              </td>
-              <td>
-                <center>Yogyakarta, {{$tr['tgl_peletakan']}}</center> <!-- dinamis -->
-                <center>Yang Menerima</center>
-                <br><br><br><br>
-                <center>{{$tr['nama_penerima']}}</center> <!-- dinamis -->
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      <?php endforeach;?>
-        </div>
+  <div class="container" id="suratsertibar">   
+    <div class="card card-register mx-auto mt-5">
+      <center><h2 class="card-header">YAYASAN SINAI INDONESIA</h2></center>
+        <div class="card-body">
+          <div class="col-md-20 mt-3">
+            <table border="2" class="table table-bordered table-light ">
+              <thead>
+                <tr>
+                  <th>
+                    <center>No.</center>
+                  </th>
+                  <th>
+                    <center>Nama Barang</center>
+                  </th>
+                  <th>
+                    <center>Barcode</center>
+                  </th>
+                  <th>
+                    <center>Keterangan</center>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php error_reporting(0);?>
+                <?php foreach($ttransaksi as $tr):?>
+                  <?php $i=1;foreach($daftar as $k =>$c):
+                   $date=strtotime($d['tanggal_pengadaan']);
+                                $date_month=date('M',$date);
+                                $date_year=date('y',$date);
+                  ?>
+                    <tr>
+                      <td><center>{{$i}}</center></td>
+                      <td>{{$c['nama_barang']}}</td>
+                      <td>{{$c['id_barang'].'/'.$c['id_departement'].'/'.$c['id_yayasan'].'/'.$date_month.'/'.$date_year}}</td>
+                      <td>{{$c['keadaan_barang']}}</td>
+                    </tr>
+                  <?php $i++;endforeach;?>
+              </tbody>
+            </table>
+                  <br>
+                  <div class="col-md-20 mt-3">
+                    <table class="table" >
+                    <tbody>
+                      <tr>
+                        <td>
+                          <br>
+                          <center>Yang Menyerahkan</center>
+                          <center>Staff Teknologi Informasi</center>
+                          <br><br><br>
+                          <center>{{$tr['nama_penyerah']}}</center> <!-- dinamis -->
+                        </td>
+                        <td>
+                          <center>Yogyakarta, {{$tr['tgl_peletakan']}}</center> <!-- dinamis -->
+                          <center>Yang Menerima</center>
+                          <br><br><br><br>
+                          <center>{{$tr['nama_penerima']}}</center> <!-- dinamis -->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                <?php endforeach;?>
+                  </div>
+          </div>
       </div>
-    </div>
-
   </div>
+</div>
 
 
 
       <!-- End of Main Content -->
+@endsection
+
+@section('scripts-js')
+  <script src="{{base_url('assets/plugins/jquery/jquery.PrintArea.js')}}"></script>
+   
+   <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+   <script >
+    $(document).ready(function(){
+     
+      $("#hide").click(function(){
+        $("#containers").hide();
+        
+      });
+      $("#btnqrcode").click(function(){
+        $("#barcode").hide();
+        $("#qrcode").fadeIn(1000);
+      });
+      $("#btnbarcode").click(function(){
+        $("#qrcode").hide();
+        $("#barcode").fadeIn(1000);
+      });
+      $(".btnback").click(function(){
+        $("#qrcode").hide();
+        $("#barcode").hide();
+      });
+
+      /*$("#btndownloadqrcode").click(function(){
+        $("#printqrcode").print(); //Untuk Print Area tertentu bisa menggunakan code ini
+        //window.print();
+      });*/
+      $("#cetaksertibar").click(function(){
+        $("#suratsertibar").show();
+        $("#suratsertibar").printArea();
+      });
+      
+      $("#btndownloadqrcode").click(function() {
+              // cetak data pada area <div id="#data-mahasiswa"></div>
+              $('.printqrcode').printArea();
+       });
+
+
+
+      $("#submit").click(function(){
+       // alert("Terimakasih,Data Anda Telah Direkam");
+        $("#cetaksertibar").show();
+        $("#cetakqrdanbarcode").show();
+      });
+    $("#jsform").click(function(){
+        $("#containers").show();
+      });
+
+  
+
+    
+  
+    
+       
+});
+</script>
+
+<script>
+$(document).ready(function() {
+        $("#nama_penyerah").change(function() {
+            
+            var postForm = {
+                    'id': document.getElementById("nama_penyerah").value,
+                    'op': 1
+            };
+            $.ajax({
+                type: "post",
+                url: 'http://localhost/templateyysi/transaksi/selectBox',
+                data: postForm,
+                success: function(data) {
+                  console.log(data);
+                     $("#jabMenyerahkan").html(data);
+                }
+            });
+        });
+    
+  $("#nama_penerima").change(function() {
+            
+            var postForm = {
+                    'id': document.getElementById("nama_penerima").value,
+                    'op': 2
+            };
+            $.ajax({
+                type: "post",
+                url: 'http://localhost/templateyysi/transaksi/selectBox',
+                data: postForm,
+                success: function(data) {
+                  console.log(data);
+                     $("#jabPenerima").html(data);
+                }
+            });
+        });
+  });
+    
+</script>
+
+ 
+
 @endsection

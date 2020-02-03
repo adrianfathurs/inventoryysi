@@ -78,9 +78,7 @@
 @endsection
 
 @section('scripts-js')
-  <script type="text/javascript" src="{{base_url('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-  <script type="text/javascript" src="{{base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.js')}}"></script>
+  
   <script>
     $(document).ready(function(){
       

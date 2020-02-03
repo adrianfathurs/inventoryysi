@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="{{base_url('assets/plugins/summernote/summernote-bs4.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="{{base_url('assets/plugins/select2/css/select2.min.css')}}">
   @yield('scripts-css')
   <!-- PANGGIL UNTUK INJEK CSS KE TEMPAT INI -->
 </head>
@@ -110,6 +111,11 @@
   
   <script src="{{base_url('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
   <script src="{{base_url('assets/dist/js/adminlte.js')}}"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script  src="{{base_url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+  
+  <script src="{{base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
   <!-- DataTables -->
   
 
