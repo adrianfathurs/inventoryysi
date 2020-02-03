@@ -101,7 +101,11 @@
 
 
                         <!-- SYNTAX CHECK BOX -->
+<<<<<<< HEAD
                     
+=======
+                  
+>>>>>>> 24de38df672b9bc4210ff53b07de9c26258f9d07
                      <input id="cek" class="cek selected" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}"> &nbsp;
                   
                   <!-- INI YANG NGGA ERROR -->    
