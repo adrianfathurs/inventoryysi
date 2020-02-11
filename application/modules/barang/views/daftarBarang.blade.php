@@ -1,249 +1,443 @@
   @layout('template/main/barang/main')
-
   @section('scripts-css')
-   <style type="text/css">
+  <style type="text/css">
     .selecting{
-        color:#000000;
-        }
+      color:#000000;
+    }
     .selecting:hover{
-        color:#7CFC00;  
-        }
+      color:#7CFC00;  
+    }
     .deleting{
-        color: red;
-        }
+      color: red;
+    }
     #exampleModalCenterTitle
-      {
-        display:none;
-        position: fixed;
-      }
+    {
+      display:none;
+      position: fixed;
+    }
     #btncheckbox{
       margin-top: 20px;
-      margin-left: 40px;
+      margin-left: 10px;
     }
-   </style>
+    }
+  </style>
   @endsection
   
   @section('content')
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-         <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
-         <?= $this->session->tempdata('message');?>
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-               <div class="card-header">
-                 
-                   
-               </div>
-                
-
-
-
-            <div class="card-body">
-              <div class="table-responsive">
-                <form id="form_cek" name="form_cek" method="POST" action="{{base_url('barang/selectbarcode')}}">  
-                  <p>select rows data</p>
-                  <pre id="views-row"></pre>
-                  <button name="btnsubmit" id="btncheckbox" class="btn btn-primary py-8 px-8"  type="submit">PILIH BARANG</button>
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th><center>No</center></th>
-                      <th><center>Nama Barang</center></th>
-                      <th><center>Merk</center></th>
-                      <th><center>No. Pabrik</center></th>
-                      <th><center>Bahan</center></th>
-                      <th><center>Cara Peroleh</center></th>
-                      <th><center>Tanggal Perolehan</center></th>
-                      <th><center>Warna Barang</center></th>
-                      <th><center>Satuan</center></th>
-                      <th><center>Keadaan Barang</center></th>
-                      <th><center>Harga/Satuan</center></th>
-                      <th><center>Tanggal Rusak</center></th>
-                      <th><center>Lokasi</center></th>
-                      <th><center>Action</center></th>
-                    </tr>
-                  </thead>
-                  <tbody id="bodyTable">
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+    <!-- Page Heading -->
+    <?= $this->session->tempdata('message');?>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+       <div class="card-header">
+        <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
+        <div class="row">
+         <div class="col-1-md">
+           <button name="btnsubmit" id="btncheckbox" class="btn btn-success py-8 px-8"  type="submit">PILIH BARANG</button>
+         </div>
+         <div class="col-9-md">
+           <button type="button" name="btnpetunjuk" id="btncheckbox" class="btn btn-warning py-8 px-8" data-toggle="modal" data-target="#exampleModal"><b>Petunjuk Transaksi</b></button>
+         </div> 
+         <div class="col-1-md "id="btninfo">
+           <button type="button" name="btninfo" id="btncheckbox" class="btn btn-info py-8 px-8" data-toggle="modal" data-target="#exampleModalCenterInfo"><i class="fas fa-info"></i></button>
+         </div>
+       </div>
+     </div>
+     <div class="card-body">
+      <div class="table-responsive">
+        <form id="form_cek" name="form_cek" method="POST" action="{{base_url('barang/selectbarcode')}}">  
+          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th><center>Action</center></th>
+                <th><center>No</center></th>
+                <th><center>Nama Barang</center></th>
+                <th><center>Merk</center></th>
+                <th><center>No. Pabrik</center></th>
+                <th><center>Bahan</center></th>
+                <th><center>Cara Peroleh</center></th>
+                <th><center>TGL Perolehan</center></th>
+                <th><center>Warna Barang</center></th>
+                <th><center>Satuan</center></th>
+                <th><center>Keadaan Barang</center></th>
+                <th><center>Harga/Satuan</center></th>
+                <th><center>TGL Rusak</center></th>
+                <th><center>Lokasi Barang</center></th>
+              </tr>
+            </thead>
+            <tbody id="bodyTable">
               <!-- load table spesifikasi barang dan barang kedalam tabel  -->
-                    <?php foreach($daftar as $d):
-                   
+              <?php foreach($daftar as $d):?>
+                <?php 
+                $id=$d['id_barcode'];
+                $idbarang=$d['id_barang'];
+                $iddepartement=$d['id_departement'];
+                $idyayasan=$d['id_yayasan'];
+                $date=strtotime($d['tanggal_pengadaan']);
+                $date_month=date('n',$date);
+                $date_year=date('y',$date);
+                ?>
+                <tr>
+                  <td>
+                    <!-- SYNTAX CHECK BOX -->
+                    <input id="cek" class="cek selected" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}"> &nbsp;
+                    <?php if($status=='admin') :?>
+                      <!-- link trigger modal Edit-->
+                      <a type="button" id="btnedit"  data-toggle="modal" data-target="#editmodal" 
+                      data-id="<?= $id?>" 
+                      data-id_barang="<?= $d['id_barang']?>" 
+                      data-nama="<?= $d['nama_barang']?>"
+                      data-merk="<?= $d['merk']?>"
+                      data-no_pabrik="<?= $d['no_pabrik']?>"
+                      data-warna_barang="<?= $d['warna_barang']?>"
+                      data-bahan="<?= $d['bahan']?>"
+                      data-satuan="<?= $d['satuan']?>"
+                      data-harga_satuan="<?= $d['harga_satuan']?>"
+                      data-cara_peroleh="<?= $d['cara_peroleh']?>"
+                      data-tanggal_pengadaan="<?= $d['tanggal_pengadaan']?>"
+                      data-keadaan_barang="<?= $d['keadaan_barang']?>"
+                      data-lokasi="<?= $d['lokasi']?>"
+                      data-tanggal_rusak="<?= $d['tanggal_rusak']?>"
+                       data-ket_barang="<?= $d['ket_barang']?>">
+                       <i class="fas fa-edit fa-1x"></i>
+                     </a>
+                     <?php
+                     if(isset($_SESSION['status']))
+                     {
+                      if($_SESSION['status']==1){$datatarget="#exampleModalCenterLabel";}
+                      else{$datatarget="#exampleModalCenterUser";}
+                    }
+                    else
+                    {
+                      $datatarget="#exampleModalCenterUser"; 
+                    }
                     ?>
-                 
-                    <tr >
-                      <td>{{$d['id_barcode']}}</td>
-                     <?php 
-                     $id=$d['id_barcode'];
-                     $idbarang=$d['id_barang'];
-                     $iddepartement=$d['id_departement'];
-                     $idyayasan=$d['id_yayasan'];
-                      $date=strtotime($d['tanggal_pengadaan']);
-                          $date_month=date('n',$date);
-                          $date_year=date('y',$date);
+                    <!-- link trigger modal hapus-->
+                    <a   id="button" data-toggle="modal" data-target="{{$datatarget}}">
+                     <i class="fas deleting fa-trash-alt fa-1x "></i>
+                   </a>      
+                 </td>                 
+               <?php endif;?>    
+               <td>{{$d['id_barcode']}}</td>
+               <td><center><?=strtoupper($d['nama_barang'])?></center></td>
+               <td><center><?=strtoupper($d['merk'])?></center></td>
+               <td><center><?=strtoupper($d['no_pabrik'])?></center></td>
+               <td><center><?=strtoupper($d['bahan'])?></center></td>
+               <td><center><?=strtoupper($d['cara_peroleh'])?></center></td>
+               <td><center><?=$d['tanggal_pengadaan']?></center></td>
+               <td><center><?=strtoupper($d['warna_barang'])?></center></td>
+               <td><center><?=strtoupper($d['satuan'])?></center></td>
+               <td><center><?=strtoupper($d['keadaan_barang'])?></center></td>
+               <td><center><?=$d['harga_satuan']?></center></td>
+               <td><center><?=$d['tanggal_rusak']?></center></td>
+               <td><center><?=strtoupper($d['lokasi'])?></center></td>
+             </tr>
+           <?php endforeach;?>
+         </tbody>
+       </table>
+     </form>
+   </div>
+ </div>
+</div>
+</div>  
 
-                     ?>
-                      <td><center><?=strtoupper($d['nama_barang'])?></center></td>
-                      <td><center><?=strtoupper($d['merk'])?></center></td>
-                      <td><center><?=strtoupper($d['no_pabrik'])?></center></td>
-                      <td><center><?=strtoupper($d['bahan'])?></center></td>
-                      <td><center><?=strtoupper($d['cara_peroleh'])?></center></td>
-                      <td><center><?=$d['tanggal_pengadaan']?></center></td>
-                      <td><center><?=strtoupper($d['warna_barang'])?></center></td>
-                      <td><center><?=strtoupper($d['satuan'])?></center></td>
-                      <td><center><?=strtoupper($d['keadaan_barang'])?></center></td>
-                      <td><center><?=$d['harga_satuan']?></center></td>
-                      <td><center><?=$d['tanggal_rusak']?></center></td>
-                      <td><center><?=strtoupper($d['lokasi'])?></center></td>
-                      <td>
+<!-- ######################################################################################################### -->
+<!-- Modal hapus -->
+<div class="modal fade" id="exampleModalCenterLabel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitleLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitleLabel">Warning</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Benarkah Anda Akan Menghapus Data Ini?
+      </div>
+      <div class="modal-footer">
+        <a href="{{base_url('barang/daftarbarang/')}}"><button type="button" class="btn btn-light">Cancel</button></a> 
+        <a href="{{base_url('barang/deleteidbarcode/').$id}}"><button type="button" class="btn btn-danger">DELETE</button></a>                           
+      </div>
+    </div>
+  </div>
+</div> 
+<!-- ######################################################################################################### -->
+<!-- Modal Info Tombol Action -->
+<div class="modal fade" id="exampleModalCenterInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitleInfo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitleLabelInfo">Info Tombol di Kolom Action</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>1)<span><i class="far fa-check-square fa-2x"></i></span>,&nbsp;Tombol untuk menceklist banyak barang, Apabila Anda ingin melakukan Transaksi</p>
+        <p>2)<span><i class="fas fa-edit fa-2x"></i>,&nbsp;Tombol ini berfungsi untuk mengedit data barang sesuai baris yang ingin di Edit</span></p>
+        <p>3)<span> <i class="fas deleting fa-trash-alt fa-1x "></i></span>,&nbsp;Tombol untuk menghapus data barang,<b>&nbsp;Hati-Hati !</b> dengan tombol ini karena data barang akan terhapus secara permanen </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class=" btn btn-info" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">OKE,PAHAM</span>
+        </button>                         
+      </div>
+    </div>
+  </div>
+</div> 
+<!-- ######################################################################################################### -->
+<!-- Modal user -->
+<div class="modal fade" id="exampleModalCenterUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitleUser" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitleUser">Warning</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ANDA BUKAN ADMIN
+      </div>
+      <div class="modal-footer">
+        <a href="{{base_url('barang/daftarbarang/')}}"><button type="button" class="btn btn-success">OK</button></a> 
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ######################################################################################################### -->
 
-
-
-                        <!-- SYNTAX CHECK BOX -->
-<<<<<<< HEAD
-                    
-=======
-                  
->>>>>>> 24de38df672b9bc4210ff53b07de9c26258f9d07
-                     <input id="cek" class="cek selected" type="checkbox" name="idbarcode[]" value="{{$d['id_barcode']}}"> &nbsp;
-                  
-                  <!-- INI YANG NGGA ERROR -->    
-                      <!-- selecting Barang -->
- <!--                        <a href="{{base_url('transaksi/selectidbarcode/').$id.'/'.$idbarang.'/'.$iddepartement.'/'.$idyayasan.'/'.$date_month.'/'.$date_year}}" ><i class="fas selecting fa-hand-pointer "></i></a>
-  -->                       <!-- Hapus Barang -->
-                        <!-- <a href="{{base_url('barang/deleteidbarcode/').$id}}"><i class="fas deleting fa-trash-alt " ></i></a> -->
-
-                        <!-- link trigger modal -->
-                        <a   id="button" data-toggle="modal" data-target="#exampleModalCenter">
-                           <i class="fas deleting fa-trash-alt fa-1x "></i>
-                        </a>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                          <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Warning</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                Benarkah Anda Akan Menghapus Data Ini?
-                              </div>
-                              <div class="modal-footer">
-                                  <a href="{{base_url('barang/daftarbarang/')}}"><button type="button" class="btn btn-light">Cancel</button></a> 
-                                  <a href="{{base_url('barang/deleteidbarcode/').$id}}"><button type="button" class="btn btn-danger">DELETE</button></a>                           
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                                     
-                      </td>
-                    </tr>
-
-                    <?php
-                    endforeach;
-                    ?>
-                  </tbody>
-                </table>
-                </form>
+<!-- ######################################################################################################### -->
+<!-- Modal Edit-->
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterEdit" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterEdit">Edit Data Barang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- ######################################################################## -->
+        <form method="POST" action="{{base_url('barang/updatedata')}}">
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="namaBarang">Nama Barang</label>
+                  <input type="text" id="namaBarang" class="form-control" placeholder="Nama Barang" name="namaBarang" required="required" autofocus="autofocus" readonly="true">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="merkBarang">Merk/Type Barang</label>
+                  <input type="text" id="merkBarang" class="form-control" placeholder="Merk/Type Barang" name="merkBarang" required="required" readonly="true">
+                </div>
               </div>
             </div>
           </div>
-      </div>  
-      <!-- End of Main Content -->
-@endsection
+          <div class="form-group">
+            <div class="form-label-group">
+              <label for="noSertif">No. Seritifikat/No. Pabrik</label>
+              <input type="text" id="noSertif" class="form-control" placeholder="No. Seritifikat/No. Pabrik" name="noSertif" required="required" readonly="true">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="warnaBarang">Warna Barang</label>
+                  <input type="text" id="warnaBarang" class="form-control" placeholder="Warna Barang" name="warnaBarang" required="required">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="bahanBarang">Bahan Barang</label>
+                  <input type="text" id="bahanBarang" class="form-control" placeholder="Bahan Barang" name="bahanBarang" required="required">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="satuanBarang">Satuan Barang</label>
+                  <input type="text" id="satuanBarang" class="form-control" placeholder="Satuan Barang" name="satuanBarang" required="required"> 
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="hargaBarang">Harga Barang</label>
+                  <input type="text" id="hargaBarang" class="form-control" placeholder="Harga Barang" name="hargaBarang" required="required">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="caraBarang">Cara Peroleh Barang</label>
+                  <input type="text" id="caraBarang" class="form-control" placeholder="Cara Peroleh Barang" name="caraBarang" required="required">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="tglBarang">Tanggal Peroleh Barang</label>
+                  <input type="date" id="tglBarang" class="form-control" placeholder="Tanggal Peroleh Barang" name="tglBarang" readonly="true">  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="keadaanBarang">Keadaan Barang</label>
+                  
+                  <select class="form-control" id="keadaanBarang" name ="keadaanBarang" required="required">
+                    <option value="Baik">Baik</option>
+                    <option value="Rusak">Rusak</option>
+                  </select>
+                  
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-label-group">
+                  <label for="lokasiBarang">Lokasi Barang</label>
+                  <input type="text" id="lokasiBarang" class="form-control" placeholder="Lokasi Barang" name="lokasiBarang" readonly="true">
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class="form-group">
+                 <div class="form-label-group">
+                  <label for="tglBarang">Tanggal Barang Rusak (kosongi kolom jika keadaan barang baik !)</label>
+                  <input type="date" id="tglBarangRusak" class="form-control" placeholder="Tanggal Barang Rusak" name="tglBarangRusak" >  
+                </div>
+              </div>
+          <div class="form-group">
+            <div class="form-group">
+                <div class="form-label-group">
+                  <label for="keterangan">Keterangan Barang</label>
+                  <textarea class="form-control" id="ketBarang" rows="3" placeholder="Keterangan" required="required" name="ketBarang"></textarea>
+                </div>
+              </div>
+            </div>
+        
+      </div>    
+        <div class="modal-footer">
+          <a href="{{base_url('barang/daftarbarang/')}}"><button type="button" class="btn btn-light">Cancel</button></a>
+          <!-- value nya da di java script -->
+          <input type="hidden" name="idBarang" id="idBarang"> 
+          <input type="hidden" name="idBarcode" id="idBarcode">
+          <button type="submit" class="btn btn-success" name="btnSubmit">EDIT</button>           
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
-@section('scripts-js')
+<!-- ######################################################################################################### -->
+
+<!-- ######################################################################################################### -->
+
+<!-- Modal Petunjuk-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Petunjuk Transaksi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>1)Ceklist <i class="far fa-check-square fa-1x"></i> di kolom action untuk memilih barang </p>
+        <p>2)Apabila sudah yakin dengan barang yang dipilih untuk dilakukannya transaksi,lalu
+          Klik tombol <img src="{{base_url('assets/dist/img/pilih.JPG')}}" width="60px" height="25px"> </p>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">OK,Paham</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ######################################################################################################### -->
+  <!-- End of Main Content -->
+  @endsection
+
+  @section('scripts-js')
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-  
+
+  <script src="{{base_url('assets/plugins/popper/umd/popper.min.js')}}"></script>
+
+  <script src="{{base_url('assets/plugins/jquery/jquery.PrintArea.js')}}"></script>
+   
+   
   <script>
     $(document).ready(function(){
       var table = $('#dataTable').DataTable();
-     
-      $('#dataTable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected'); });
+
+   /*   $('#dataTable tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected'); });*/
       var rowData = table.row( this ).data();
-          $('#btncheckbox').click( function() {
-          
+      $('#btncheckbox').click( function() {
+        $( "#form_cek" ).submit();          
+      });           
+    }); 
+  </script>
 
-           //aku ngga paham carane buat menselect idnya mas pennulisane neng javascript, sek ambil neng html
-
-
-      });
-      }); 
-      //check box selection
-      /*{
-        ajax:'data.json',
-         columnDefs: [ {
-            orderable: false,
-            className: 'select-checkbox',
-            targets:   0
-        } ],
-        select: {
-            style:    'os',
-            selector: 'td:first-child'
-        },
-        order: [[ 1, 'asc' ]]
-      })
-
-      $("#form_cek").on('submit',function(e){
-        var form =this
-        var rowsel=table.column(0).checkboxes.selected();
-        $.each(rowsel,function(index,rowId){
-          $(form).append(
-            $('<input>').attr('type','hidden').attr('name','id[]').val(rowId)
-
-            )
-        })
-        $("#views-row").text(rowsel.join(","))
-        $('input[name="id\[\]"]',form).remove();
-        e.preventDefault()
-      }*/
-               
-
-
-
-
-
-
-
-               //var act= $('#cek').val();
-     
-/*          $.ajax({
-              type:"POST",              
-              data:'id='+ act,
-              url:'<?php //echo base_url('barang/selectbarcode')?>',
-              dataType:'json',
-              success:function(result)
-              {
-                  
-                         console.log(result)
-    
-              }
-
-            });
-
-
-      } );*/
-
-
-     /* $("#search").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#bodyTable tr").filter(function() {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-      });
-*/
-
+  <script type="text/javascript">
+    $(document).on("click",'#btnedit',function(){
       
-   
-   
-   
+      var id=$(this).data('id');
+      var id_barang=$(this).data('id_barang');
+      var nama=$(this).data('nama');
+      var ket_barang=$(this).data('ket_barang');
+      var merk=$(this).data('merk');
+      var no_pabrik=$(this).data('no_pabrik');
+      var warna_barang=$(this).data('warna_barang');
+      var bahan=$(this).data('bahan');
+      var satuan=$(this).data('satuan');
+      var harga_satuan=$(this).data('harga_satuan');
+      var cara_peroleh=$(this).data('cara_peroleh');
+      var tanggal_pengadaan=$(this).data('tanggal_pengadaan');
+      var keadaan_barang=$(this).data('keadaan_barang');
+      var lokasi=$(this).data('lokasi');
+      var tanggal_rusak=$(this).data('tanggal_rusak');
+      $(".modal-footer #idBarcode").val(id);
+      $(".modal-footer #idBarang").val(id_barang);
+      $(".modal-body #namaBarang").val(nama);
+      $(".modal-body #merkBarang").val(merk);
+      $(".modal-body #noSertif").val(no_pabrik);
+      $(".modal-body #warnaBarang").val(warna_barang);
+      $(".modal-body #bahanBarang").val(bahan);
+      $(".modal-body #warnaBarang").val(warna_barang);
+      $(".modal-body #satuanBarang").val(satuan);
+      $(".modal-body #hargaBarang").val(harga_satuan);
+      $(".modal-body #caraBarang").val(cara_peroleh);
+      $(".modal-body #tglBarang").val(tanggal_pengadaan);
+      $(".modal-body #keadaanBarang").val(keadaan_barang);
+      $(".modal-body #lokasiBarang").val(lokasi);
+      $(".modal-body #ketBarang").val(ket_barang);
+      $(".modal-body #tglBarangRusak").val(tanggal_rusak);
+    });
+  </script>
 
+  <script type="text/javascript">
+     $(document).ready(function() {
+        
+    });
+  </script>
 
+  <script type="text/javascript">
+    
   </script>
 
 

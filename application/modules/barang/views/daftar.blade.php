@@ -28,17 +28,15 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-         <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
+        
          <?= $this->session->tempdata('message');?>
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
                <div class="card-header">
                  
-                   
+                    <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
                </div>
-                
-
 
 
             <div class="card-body">

@@ -20,6 +20,13 @@ class TransaksiModel extends CI_Model {
 	{
 		$this->db->insert('data_transaksi',$datatransaksi);	
 	}
+	//update tables barangs
+	public function setUpdateBarangsbyId($idbarang,$barangs)
+	{
+
+		return $this->db->where('id_barang', $idbarang)
+				->update('barangs', $barangs);
+	}
 
 	//untuk mengambil data semua table barcode,spesifikasi barang,departement,barangs,dan yayasan berdasarkan id yang diselect
 	public function getAllbyIdbarcode($id){

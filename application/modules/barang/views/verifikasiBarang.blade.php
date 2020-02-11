@@ -1,3 +1,4 @@
+  
   @layout('template/main/barang/main')
 
   @section('content')
@@ -62,7 +63,7 @@
     <div class="container-fluid">
         <div class="card card-register mx-auto mt-5">
           <center>
-          <div class="card-header">Verifikasi Input Barang</div>
+          <div class="card-header"><h4><strong>Verifikasi Input Barang</strong></h4></div>
           </center>
           <div class="card-body">
             <form action="{{base_url('barang/tambahbarcode/').$id.'/'.$yas.'/'.$date_month.'/'.$date_year}}" method="POST">

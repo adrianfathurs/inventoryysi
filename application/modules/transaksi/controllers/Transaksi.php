@@ -25,6 +25,15 @@ public function __construct(){
 		//parameter $id adalah parameter id_barcode
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
+		$status=$_SESSION['status'];
+		if($status==1)
+		{
+			$data['status']="admin";
+		}
+		else
+		{
+			$data['status']="direktur";	
+		}
 		//yang bener $data['daftar']=$this->TransaksiModel->getAllbyIdbarcode($id);
 		//$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
 
@@ -101,17 +110,17 @@ public function __construct(){
 	}
 	//function API untuk menampilkan select BOX sertibar
 	public function selectBox()
-	{ 	echo "ok";
+	{ 	
 		  $id = $this->input->post('id');
     $option = $this->input->post('op');
     if ($option==1)
 	    { 	$nama_jabatan=$this->KaryawanModelTrans->getJabatanKaryawanbyId($id);
-	    	echo "<option value='{{$nama_jabatan}}'>".$nama_jabatan."</option>";
+	    	echo $nama_jabatan;
 	    }
 	 else if($option==2)
 	 	{
 	 		$nama_jabatan=$this->KaryawanModelTrans->getJabatanKaryawanbyId($id);
-	    	echo "<option value='{{$nama_jabatan}}'>".$nama_jabatan."</option>";
+	    	echo $nama_jabatan;
 	 	}
 	}
 
@@ -120,15 +129,46 @@ public function __construct(){
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
+		$status=$_SESSION['status'];
+		if($status==1)
+		{
+			$data['status']="admin";
+		}
+		else
+		{
+			$data['status']="direktur";	
+		}
 		/*id_code merupakan nama session yang menunjukan array id barcode yang dipilih*/
 		$idbar=$_SESSION['idcode'];
 		$jumlah=count($idbar);
 		$ketbar=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
 		$ket_bar="";
+		
 		foreach ($ketbar as $key) {
 			$ket_bar.=$key['nama_barang'].":".$key['ket_barang'].",";
+			//lokasi adalah lokasi awal yang diinpukan ditabel barangs
+			$lokasi[]=$key['lokasi'];
+			//update tablebarang
+			$idbarang=$key['id_barang'];
+			$barangs=[
+			'id_barang'=>$key['id_barang'],	
+			'bahan'=>$key['bahan'],
+			'cara_peroleh'=>$key['cara_peroleh'],
+			'tanggal_pengadaan'=>$key['tanggal_pengadaan'],
+			'warna_barang'=>$key['warna_barang'],
+			'satuan'=>$key['satuan'],
+			'keadaan_barang'=>$key['keadaan_barang'],
+			'harga_satuan'=>$key['harga_satuan'],
+			'tanggal_rusak'=>$key['tanggal_rusak'],
+			'lokasi'=>$this->input->post('lokasibarang'),
+			'ket_barang'=>$key['ket_barang']
+		];
+		
+		$update=$this->TransaksiModel->setUpdateBarangsbyId($idbarang,$barangs);
+			
 		}
-
+		
+		var_dump($update);
 		
 		$idpenerima=$this->input->post('idpenerima');
 		$idpenyerah=$this->input->post('idpenyerah');
@@ -165,10 +205,10 @@ public function __construct(){
 		
 
 
-		$this->session->set_tempdata('cardcetak','
-			<p>Cetak</p>',5);
+		$this->session->set_userdata('cardcetak','
+			<p>Cetak</p>');
 
-		$this->session->set_tempdata('cetak','
+		$this->session->set_userdata('cetak','
 						<div class="row">
 						<div class="col-1"></div>
 							<div class="col-4">
@@ -183,7 +223,7 @@ public function __construct(){
   									<button type="button" class="btn btn-success" id="cetakqrdanbarcode">Cetak Barcode & QRcode</button>
   								</center>
                             </div>
-						</div>',5);	
+						</div>');	
 		
 		$ttransaksi=[
 				'jabatan_penerima'=>$this->input->post('jabpenerima'),
@@ -205,9 +245,10 @@ public function __construct(){
 				'id_transaksi'=>$id_transaksi,
 				'id_barcode'=>$id,
 				'tanggal_peletakan'=>$this->input->post('tglpenyerah'),
-				'lokasi_update'=>$this->input->post('lokasibarang')
+				'lokasi_update'=>$this->input->post('lokasibarang'),
+				'lokasi_sebelum'=>$lokasi[$i]
 				];
-			$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
+		$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
 				$i++;
 			}
 			error_reporting(0);

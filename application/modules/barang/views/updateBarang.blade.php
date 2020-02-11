@@ -13,6 +13,10 @@
     {
       display:none;
     }
+    #icon
+    {
+      color:blue;
+    }
    </style>
  @endsection
 
@@ -108,10 +112,7 @@
         $date_month=date('n',$date);
         $date_year=date('y',$date);
     ?> 
-                      <!-- link trigger modal -->
-                        <a   id="button" data-toggle="modal" data-target="#exampleModalCenter">
-                          <i id="icon" class="fas fa-arrow-circle-left fa-2x"></i>
-                        </a>
+                     
 
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -163,9 +164,13 @@
 
 <div class="container-fluid">
         <div class="card card-register mx-auto mt-5">
-          <center>
-          <div class="card-header">PEMBAHARUAN BARANG</div>
-          </center>   
+         
+          <div class="card-header">
+            <center><h4><strong>PEMBAHARUAN BARANG</strong></h4></center>
+             <!-- link trigger modal -->
+            <a   id="button" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-arrow-circle-left fa-2x" id="icon"></i></a>
+          </div>
+            
           <div class="card-body">
             <div class="row">
               <div class="col-5">

@@ -16,24 +16,13 @@
         </li>
         
         <li class="nav-item">
-            <a href="{{base_url('barang/tambahbarang')}}" class="nav-link">
-                
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Tambah Barang</p>
-                
-           
-            </a>
-        </li>
-        <li class="nav-item">
             <a href="{{base_url('barang/daftarbarang')}}"  class="nav-link ">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Transaksi Barang</p>
             </a>
         </li>
-        
     </ul>
 </li>
-
 <li>
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">

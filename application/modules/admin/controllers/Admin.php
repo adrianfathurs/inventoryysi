@@ -5,8 +5,10 @@ class Admin extends MY_Controller
 {
 	public function index()
 	{
-		$data['title'] = "Dasboard Admin";
-		$data['type'] = 'admin';
-		$this->blade->render('admin', $data);
+		$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Daftar Barang";
+		$data['active']="3";
+		$data['status']="admin";
+		redirect('barang/daftarbarangview');
 	}
 }

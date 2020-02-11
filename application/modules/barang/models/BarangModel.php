@@ -32,7 +32,12 @@ public function setDelete($id_barang)
 			$this->db->delete('spesifikasi_barang');
 			
 	} 
-
+//setupdate table Barangs
+public function setUpdateBarangs ($barangs,$id_barang)
+{
+	return $this->db->where('id_barang',$id_barang)
+				->update('barangs',$barangs);
+}
 //setupdate data keterangan barang
 public function setupdateket($array,$where)
 {
@@ -48,6 +53,13 @@ public function setUpdateku($array,$where)
 		
 
 }
+//delete id_data_transaksi
+public function setDeleteIdDataTransaksi($id)
+{
+	$this->db->where('id_barcode',$id);
+			$this->db->delete('data_transaksi');
+}
+
 //delete data pada table barcode berdasarkan id barcode yang telah di select
 public function setDeleteIdBarcode($id)
 {

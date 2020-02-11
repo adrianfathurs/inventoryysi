@@ -1,6 +1,7 @@
   @layout('template/main/transaksi/main')
 
   @section('scripts-css')
+     <link rel="stylesheet" href="{{base_url('assets/plugins/select2/css/select2.min.css')}}">
    <style type="text/css">
     .selecting{
         color:#000000;
@@ -23,6 +24,11 @@
     {
       display: none;
     }
+    #iconhidden
+    {
+      display: none;
+        z-index: 2;
+    }
     #barcode
     {
       display: none;
@@ -34,6 +40,8 @@
     #suratsertibar
     {
       display: none;
+      
+      z-index: 1;
     }
    </style>
  @endsection
@@ -46,12 +54,13 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-         <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
+         
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
                <div class="card-header">
+                <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
                   <a href="{{base_url('barang/daftarbarang/')}}"><i class="fas fa-arrow-circle-left fa-2x" id="icon"></i></a>
             </div>
             <div class="card-body">
@@ -59,20 +68,26 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                    <?php if($status=="admin"):?>
+                      <th><center>EDIT</center></th>
+                    <?php endif;?>
+                    <?php if($status=="direktur"):?>
+                      <th><center>LIHAT</center></th>
+                    <?php endif;?>
+                    
                       <th><center>No</center></th>
                       <th><center>Nama Barang</center></th>
                       <th><center>Merk</center></th>
                       <th><center>No. Pabrik</center></th>
                       <th><center>Bahan</center></th>
                       <th><center>Cara Peroleh</center></th>
-                      <th><center>Tanggal Perolehan</center></th>
+                      <th><center>TGL Perolehan</center></th>
                       <th><center>Warna Barang</center></th>
                       <th><center>Satuan</center></th>
                       <th><center>Keadaan Barang</center></th>
                       <th><center>Harga/Satuan</center></th>
-                      <th><center>Tanggal Rusak</center></th>
-                      <th><center>Lokasi</center></th>
-                      <th><center>Action</center></th>
+                      <th><center>TGL Rusak</center></th>
+                      <th><center>Lokasi Barang</center></th>
                     </tr></center>
                   </thead>
                   <tbody>
@@ -80,14 +95,13 @@
               <!-- load table spesifikasi barang dan barang kedalam tabel  -->
                     <?php $j=1;foreach($daftar as $k =>$d):?>
                     <tr>
-                      <td>{{$j}}</td>
+                      
                         <?php 
                           //$idbark untuk membungkus id barcode looping menjadi array
                            $idbark=array($k=>$d['id_barcode']);
                            $idbar=$d['id_barcode'];
                            $id=$d['id_barcode'];
-                          //array ini masih terjadi penumpukan
-                           var_dump($idbark);
+                          
                           $id_barang=$d['id_barang'];
                           $id_dept=$d['id_departement'];
                           $id_yayasan=$d['id_yayasan'];
@@ -95,6 +109,13 @@
                           $date_month=date('m',$date);
                           $date_year=date('y',$date);
                         ?>
+                      <td>
+                      <!-- update lokasi -->
+                        <a href="{{base_url('barang/selectidbarang/').$id.'/'.$id_barang.'/'.$id_dept.'/'.$id_yayasan.'/'.$date_month.'/'.$date_year}}">
+                          <center><i class="fas fa-edit fa-1x"></i></center>
+                        </a>     
+                      </td>
+                      <td>{{$j}}</td>
                       <td><center><?=strtoupper($d['nama_barang'])?></center></td>
                       <td><center><?=strtoupper($d['merk'])?></center></td>
                       <td><center><?=strtoupper($d['no_pabrik'])?></center></td>
@@ -107,17 +128,7 @@
                       <td><center><?=$d['harga_satuan']?></center></td>
                       <td><center><?=$d['tanggal_rusak']?></center></td>
                       <td><center><?=strtoupper($d['lokasi'])?></center></td>
-                      <td>
-                      <!-- update lokasi -->
-                        <a href="{{base_url('barang/selectidbarang/').$id.'/'.$id_barang.'/'.$id_dept.'/'.$id_yayasan.'/'.$date_month.'/'.$date_year}}">
-                          <center><i class="fas fa-edit fa-1x"></i></center>
-                        </a>
-                  
-                       <!-- <button type="submit" name="id_barcode" value="{{$d['id_barcode']}}">
-                            <i class="fas fa-edit fa-2x"></i>
-                       </button>
-                  </form> -->     
-                      </td>
+                      
                     </tr>
                      <!--  <input type="hidden" name="idbar[]" value="{{$id}}"> -->
                     <?php $j++;endforeach;?> 
@@ -146,7 +157,7 @@
 
                   <div class="col-sm-4-mx-auto">
                     <div class="card" style="width: 25rem;"><br>      
-                      <h5 class="card-title"><strong><center><?= $this->session->tempdata('cardcetak'); ?></center></strong></h5>
+                      <h5 class="card-title"><strong><center><?= $this->session->userdata('cardcetak'); ?></center></strong></h5>
                         <div class="card-body">
                         <!-- button buat cetak barcode
                         <button type="button" class="btn btn-info" id="btnbarcode">Barcode</button>
@@ -154,7 +165,7 @@
                         <button type="button" class="btn btn-info" id="btnqrcode">QRcode</button> 
                         -->
                               <!-- button buat ngeshow form serah terima barang -->
-                              <?= $this->session->tempdata('cetak');?>                          
+                              <?= $this->session->userdata('cetak');?>                          
                         </div><!-- div row -->
                     </div>
                   </div>
@@ -219,7 +230,7 @@
             <div class="col-6">
               <div class="form-group">
                 <div class="form-label-group">
-                  <label for="ygMenyerahkan">Nama yang Menyerahkan</label>
+                  <label for="ygMenyerahkan">Nama yang Menyerahkan</label><br>
                   <!-- <input type="text" id="ygMenyerahkan" class="form-control" placeholder="Nama yang Menyerahkan" required="required " name="penyerah"> -->
                   <select class=" select2 form-control " name="idpenyerah" id="nama_penyerah">
                     <option value="">--------Pilih Nama---------</option>
@@ -231,10 +242,10 @@
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                  <label for="jabMenyerahkan">Jabatan yang Menyerahkan</label>
-                  <select class=" select2 form-control " readonly="true" name="jabpenyerah" id="jabMenyerahkan">
-                      <option value="">-------Pilih Jabatan----------</option>
-                  </select>
+                  <label for="jabMenyerahkan">Jabatan yang Menyerahkan</label><br>
+                  
+                  <input type="text" class=" form-control " readonly="true" name="jabpenyerah" id="jabMenyerahkan">    
+                  </input>
                 </div>
               </div>
             </div>
@@ -242,22 +253,24 @@
             <div class="col-6">
               <div class="form-group">
                 <div class="form-label-group">
-                  <label for="ygMenerima">Nama Penerima</label>
+                  <label for="nama_penerima">Nama Penerima</label><br>
+                  
                   <!-- <input type="text" id="ygMenerima" class="form-control" placeholder="Nama Penerima" required="required" name="penerima"> -->
-                  <select class="select2 form-control" id="nama_penerima" name="idpenerima">
-                    <option value="">--------Pilih Nama---------</option>
+                
+                  <select class="form-control select2" id="nama_penerima" name="idpenerima">
+                    <option value="">--------Pilih Nama---------------------------------</option>
                     <?php foreach ($karyawan as $key): ?>
-                      <option value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
+                      <option class="form control"value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
                     <?php endforeach?>
                   </select>
-                </div>
+                 </div> 
+                
               </div>
               <div class="form-group">
                 <div class="form-label-group">
                   <label for="jabPenerima">Jabatan Penerima</label>
-                  <select class=" select2 form-control " readonly="true" name="jabpenerima" id="jabPenerima">
-                      <option value="">-------Pilih Jabatan----------</option>
-                  </select>
+                  <input type="text" class=" form-control " readonly="true" name="jabpenerima" id="jabPenerima">    
+                  </input>
                 </div>
               </div>
 
@@ -305,11 +318,81 @@
   </div>
 
 <!-- Form untuk cetak sertibar tetapi di hidden -->
-  
-  <div class="container" id="suratsertibar">   
+   <div class="container-fluid " id="iconhidden">
     <div class="card card-register mx-auto mt-5">
+    <button class="btn btn-info"><i class="fas fa-arrow-circle-up fa-2x"></i></button>
+  </div>
+  </div> 
+  
+  <div class="container-fluid" id="suratsertibar">   
+    <div class="card card-register mx-auto mt-5">
+     
       <center><h2 class="card-header">YAYASAN SINAI INDONESIA</h2></center>
+      <hr>
         <div class="card-body">
+          <div class="col-md-20 mt-3">
+            <table border="2" class="table table-bordered table-light ">
+              <thead>
+                <tr>
+                  <th>
+                    <center>No.</center>
+                  </th>
+                  <th>
+                    <center>Nama Barang</center>
+                  </th>
+                  <th>
+                    <center>Barcode</center>
+                  </th>
+                  <th>
+                    <center>Keterangan</center>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php error_reporting(0);?>
+                <?php foreach($ttransaksi as $tr):?>
+                  <?php $i=1;foreach($daftar as $k =>$c):
+                   $date=strtotime($d['tanggal_pengadaan']);
+                                $date_month=date('M',$date);
+                                $date_year=date('y',$date);
+                  ?>
+                    <tr>
+                      <td><center>{{$i}}</center></td>
+                      <td>{{$c['nama_barang']}}</td>
+                      <td>{{$c['id_barang'].'/'.$c['id_departement'].'/'.$c['id_yayasan'].'/'.$date_month.'/'.$date_year}}</td>
+                      <td>{{$c['keadaan_barang']}}</td>
+                    </tr>
+                  <?php $i++;endforeach;?>
+              </tbody>
+            </table>
+                  <br>
+                  <div class="col-md-20 mt-3">
+                    <table class="table" >
+                    <tbody>
+                      <tr>
+                        <td>
+                          <br>
+                          <center>Yang Menyerahkan</center>
+                          <center>Staff Teknologi Informasi</center>
+                          <br><br><br>
+                          <center>{{$tr['nama_penyerah']}}</center> <!-- dinamis -->
+                        </td>
+                        <td>
+                          <center>Yogyakarta, {{$tr['tgl_peletakan']}}</center> <!-- dinamis -->
+                          <center>Yang Menerima</center>
+                          <br><br><br><br>
+                          <center>{{$tr['nama_penerima']}}</center> <!-- dinamis -->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                <?php endforeach;?>
+                  </div>
+          </div>
+      </div>
+      <hr>
+      <center><h2 class="card-header">YAYASAN SINAI INDONESIA</h2></center>
+      <div class="card-body">
           <div class="col-md-20 mt-3">
             <table border="2" class="table table-bordered table-light ">
               <thead>
@@ -382,7 +465,13 @@
   <script src="{{base_url('assets/plugins/jquery/jquery.PrintArea.js')}}"></script>
    
    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+   <script>
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
    <script >
+    
     $(document).ready(function(){
      
       $("#hide").click(function(){
@@ -408,7 +497,14 @@
       });*/
       $("#cetaksertibar").click(function(){
         $("#suratsertibar").show();
+        $("#iconhidden").show();
         $("#suratsertibar").printArea();
+      });
+
+      $("#iconhidden").click(function(){
+          $("#suratsertibar").hide();
+          $("#iconhidden").hide();
+
       });
       
       $("#btndownloadqrcode").click(function() {
@@ -450,7 +546,7 @@ $(document).ready(function() {
                 data: postForm,
                 success: function(data) {
                   console.log(data);
-                     $("#jabMenyerahkan").html(data);
+                     $("#jabMenyerahkan").val(data);
                 }
             });
         });
@@ -467,7 +563,8 @@ $(document).ready(function() {
                 data: postForm,
                 success: function(data) {
                   console.log(data);
-                     $("#jabPenerima").html(data);
+
+                     $("#jabPenerima").val(data);
                 }
             });
         });
