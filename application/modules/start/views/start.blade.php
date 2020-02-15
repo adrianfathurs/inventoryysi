@@ -49,16 +49,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
       </form>
 
-      <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-        <a href="{{base_url('user')}}" class="btn btn-block btn-primary">
-          <i class="fas fa-users"></i> Tampil Sebagai User
-        </a>
-      </div>
+      
 
-      <p class="mb-1">
-        <a href="forgot-password.html"> forgot Your Password?</a>
-      </p>
+      
     </div>
   </div>
 </div>

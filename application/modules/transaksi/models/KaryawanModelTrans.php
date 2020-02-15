@@ -13,4 +13,9 @@ class KaryawanModelTrans extends CI_Model {
 		$query="SELECT nama from karyawan where id_karyawan='$id'";
 		return $this->db->query($query)->row()->nama;
 	}
+	public function getKaryawan()
+	{
+		$query="SELECT nama, nama_jabatan,id_karyawan from karyawan";
+		return $this->db->query($query)->result_array();
+	}
 }

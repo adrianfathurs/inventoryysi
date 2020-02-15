@@ -53,7 +53,7 @@ class Barang extends MY_Controller {
 		{
 			$data['status']="direktur";	
 		}
-		else
+		else if($status==3)
 		{
 			$data['status']="user";
 		}
@@ -67,17 +67,21 @@ class Barang extends MY_Controller {
 		{
 			unset($_SESSION['idcode']);
 			$data['daftar']=$this->BarangModel->getAll();
+			
+			//var_dump($transaksi);
 			$this->blade->render('daftarBarangview',$data);
 		}
 		else
 		{		
 			$data['daftar']=$this->BarangModel->getAll();
+			
 			$this->blade->render('daftarBarangview',$data);
+			//var_dump($transaksi);
 		}
 	}
 
 
-
+	//function tentang transaksi barang
 	public function daftarbarang()
 	{
 		$data['title']="INVENTARIS YSI";
@@ -96,6 +100,12 @@ class Barang extends MY_Controller {
 		else
 		{
 			$data['status']="user";
+		}
+
+		if(isset($_SESSION['cardcetak']) && isset($_SESSION['cetak']))
+		{
+			$this->session->unset_userdata('cardcetak');
+			$this->session->unset_userdata('cetak');
 		}
 		//mencoba untuk json
 		/*$data['daftar']=$this->BarangModel->getAll();
@@ -179,7 +189,49 @@ class Barang extends MY_Controller {
 
 		}	
 	}
+	//funtion untuk tampil History Mutasi
+	public function historymutasi ()
+	{
+		$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Transaksi Barang";
+		$data['active']=1;
+		$status=$_SESSION['status'];
+		$data['status']=$_SESSION['status'];
+		if($status==1)
+		{
+			$data['status']="admin";
+		}
+		else if($status==2)
+		{
+			$data['status']="direktur";	
+		}
+		else
+		{
+			$data['status']="user";
+		}
 
+		
+		//untuk melakukan pengecekan apakah sebelumya terdapat transaksi
+		$transaksi=$this->BarangModel->getAllHistory();
+		if(isset($transaksi))
+		{
+			$data['transaksi']=$this->BarangModel->getAllHistory();
+			$data['headermutasi']="HISTORY MUTASI BARANG";
+			
+			$this->blade->render('historyMutasi',$data);
+		}
+		else
+		{
+			$this->session->set_tempdata('messaggecektransaksi','
+				<div class="alert alert-warning" role="alert">
+				<center> BELUM ADA TRANSAKSI !</center>
+				</div>',5);
+			$this->blade->render('historyMutasi',$data);
+			
+		}
+		
+		//$this->blade->render('historyMutasi',$data);
+	}
 	public function tambahbarcode($id,$id_yas,$bulan,$tahunb)
 	{
 		$data['title']="INVENTARIS YSI";
@@ -200,7 +252,7 @@ class Barang extends MY_Controller {
 	//untuk memanggil function setBarcode di Barang Model
 		$this->BarangModel->setBarcode($barcode);
 		$data['daftar']=$this->BarangModel->getAll();
-		$this->blade->render('daftarBarang',$data);
+		$this->blade->render('daftarBarangview',$data);
 	}
 
 	//function hapus data pada tombol back verifikasi barang
@@ -349,6 +401,7 @@ class Barang extends MY_Controller {
 			print_r($_SESSION['idcode']);
 			$data['karyawan']=$this->KaryawanModel->getKaryawan();
 			$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
+			$data['headerpencetakan']="SERAH TERIMA BARANG";
 			$this->blade->render('transaksi/transaksiBarang',$data);
 		}
 		//pengendalian apabila tidak terdapat session dan idbarcoude unidenfined
@@ -360,6 +413,7 @@ class Barang extends MY_Controller {
 				<center> Anda belum Memilih Barang</center>
 				</div>',5);
 			$data['daftar']=$this->BarangModel->getAll();
+			$data['headerpencetakan']="SERAH TERIMA BARANG";
 			$this->blade->render('daftarBarang',$data);	
 
 
@@ -391,6 +445,7 @@ class Barang extends MY_Controller {
 			print_r($_SESSION['idcode']);
 			$data['karyawan']=$this->KaryawanModel->getKaryawan();
 			$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
+			$data['headerpencetakan']="SERAH TERIMA BARANG";
 			$this->blade->render('transaksi/transaksiBarang',$data);
 		}	
 	}
@@ -464,7 +519,7 @@ class Barang extends MY_Controller {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	}
-/*##########################################################*/
+	/*##########################################################*/
 	//function untuk update barang/edit data barang
 	public function updatedata()
 	{
@@ -473,17 +528,17 @@ class Barang extends MY_Controller {
 			$id_barang=$this->input->post('idBarang');
 			$id_barcode=$this->input->post('idBarcode');
 			$barangs=[
-			'id_barang'=>$id_barang,	
-			'bahan'=>$this->input->post('bahanBarang'),
-			'cara_peroleh'=>$this->input->post('caraBarang'),
-			'tanggal_pengadaan'=>$this->input->post('tglBarang'),
-			'warna_barang'=>$this->input->post('warnaBarang'),
-			'satuan'=>$this->input->post('satuanBarang'),
-			'keadaan_barang'=>$this->input->post('keadaanBarang'),
-			'harga_satuan'=>$this->input->post('hargaBarang'),
-			'tanggal_rusak'=>$this->input->post('tglBarangRusak'),
-			'lokasi'=>$this->input->post('lokasiBarang'),
-			'ket_barang'=>$this->input->post('ketBarang')
+				'id_barang'=>$id_barang,	
+				'bahan'=>$this->input->post('bahanBarang'),
+				'cara_peroleh'=>$this->input->post('caraBarang'),
+				'tanggal_pengadaan'=>$this->input->post('tglBarang'),
+				'warna_barang'=>$this->input->post('warnaBarang'),
+				'satuan'=>$this->input->post('satuanBarang'),
+				'keadaan_barang'=>$this->input->post('keadaanBarang'),
+				'harga_satuan'=>$this->input->post('hargaBarang'),
+				'tanggal_rusak'=>$this->input->post('tglBarangRusak'),
+				'lokasi'=>$this->input->post('lokasiBarang'),
+				'ket_barang'=>$this->input->post('ketBarang')
 			];
 			var_dump($barangs);
 			$setUpdateBarangs=$this->BarangModel->setUpdateBarangs($barangs,$id_barang);
@@ -496,7 +551,7 @@ class Barang extends MY_Controller {
 			redirect('barang/daftarbarang');
 		}
 	}
-/*##########################################################*/
+	/*##########################################################*/
 	//function untuk mengedit ketbarang di view update barang
 	public function updateket()
 	{$data['status']="admin";

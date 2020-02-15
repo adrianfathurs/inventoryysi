@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="{{base_url('assets/plugins/daterangepicker/daterangepicker.css')}}">
   <link rel="stylesheet" href="{{base_url('assets/plugins/summernote/summernote-bs4.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="{{base_url('assets/plugins/select2/css/select2.min.css')}}">
+  
   @yield('scripts-css')
   <!-- PANGGIL UNTUK INJEK CSS KE TEMPAT INI -->
 </head>
@@ -82,7 +85,12 @@
         </div>
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column nav-child-indent nav-flat" data-widget="treeview" role="menu" data-accordion="false">
-            @include('template/menu/transaksi/menu')
+             @if($status == 'admin')
+             @include('template/menu/admin/menu')
+            @endif  
+            @if($status == 'direktur')
+             @include('template/menu/direktur/menu')
+            @endif
           </ul>
         </nav>
       </div>
@@ -125,11 +133,16 @@
   </script>
   <script src="{{base_url('assets/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
   <script src="{{base_url('assets/plugins/moment/moment.min.js')}}"></script>
+  <script src="{{base_url('assets/plugins/jquery/printThis.jquery.json')}}"></script>
+  <script src="{{base_url('assets/plugins/jquery/printThis.js')}}"></script>
+  
   <script src="{{base_url('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
   <script src="{{base_url('assets/dist/js/adminlte.js')}}"></script>
-  <!-- DataTables -->
-  <script src="../../plugins/datatables/jquery.dataTables.js"></script>
-  <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script  src="{{base_url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+  
+  <script src="{{base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 
   @yield('scripts-js')
 </body>

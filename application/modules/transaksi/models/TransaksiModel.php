@@ -38,7 +38,12 @@ class TransaksiModel extends CI_Model {
 	 	where bc.id_barcode='$id'";
 		return $this->db->query($query)->result_array();
 	}
-	//
+	//set update data table ttransaksi
+	public function setUpdateTransaksi ($ttransaksi,$id_transaksi)
+	{
+		return $this->db->where('id_transaksi',$id_transaksi)
+		->update('ttransaksi',$ttransaksi);
+	}
 	
 
 	//untuk mengambil id_transaksi terakhir setelah data di insert
@@ -90,6 +95,17 @@ class TransaksiModel extends CI_Model {
 
 
 
+	}
+	public function getAllHistoryTransaksi()
+	{
+		$query=$this->db->select('bs.ket_barang,bs.tanggal_rusak,s.nama_barang,s.no_pabrik,s.merk,tt.nama_penerima,tt.nama_penyerah,tt.jabatan_penerima,tt.jabatan_penyerah,d.tanggal_peletakan,d.lokasi_update,d.lokasi_sebelum')
+	 	->from('data_transaksi d')
+	 	->join('barcode b','b.id_barcode=d.id_barcode')
+	 	->join('ttransaksi tt','tt.id_transaksi=d.id_transaksi')
+	 	->join('spesifikasi_barang s','s.id_spesifikasi=b.id_spesifikasi')
+	 	->join('barangs bs','bs.id_barang=b.id_barang')
+	 	->get();
+	 	return $query->result_array();
 	}
 
 }

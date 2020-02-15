@@ -7,7 +7,7 @@ include "phpqrcode/qrlib.php"; //<-- LOKASI FILE UTAMA PLUGINNYA
 
 
 class Transaksi extends MY_Controller {
-public function __construct(){
+	public function __construct(){
 		parent :: __construct();
 		
 		$this->load->helper('form');
@@ -50,25 +50,25 @@ public function __construct(){
 		$idbar=array();
 		$jumlah=count($idbarcode);
 		echo $jumlah;
-			while($i < $jumlah)
-			{
-				$id=$idbarcode[$i];
-				echo $id;
+		while($i < $jumlah)
+		{
+			$id=$idbarcode[$i];
+			echo $id;
 					//echo $idbar[$i];
-					$where=array($idbarcode[$i]);
-				$i++;
+			$where=array($idbarcode[$i]);
+			$i++;
 				//echo $i;
 
 				//untuk mengisi nilai session
-				
-					array_push($idbar,$id);
-			}
-			//var_dump($idbarcode);
-			$this->session->set_userdata('idcode',$idbar);
-			//print_r($idbar);
-			print_r($_SESSION['idcode']);
 
-			$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbarcode);
+			array_push($idbar,$id);
+		}
+			//var_dump($idbarcode);
+		$this->session->set_userdata('idcode',$idbar);
+			//print_r($idbar);
+		print_r($_SESSION['idcode']);
+
+		$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbarcode);
 
 
 
@@ -111,25 +111,91 @@ public function __construct(){
 	//function API untuk menampilkan select BOX sertibar
 	public function selectBox()
 	{ 	
-		  $id = $this->input->post('id');
-    $option = $this->input->post('op');
-    if ($option==1)
-	    { 	$nama_jabatan=$this->KaryawanModelTrans->getJabatanKaryawanbyId($id);
-	    	echo $nama_jabatan;
-	    }
-	 else if($option==2)
-	 	{
-	 		$nama_jabatan=$this->KaryawanModelTrans->getJabatanKaryawanbyId($id);
-	    	echo $nama_jabatan;
-	 	}
+		$id = $this->input->post('id');
+		$option = $this->input->post('op');
+		if ($option==1)
+			{ 	$nama_jabatan=$this->KaryawanModelTrans->getJabatanKaryawanbyId($id);
+				echo $nama_jabatan;
+			}
+			else if($option==2)
+			{
+				$nama_jabatan=$this->KaryawanModelTrans->getJabatanKaryawanbyId($id);
+				echo $nama_jabatan;
+			}
+		}
+	//function untuk menampilkan history data
+		public function historyTransaksi()
+		{
+			$data['title']="INVENTARIS YSI";
+			$data['subtitle']="HISTORY TRRANSAKSI";
+			$status=$_SESSION['status'];
+
+			if($status==1)
+			{
+				$data['status']="admin";
+			}
+			else
+			{
+				$data['status']="direktur";	
+			}
+		//menampilkan seluruh data yang ada pada tabel data_transaksi dan ttransaksi
+			$data['headermutasi']="HISTORY TRANSAKSI";
+			$data['historytransaksi']=$this->TransaksiModel->getAllHistoryTransaksi();
+
+			$this->blade->render('historyTransaksi',$data);
+
+		}
+	//mengupdate data transaksi sebelum dicetak
+		public function updatetransaksi()
+		{$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Transaksi Barang";
+		$data['headerpencetakan']="SERAH TERIMA BARANG";
+		$ketbarang=$this->input->post('ket');
+		$idbar=$_SESSION['idcode'];
+		$status=$_SESSION['status'];
+		if($status==1)
+		{
+			$data['status']="admin";
+		}
+		else
+		{
+			$data['status']="direktur";	
+		}
+		$id_transaksi=$this->input->post('idTransaksi');
+		$idPenerima=$this->input->post('idPenerima');
+		$idPenyerah=$this->input->post('idPenyerah');
+		$nama_penerima=$this->KaryawanModelTrans->getNamaKaryawanbyId($idPenerima);
+		$nama_penyerah=$this->KaryawanModelTrans->getNamaKaryawanbyId($idPenyerah);
+		$ttransaksi=[
+			'id_transaksi'=>$id_transaksi,
+			'jabatan_penerima'=>$this->input->post('jabPenerima'),
+			'jabatan_penyerah'=>$this->input->post('jabPenyerah'),
+			'lokasi_peletakan'=>$this->input->post('lokasiBarang'),
+			'nama_penerima'=>$nama_penerima,
+			'nama_penyerah'=>$nama_penyerah,
+			'tgl_peletakan'=>$this->input->post('tglPenyerah')
+		];
+		$setUpdateTransaksi=$this->TransaksiModel->setUpdateTransaksi($ttransaksi,$id_transaksi);
+		
+		$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
+		$this->session->set_userdata('editbutton','<button type="button"  class="btn btn-success"  id="btntabeltransaksi"				>
+			Edit Data Transaksi
+			</button>');
+		$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
+		$data['karyawan']=$this->KaryawanModelTrans->getKaryawan();
+		$this->blade->render('cetakTransaksi',$data);
+
+
 	}
 
 	//function untuk insert data transaksi di table ttransaksi
-	public function setTambah($id)
+	public function setTambah()
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
+		$data['headerpencetakan']="SERAH TERIMA BARANG";
 		$status=$_SESSION['status'];
+		$this->session->set_userdata('syarat',1);
 		if($status==1)
 		{
 			$data['status']="admin";
@@ -151,20 +217,20 @@ public function __construct(){
 			//update tablebarang
 			$idbarang=$key['id_barang'];
 			$barangs=[
-			'id_barang'=>$key['id_barang'],	
-			'bahan'=>$key['bahan'],
-			'cara_peroleh'=>$key['cara_peroleh'],
-			'tanggal_pengadaan'=>$key['tanggal_pengadaan'],
-			'warna_barang'=>$key['warna_barang'],
-			'satuan'=>$key['satuan'],
-			'keadaan_barang'=>$key['keadaan_barang'],
-			'harga_satuan'=>$key['harga_satuan'],
-			'tanggal_rusak'=>$key['tanggal_rusak'],
-			'lokasi'=>$this->input->post('lokasibarang'),
-			'ket_barang'=>$key['ket_barang']
-		];
-		
-		$update=$this->TransaksiModel->setUpdateBarangsbyId($idbarang,$barangs);
+				'id_barang'=>$key['id_barang'],	
+				'bahan'=>$key['bahan'],
+				'cara_peroleh'=>$key['cara_peroleh'],
+				'tanggal_pengadaan'=>$key['tanggal_pengadaan'],
+				'warna_barang'=>$key['warna_barang'],
+				'satuan'=>$key['satuan'],
+				'keadaan_barang'=>$key['keadaan_barang'],
+				'harga_satuan'=>$key['harga_satuan'],
+				'tanggal_rusak'=>$key['tanggal_rusak'],
+				'lokasi'=>$this->input->post('lokasibarang'),
+				'ket_barang'=>$key['ket_barang']
+			];
+
+			$update=$this->TransaksiModel->setUpdateBarangsbyId($idbarang,$barangs);
 			
 		}
 		
@@ -209,55 +275,66 @@ public function __construct(){
 			<p>Cetak</p>');
 
 		$this->session->set_userdata('cetak','
-						<div class="row">
-						<div class="col-1"></div>
-							<div class="col-4">
-                              
-								</center>
-									<button type="button" class="btn btn-success" id="cetaksertibar">Cetak Sertibar</button>
-								</center>
-                            </div>
-                            <div class="col-6">
-                              
-  								<center>
-  									<button type="button" class="btn btn-success" id="cetakqrdanbarcode">Cetak Barcode & QRcode</button>
-  								</center>
-                            </div>
-						</div>');	
+			<div class="row">
+			<div class="col-4"><button type="button"  class="btn btn-success"  id="btntabeltransaksi" 		
+			>
+			Edit Data Transaksi
+			</button></div>
+			<div class="col-4">
+
+			</center>
+			<button type="button" class="btn btn-success" id="cetaksertibar">Cetak Sertibar</button>
+			</center>
+			</div>
+			<div class="col-4">
+
+			<center>
+			<button type="button" class="btn btn-success" id="cetakqrdanbarcode">Cetak Barcode & QRcode</button>
+			</center>
+			</div>
+			</div>');
+
+
 		
+
+
 		$ttransaksi=[
-				'jabatan_penerima'=>$this->input->post('jabpenerima'),
-				'jabatan_penyerah'=>$this->input->post('jabpenyerah'),
-				'ket'=>$ket_bar,
-				'lokasi_peletakan'=>$this->input->post('lokasibarang'),
-				'nama_penerima'=>$nama_penerima,
-				'nama_penyerah'=>$nama_penyerah,
-				'tgl_peletakan'=>$this->input->post('tglpenyerah')
-			];
-			$this->TransaksiModel->setTambahttransaksi($ttransaksi);
-			$id_transaksi=$this->TransaksiModel->get_idtransaksi();
+			'jabatan_penerima'=>$this->input->post('jabpenerima'),
+			'jabatan_penyerah'=>$this->input->post('jabpenyerah'),
+			'ket'=>$ket_bar,
+			'lokasi_peletakan'=>$this->input->post('lokasibarang'),
+			'nama_penerima'=>$nama_penerima,
+			'nama_penyerah'=>$nama_penyerah,
+			'tgl_peletakan'=>$this->input->post('tglpenyerah')
+		];
+		//	$this->TransaksiModel->setTambahttransaksi($ttransaksi);
+		$id_transaksi=$this->TransaksiModel->get_idtransaksi();
 		
 	//perulangan yang membutuhkan session array id barcode dan diinput ketabel data_transaksi atau history barang
 		$i=0;
 		while($i<$jumlah)
 			{$id=$idbar[$i];
-			$datatransaksi=[
-				'id_transaksi'=>$id_transaksi,
-				'id_barcode'=>$id,
-				'tanggal_peletakan'=>$this->input->post('tglpenyerah'),
-				'lokasi_update'=>$this->input->post('lokasibarang'),
-				'lokasi_sebelum'=>$lokasi[$i]
+				$datatransaksi=[
+					'id_transaksi'=>$id_transaksi,
+					'id_barcode'=>$id,
+					'tanggal_peletakan'=>$this->input->post('tglpenyerah'),
+					'lokasi_update'=>$this->input->post('lokasibarang'),
+					'lokasi_sebelum'=>$lokasi[$i]
 				];
-		$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
+		//$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
 				$i++;
 			}
-			error_reporting(0);
-		$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
-		//Ambil id_transaksi
-		$id_transaksi=$this->TransaksiModel->get_idtransaksi();
-		//ambil data di tabel ttransaksi
-		$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
-		$this->blade->render("transaksiBarang",$data);
-	}
 
-}
+			error_reporting(0);
+			$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
+		//Ambil id_transaksi
+			$id_transaksi=$this->TransaksiModel->get_idtransaksi();
+		//untuk mendapatkan data karyawan
+			$data['karyawan']=$this->KaryawanModelTrans->getKaryawan();
+
+		//ambil data di tabel ttransaksi
+			$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
+			$this->blade->render("cetakTransaksi",$data);
+		}
+
+	}

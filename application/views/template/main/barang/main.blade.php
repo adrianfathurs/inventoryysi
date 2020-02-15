@@ -61,15 +61,18 @@
              <?php 
               if(isset($_SESSION['status']))
                 {
-                  $nama=$_SESSION['nama'];
-                  $jabatan=$_SESSION['nama_jabatan'];
+                  
                   if($_SESSION['status']==1)
                   {
                     $stat="Admin";
+                    $nama=$_SESSION['nama'];
+                  $jabatan=$_SESSION['nama_jabatan'];
                   }
-                  else
+                  else if($_SESSION['status'])
                   {
                     $stat="Direktur";
+                    $nama=$_SESSION['nama'];
+                  $jabatan=$_SESSION['nama_jabatan'];
 
                   }
 
@@ -92,6 +95,11 @@
             @if($status == 'direktur')
              @include('template/menu/direktur/menu')
             @endif
+            @if($status == 'user')
+             @include('template/menu/user/menu')
+            @endif
+            
+
              
            
           </ul>

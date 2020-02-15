@@ -358,8 +358,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>1)Ceklist <i class="far fa-check-square fa-1x"></i> di kolom action untuk memilih barang </p>
-        <p>2)Apabila sudah yakin dengan barang yang dipilih untuk dilakukannya transaksi,lalu
+        <p>1)<b>PERBAHARUI !!</b>Keadaan Barang serta Keterangan Barang Apabila ingin Melakukan Transaksi dengan menekan tombol <i class="fas fa-edit fa-1x"></i></p>
+        <p>2)Ceklist <i class="far fa-check-square fa-1x"></i> di kolom action untuk memilih barang </p>
+        <p>3)Apabila sudah yakin dengan barang yang dipilih untuk dilakukannya transaksi,lalu
           Klik tombol <img src="{{base_url('assets/dist/img/pilih.JPG')}}" width="60px" height="25px"> </p>  
         </div>
         <div class="modal-footer">

@@ -25,7 +25,9 @@
   
   @section('content')
   <!-- Begin Page Content -->
+ <!-- TABLE BARANGNYA -->
   <div class="container-fluid">
+    
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
@@ -34,7 +36,7 @@
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
                 <th><center>Lihat</center></th>
@@ -92,29 +94,39 @@
               <?php endforeach;?>
             </tbody>
           </table>
+          <!-- CArd view Lihart History Barang -->
+          <div class="card" style="width: 15rem;">
+            <div class="card-header py-2">
+              <h5 class="card-title" style="margin: center"><strong>Lihat</strong></h5>
+            </div>
+            <a href="{{base_url('barang/historymutasi')}}">
+            <div class="card-body">
+              <button class="btn btn-info" id="btnHistory">History Mutasi Barang</button>
+            </div>
+            </a>
+          </div>
+          
+          <!-- ------------------------------- -->
         </div>
       </div>
     </div>
   </div> 
-  <!-- ####################################################################################################################### -->
   
-  <!-- ####################################################################################################################### -->
-</div> 
-  <!-- End of Main Content -->
-  @endsection
-  <!-- script js -->
-  @section('scripts-js')
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-  <script>
-    $(document).ready(function(){
-      var table = $('#dataTable').DataTable();
+<!-- End of Main Content -->
+@endsection
+<!-- script js -->
+@section('scripts-js')
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script>
+  $(document).ready(function(){
+    var table = $('.dataTable').DataTable();
 
-      $('#dataTable tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected'); });
-      var rowData = table.row( this ).data();
-      $('#btncheckbox').click( function() {
+    $('#dataTable tbody').on( 'click', 'tr', function () {
+      $(this).toggleClass('selected'); });
+    var rowData = table.row( this ).data();
+    $('#btncheckbox').click( function() {
 
-      });
-    }); 
-  </script>
-  @endsection
+    });
+  }); 
+</script>
+@endsection
