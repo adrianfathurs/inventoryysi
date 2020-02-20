@@ -35,14 +35,14 @@ class Barang extends MY_Controller {
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Dashboard";
 		$data['status']="admin";
-		$data['active']="1";
+		$data['active']=1;
 		$this->blade->render('dashBoard',$data);	
 	}
 	public function daftarbarangview()
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Daftar Barang";
-		$data['active']=1;
+		$data['active']="DaftarBarang";
 		$status=$_SESSION['status'];
 		$data['status']=$_SESSION['status'];
 		if($status==1)
@@ -86,8 +86,9 @@ class Barang extends MY_Controller {
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
-		$data['active']=1;
+		$data['active']="TransaksiBarang";
 		$status=$_SESSION['status'];
+		$this->session->unset_userdata('btncetakkuu');
 		$data['status']=$_SESSION['status'];
 		if($status==1)
 		{
@@ -135,7 +136,7 @@ class Barang extends MY_Controller {
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Tambah Barang";
-		$data['active']=2;
+		$data['active']="TambahBarang";
 		$data['status']="admin";
 
 		$nosertif=$this->input->post('noSertif');
@@ -194,7 +195,7 @@ class Barang extends MY_Controller {
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
-		$data['active']=1;
+		$data['active']="HistoryMutasi";
 		$status=$_SESSION['status'];
 		$data['status']=$_SESSION['status'];
 		if($status==1)
@@ -358,7 +359,7 @@ class Barang extends MY_Controller {
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
-		$data['active']="3";
+		$data['active']="TransaksiBarang";
 		$status=$_SESSION['status'];
 		if($status==1)
 		{
@@ -408,10 +409,10 @@ class Barang extends MY_Controller {
 		else if(!isset( $_SESSION['idcode']) && !isset($_POST['idbarcode']))
 		{
 			$data['subtitle']="Daftar Barang";
-			$this->session->set_tempdata('message','
+			$this->session->set_userdata('message','
 				<div class="alert alert-warning" role="alert">
 				<center> Anda belum Memilih Barang</center>
-				</div>',5);
+				</div>');
 			$data['daftar']=$this->BarangModel->getAll();
 			$data['headerpencetakan']="SERAH TERIMA BARANG";
 			$this->blade->render('daftarBarang',$data);	
@@ -455,7 +456,7 @@ class Barang extends MY_Controller {
 	{
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Tampil Code";
-		$data['active']="3";
+		$data['active']="DaftarBarang";
 		$status=$_SESSION['status'];
 		if($status==1)
 		{

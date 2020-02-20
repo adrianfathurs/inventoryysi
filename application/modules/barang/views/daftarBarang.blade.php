@@ -27,7 +27,7 @@
   <!-- Begin Page Content -->
   <div class="container-fluid">
     <!-- Page Heading -->
-    <?= $this->session->tempdata('message');?>
+    <?= $this->session->userdata('message');?>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">

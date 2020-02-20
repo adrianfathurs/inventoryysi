@@ -62,8 +62,8 @@
                   <td><center><?=strtoupper($h['nama_barang'])?></center></td>
                   <td><center><?=strtoupper($h['merk'])?></center></td>
                   <td><center><?=strtoupper($h['no_pabrik'])?></center></td>
-                  <td><center><?=strtoupper($h['tanggal_rusak'])?></center></td>
                   <td><center><?=strtoupper($h['ket_barang'])?></center></td>
+                  <td><center><?=strtoupper($h['tanggal_rusak'])?></center></td>
                   <td><center><?=strtoupper($h['tanggal_peletakan'])?></center></td>
                   <td><center><?=strtoupper($h['lokasi_update'])?></center></td>
                   <td><center><?=strtoupper($h['lokasi_sebelum'])?></center></td>

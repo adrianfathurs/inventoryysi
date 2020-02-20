@@ -107,5 +107,19 @@ class TransaksiModel extends CI_Model {
 	 	->get();
 	 	return $query->result_array();
 	}
+	public function getTransaksi($id)
+	{
+		$query=$this->db->select('bs.id_barang,s.nama_barang,bs.tanggal_pengadaan,s.nama_barang,s.no_pabrik,s.merk,tt.nama_penerima,tt.jabatan_penerima,tt.jabatan_penyerah,tt.nama_penyerah,tt.ket,tt.tgl_peletakan,dp.nama_departement,y.nama,bs.ket_barang,d.tanggal_peletakan')
+	 	->from('data_transaksi d')
+	 	->join('barcode b','b.id_barcode=d.id_barcode')
+	 	->join('ttransaksi tt','tt.id_transaksi=d.id_transaksi')
+	 	->join('spesifikasi_barang s','s.id_spesifikasi=b.id_spesifikasi')
+	 	->join('barangs bs','bs.id_barang=b.id_barang')
+	 	->join('departement dp','dp.id_departement=b.id_departement')
+	 	->join('yayasan y','y.id_yayasan=b.id_yayasan')
+	 	->where('tt.id_transaksi',$id)
+	 	->get();
+	 	return $query->result_array();
+	}
 
 }
