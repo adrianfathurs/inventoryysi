@@ -39,6 +39,7 @@
           <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
+                <th><center>Download</center></th>
                 <th><center>No</center></th>
                 <th><center>Nama Barang</center></th>
                 <th><center>Merk</center></th>
@@ -56,9 +57,11 @@
             </thead>
             <tbody id="bodyTable">
               <!-- load table spesifikasi barang dan barang kedalam tabel  -->
-              <?php $i=0;foreach($historytransaksi as $h):?>
+              <?php $i=1;foreach($historytransaksi as $h):?>
                 <tr>
-                  <td>{{$i++}}</td>
+                  <?php $download='1';$id_transaksi=$h['id_transaksi'];?>
+                  <td><a href="{{base_url('transaksi/printsertibar/').$download.'/'.$id_transaksi}}"><button class="btn btn-primary">Sertibar</button></a></td>
+                  <td>{{$i}}</td>
                   <td><center><?=strtoupper($h['nama_barang'])?></center></td>
                   <td><center><?=strtoupper($h['merk'])?></center></td>
                   <td><center><?=strtoupper($h['no_pabrik'])?></center></td>
@@ -72,7 +75,7 @@
                   <td><center><?=strtoupper($h['nama_penerima'])?></center></td>
                   <td><center><?=strtoupper($h['jabatan_penerima'])?></center></td>
                 </tr>
-              <?php endforeach;?>
+              <?php $i++;endforeach;?>
             </tbody>
           </table>
          

@@ -45,7 +45,12 @@ class TransaksiModel extends CI_Model {
 		->update('ttransaksi',$ttransaksi);
 	}
 	
-
+	//function utnuk menghapus id_datatransaksi pada table data_transaksi berdasarkan id_transaksi
+	public function setDeleteIdDataTransaksi($id_transaksi)
+	{
+		$this->db->where('id_transaksi',$id_transaksi);
+		$this->db->delete('data_transaksi');
+	}
 	//untuk mengambil id_transaksi terakhir setelah data di insert
 	public function get_idtransaksi()
 	{
@@ -98,7 +103,7 @@ class TransaksiModel extends CI_Model {
 	}
 	public function getAllHistoryTransaksi()
 	{
-		$query=$this->db->select('bs.ket_barang,bs.tanggal_rusak,s.nama_barang,s.no_pabrik,s.merk,tt.nama_penerima,tt.nama_penyerah,tt.jabatan_penerima,tt.jabatan_penyerah,d.tanggal_peletakan,d.lokasi_update,d.lokasi_sebelum')
+		$query=$this->db->select('d.id_transaksi,bs.ket_barang,bs.tanggal_rusak,s.nama_barang,s.no_pabrik,s.merk,tt.nama_penerima,tt.nama_penyerah,tt.jabatan_penerima,tt.jabatan_penyerah,d.tanggal_peletakan,d.lokasi_update,d.lokasi_sebelum')
 	 	->from('data_transaksi d')
 	 	->join('barcode b','b.id_barcode=d.id_barcode')
 	 	->join('ttransaksi tt','tt.id_transaksi=d.id_transaksi')
@@ -121,5 +126,12 @@ class TransaksiModel extends CI_Model {
 	 	->get();
 	 	return $query->result_array();
 	}
+	//function untuk mengambil id_transaksi paling terbaru
+	 public function getIdtransaksi()
+	 {
+	 	$query="SELECT id_transaksi FROM ttransaksi where id_transaksi IN (SELECT MAX(id_transaksi) FROM ttransaksi)";
+			//return $this->db->query($query)->row_array();
+	 	return $this->db->query($query)->row()->id_transaksi;
+	 }
 
 }

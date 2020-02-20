@@ -82,10 +82,10 @@
            <a href="{{base_url('barang/selectbarcode/')}}"><i class="fas fa-arrow-circle-left fa-2x" id="icon"></i></a>
          </div> 
          <div class="col-1-sm "id="btninfo">
-           <button type="button" name="btninfo" id="btninfo" class="btn btn-info py-8 px-8" data-toggle="modal" data-target="#exampleModalCenterInfo"><i class="fas fa-info"></i></button>
+           <button type="button" name="btninfo" id="btninfo" class="btn btn-info py-8 px-8" data-toggle="modal" data-target="#alertInfo"><i class="fas fa-info"></i></button>
          </div>
         <div class="col-1-sm "id="btnsave">
-           <button type="button" name="btnsave" id="btnsave" class="btn btn-success py-8 px-8" data-toggle="modal" data-target="#exampleModalCenterSave">Save</button>
+           <button type="button" name="btnsave" id="btnsave" class="btn btn-success py-8 px-8" data-toggle="modal" data-target="#btnSave">Save</button>
          </div>
        </div>
         <!-- ###### -->
@@ -201,7 +201,55 @@
     </div>
 
   </div>
-</div>        
+</div>
+<!-- Modal btn Save -->
+<div class="modal fade" id="btnSave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitleLabelInfo"><strong>INFO PENTING</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><b>1)Pastikan Anda Telah Melakukan Download File Maupun Cetak Sertibar Ataupun Barcode</b></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class=" btn btn-danger" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Belum Melakukan</span>
+        </button>
+        <a href="{{base_url('transaksi/historyTransaksi')}}"><button type="button" class=" btn btn-success" >
+          <span aria-hidden="true">Sudah & Save</span></button></a>
+        </button>                         
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ################### -->
+<!-- Modal Info -->
+<div class="modal fade" id="alertInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitleLabelInfo">Info Tahap Transaksi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>1)Apabila Dalam Menginput Data Sertibar terdapat Kesalahan, Anda Bisa Menekan Tombol <img src="{{base_url('assets/dist/img/Edit.jpg')}}"> Untuk Memperbaiki Kesalahan</p>
+        <p>2)Silahkan Download/Cetak Sertibar maupun Barcode Sebelum Menekan Tombol Save</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class=" btn btn-info" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">OKE,PAHAM</span>
+        </button>                         
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ################## -->     
 <!-- Modal Edit-->
 <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="Edit" aria-hidden="true">
   <div class="modal-dialog" role="document">

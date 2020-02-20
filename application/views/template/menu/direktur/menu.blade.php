@@ -1,41 +1,65 @@
-<li class="nav-item has-treeview menu-open">
+@if($active === 'DaftarBarang' || $active === 'HistoryMutasi' )
+<li class="nav-item has-treeview menu-open ">
     <a href="{{base_url('barang')}}" class="nav-link ">
+        @else
+<li class="nav-item has-treeview menu ">
+    <a href="{{base_url('barang')}}" class="nav-link">
+        @endif
         <i class="nav-icon fas fa-tachometer-alt"></i>
-        <p>
-            Inventaris YSI
+        <p><strong>
+            INVENTARIS YSI/BARANG YSI</strong>
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
-
+    <!-- ########################################################-->
     <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{base_url('barang/daftarbarangview')}}" class="nav-link">
-                <i class=" far fas fa-toolbox nav-icon"></i>
-                <p>Daftar Barang</p>
-            </a>
-        </li>
         
-       <li class="nav-item">
+        <li class="nav-item active">
+           @if($active === 'DaftarBarang')
+            <a href="{{base_url('barang/daftarbarangview')}}" class="nav-link active">
+                @else
+            <a href="{{base_url('barang/daftarbarangview')}}" class="nav-link ">
+                @endif
+              <i class=" far fas fa-toolbox nav-icon"></i>
+              <p>Daftar Barang</p>
+          </a>
+      </li>
+    <li class="nav-item">
+        @if($active === 'HistoryMutasi')
+        <a href="{{base_url('barang/historymutasi')}}" class="nav-link active">
+            @else
         <a href="{{base_url('barang/historymutasi')}}" class="nav-link">
+            @endif
 
          <i class="far fas fa-chart-area nav-icon"></i></i>
          <p>History Mutasi</p>      
      </a>
  </li>
-    </ul>
+</ul>
 </li>
+<!-- #################################################### -->
+@if($active === 'HistoryTransaksi')
 <li class="nav-item has-treeview menu-open">
-    <a href="{{base_url('barang')}}" class="nav-link ">
+    <a href="{{base_url('barang')}}" class="nav-link  ">
+        @else
+<li class="nav-item has-treeview menu">
+    <a href="{{base_url('barang')}}" class="nav-link">
+        @endif
         <i class="nav-icon fas fa-tachometer-alt"></i>
-        <p>
-            TRANSAKSI
+        <p><strong>
+            TRANSAKSI</strong>
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
 
     <ul class="nav nav-treeview">
+        
         <li class="nav-item">
-            <a href="{{base_url('transaksi/historyTransaksi')}}"  class="nav-link ">
+             @if($active==='HistoryTransaksi')
+            <a href="{{base_url('transaksi/historyTransaksi')}}"  class="nav-link active">
+                @else
+            <a href="{{base_url('transaksi/historyTransaksi')}}"  class="nav-link">
+                @endif
                 <i class="far fas fa-chart-area nav-icon"></i></i>
                 <p>History Transaksi</p>
             </a>
@@ -43,6 +67,8 @@
         
     </ul>
 </li>
+
+<!-- #################################################### -->
 
 <li>
     <div class="sidebar">

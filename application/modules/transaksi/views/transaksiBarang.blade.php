@@ -60,7 +60,7 @@
         <div class="card-header py-3">
          <div class="card-header">
           <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$headerpencetakan}}</strong></h1></center>
-          <a href="{{base_url('barang/daftarbarang/')}}"><i class="fas fa-arrow-circle-left fa-2x" id="icon"></i></a>
+          <a data-toggle="modal" data-target="#btnDelete"><i class="fas fa-arrow-circle-left fa-2x" id="icon"></i></a>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -323,6 +323,32 @@
 </div>
 </div>
 
+<!-- Modal btn Delete -->
+<div class="modal fade" id="btnDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitleLabelInfo"><strong>INFO PENTING</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><b>Apabila Anda Meninggalkan Halaman Ini Maka Data Yang Telah Anda Inputkan Baru Saja Akan Otomatis Terhapus</b></p>
+        <p>Apakah Anda Tetap Ingin Meninggalkan Halaman ini?</p>
+      </div>
+      <div class="modal-footer">
+        <a href="{{base_url('transaksi/clearId')}}"><button type="button" class=" btn btn-Danger" >
+          <span aria-hidden="true">Tinggalkan Halaman</span></button></a>
+        <button type="button" class=" btn btn-success" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">Tetap di Halaman ini</span>
+        </button>
+        </button>                         
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ################### -->
 <!-- Modal btnAlert -->
 
 <div class="modal fade" id="btnalert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

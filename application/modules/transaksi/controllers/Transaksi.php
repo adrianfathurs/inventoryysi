@@ -109,6 +109,20 @@ class Transaksi extends MY_Controller {
 //		$data['kode']=$idbarang.$iddepartement.$idyayasan.$date_month.$date_year;
 		$this->blade->render('transaksiBarang',$data);
 	}
+	//function ini digunakan untuk menhapus id yang telah diinputkan pada sertibar apabila telah menginputkan barang
+	public function clearId()
+	{
+		if(isset($_SESSION['btncetakkuu']))
+		{
+			$id_transaksi=$this->TransaksiModel->getIdtransaksi();
+			$this->TransaksiModel->setDeleteIdDataTransaksi($id_transaksi);
+			redirect('barang/daftarbarang');
+		}
+		else
+		{
+			redirect('barang/daftarbarang');
+		}
+	}
 	//function API untuk menampilkan select BOX sertibar
 	public function selectBox()
 	{ 	
@@ -152,6 +166,7 @@ class Transaksi extends MY_Controller {
 		{$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
 		$data['headerpencetakan']="SERAH TERIMA BARANG";
+		$data['active']="TransaksiBarang";
 		$ketbarang=$this->input->post('ket');
 		$idbar=$_SESSION['idcode'];
 		$status=$_SESSION['status'];
@@ -289,7 +304,7 @@ $this->session->set_userdata('btncetakkuu',
 			'nama_penyerah'=>$nama_penyerah,
 			'tgl_peletakan'=>$this->input->post('tglpenyerah')
 		];
-			//$this->TransaksiModel->setTambahttransaksi($ttransaksi);
+			$this->TransaksiModel->setTambahttransaksi($ttransaksi);
 		$id_transaksi=$this->TransaksiModel->get_idtransaksi();
 		
 	//perulangan yang membutuhkan session array id barcode dan diinput ketabel data_transaksi atau history barang
@@ -303,7 +318,7 @@ $this->session->set_userdata('btncetakkuu',
 					'lokasi_update'=>$this->input->post('lokasibarang'),
 					'lokasi_sebelum'=>$lokasi[$i]
 				];
-		//$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
+		$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
 				$i++;
 			}
 

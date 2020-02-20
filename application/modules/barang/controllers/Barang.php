@@ -88,7 +88,10 @@ class Barang extends MY_Controller {
 		$data['subtitle']="Transaksi Barang";
 		$data['active']="TransaksiBarang";
 		$status=$_SESSION['status'];
+
 		$this->session->unset_userdata('btncetakkuu');
+		//menghapus message anda belum memilih barang
+		$this->session->unset_userdata('message');
 		$data['status']=$_SESSION['status'];
 		if($status==1)
 		{
