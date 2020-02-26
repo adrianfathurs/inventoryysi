@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2020 at 04:37 PM
+-- Generation Time: Feb 26, 2020 at 03:27 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `yayasanysiku`
+-- Database: `teladan`
 --
 
 -- --------------------------------------------------------
@@ -39,98 +39,101 @@ CREATE TABLE `barangs` (
   `harga_satuan` int(11) NOT NULL,
   `tanggal_rusak` date DEFAULT NULL,
   `lokasi` varchar(32) NOT NULL,
-  `ket_barang` varchar(128) DEFAULT NULL
+  `ket_barang` varchar(128) DEFAULT NULL,
+  `foto` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `barangs`
 --
 
-INSERT INTO `barangs` (`id_barang`, `bahan`, `cara_peroleh`, `tanggal_pengadaan`, `warna_barang`, `satuan`, `keadaan_barang`, `harga_satuan`, `tanggal_rusak`, `lokasi`, `ket_barang`) VALUES
-(2, 'sintetis', 'pembelian', '0000-00-00', 'putih', 'set', 'Baik', 120000, NULL, 'TI', NULL),
-(3, 'Polycarbonat', 'Ngepet', '0000-00-00', 'Hitam', 'Set', 'Keadaan Barang', 7500000, NULL, 'SD', NULL),
-(4, 'Polycarbonat', 'Ngepet', '0000-00-00', 'Hitam', 'Set', 'Keadaan Barang', 7500000, NULL, 'SD', NULL),
-(5, 'Besi', 'pembelian', '0000-00-00', 'Coklat', 'Set', 'Baik', 20000000, NULL, 'TI', NULL),
-(6, 'Besi', 'pembelian', '0000-00-00', 'Coklat', 'Set', 'Baik', 20000000, NULL, 'TI', NULL),
-(7, 'Plastik', 'ngepet', '0000-00-00', 'Hitam', 'Rol', 'Baik', 200000, NULL, 'TU', NULL),
-(8, 'Kaca', 'Ngepet', '0000-00-00', 'Putih', 'Biji', 'Baik', 75000, NULL, 'TU', NULL),
-(9, 'Plastik', 'Pembelian', '0000-00-00', 'Hitam', 'Set', 'Baik', 2000000, NULL, 'TU', NULL),
-(10, 'Besi', 'Nggali', '0000-00-00', 'Kuning', 'Set', 'Baik', 90000000, NULL, 'TI', NULL),
-(11, 'Besi', 'Nggali', '0000-00-00', 'Kuning', 'Set', 'Baik', 90000000, NULL, 'TI', NULL),
-(12, 'Kuningan', 'pembelian', '0000-00-00', 'Hitam-Biru', 'Rol', 'Baik', 800000, NULL, 'TU', NULL),
-(13, 'Polycarbonat', 'Pembelian', '0000-00-00', 'hijau', 'Set', 'Baik', 899000, NULL, 'TU', NULL),
-(14, 'Polycarbonat', 'Pembelian', '0000-00-00', 'hijau', 'Set', 'Baik', 899000, NULL, 'TU', NULL),
-(15, 'sintesis', 'pembelian', '2020-01-28', 'hijau', 'set', 'Rusak', 9000092, NULL, 'TI', NULL),
-(16, 'sintesis', 'pembelian', '2020-01-28', 'hijau', 'set', 'Rusak', 9000092, NULL, 'TI', '  rol rusak                                  '),
-(17, 'sintesis', 'pembelian', '2020-01-25', 'kuning', 'set', 'Baik', 6000000, NULL, 'TI', NULL),
-(18, 'poly', 'pembelian', '2020-01-29', 'hitam', 'set', 'Baik', 1999923, NULL, 'TU', NULL),
-(19, 'kain', 'pembelian', '2020-01-29', 'kuning', 'set', 'Baik', 120000, NULL, 'TI', NULL),
-(20, 'Polycarbonat', 'pembelian', '2020-01-28', 'hitam', 'set', 'Baik', 120000, NULL, 'TI', NULL),
-(21, 'plastik', 'pembelian', '2020-01-27', 'orange', 'set', 'Baik', 1230000, NULL, 'TU', NULL),
-(22, 'plastik', 'pembelian', '2020-01-29', 'kuning', 'Set', 'Baik', 1233123, NULL, 'TI', NULL),
-(23, 'plastik', 'pembelian', '2020-01-28', 'hijau', 'set', 'Baik', 1231231, NULL, 'TI', NULL),
-(24, 'plastik', 'pembelian', '2020-01-27', 'kuning', 'set', 'Baik', 599999, NULL, 'TI', NULL),
-(25, 'plastik', 'pembelian', '2020-01-20', 'biru', 'set', 'Baik', 699999, NULL, 'TI', NULL),
-(26, 'olie', 'pembelian', '2020-01-21', 'hijau', 'set', 'Baik', 789003, NULL, 'TI', NULL),
-(27, 'karbon', 'pembelian', '2020-01-14', 'hijau', 'set', 'Baik', 123231, NULL, 'TI', NULL),
-(28, 'besi', 'pembelian', '2020-01-28', 'coklat', 'set', 'Baik', 799064, NULL, 'TU', NULL),
-(29, 'kdfhksjd', 'pembelian', '2020-01-28', 'jfkd', 'set', 'Baik', 41413, NULL, 'TI', NULL),
-(30, 'kdfhksjd', 'pembelian', '2020-01-28', 'jfkd', 'set', 'Baik', 41413, NULL, 'TI', NULL),
-(31, 'fdshfj', 'pembelian', '2020-01-26', 'kuning', 'djhf', 'Baik', 342342, NULL, 'TI', NULL),
-(32, 'fsdg', 'khdvkv', '2020-01-13', 'vkshdkvjd', 'kjshdvk', 'Baik', 3224, NULL, 'TU', NULL),
-(33, 'fsf', 'pembelian', '2020-01-15', 'fdfsdf', 'Set', 'Baik', 3424343, NULL, 'TI', NULL),
-(34, 'kuning', 'pembelian', '2020-01-28', 'hijau', 'set', 'Baik', 23321, NULL, 'TU', NULL),
-(35, 'poly', 'pembelian', '2020-01-28', 'hijau', 'set', 'Baik', 500000, NULL, 'TU', NULL),
-(36, 'bdsjas', 'pembelian', '2020-01-28', 'jfkds', 'set', 'Baik', 78905, NULL, 'TI', NULL),
-(37, 'hikd', 'fjd', '2020-01-28', 'hiks', 'hfjsd', 'Baik', 231, NULL, 'TI', NULL),
-(38, 'hikd', 'fjd', '2020-01-28', 'hiks', 'hfjsd', 'Baik', 231, NULL, 'TI', NULL),
-(39, 'plastik', 'pembelian', '2020-01-28', 'hijau', 'set', 'Baik', 23432, NULL, 'TU', NULL),
-(40, 'fnjkds', 'fdjsk', '2020-01-27', 'fndsjk', 'fmkdl', 'Baik', 23123, NULL, 'Ti', NULL),
-(41, 'fbdsk', 'sklfnkd', '2020-01-28', 'fsdjk', 'fnsd', 'Baik', 43242, NULL, 'TI', NULL),
-(42, 'fbsk', 'pembelian', '2020-01-01', 'hitam', 'set', 'Baik', 2313, NULL, 'TI', NULL),
-(43, 'plastik', 'pembelian', '2020-01-08', 'hitam', 'fdsn', 'Baik', 2313, NULL, 'TI', NULL),
-(44, 'fsjd', 'pembelian', '2020-01-02', 'hitam', 'fsd', 'Baik', 31231, NULL, 'TI', NULL),
-(45, 'vfdkb', 'pembelian', '2020-01-09', 'vnjkdfn', 'set', 'Baik', 8394982, NULL, 'TI', NULL),
-(46, 'nvsdnvjks', 'pembelian', '2020-01-02', 'skfskj', 'set', 'Baik', 31231, NULL, 'TI', NULL),
-(47, 'kjsbjd', 'pembelian', '2020-01-01', 'dsifhsi', 'rol', 'Baik', 2312, NULL, 'IT', NULL),
-(48, 'fsdkb', 'pembelian', '2020-01-10', 'fsdjk', 'fdskjf', 'Baik', 42342, NULL, 'TI', NULL),
-(49, 'sefrei', 'jfkldjs', '2020-01-08', 'hijau', 'vjkdf', 'Baik', 322, NULL, 'TI', NULL),
-(50, ' cds', 'dsjkb', '2020-01-16', 'cds', 'set', 'Baik', 3986, NULL, 'TI', NULL),
-(51, 'dfjks', 'ufids', '2020-01-08', 'fdsnkl', 'fdsnk', 'Baik', 89789, NULL, 'TI', NULL),
-(52, 'fdskn', 'vsdv', '0000-00-00', 'uisdhi', 'dsd', 'Baik', 31231, NULL, 'TI', NULL),
-(53, 'f msd ', 'fsdkn', '2020-01-01', 'dsnfklsn', 'mksl', 'Baik', 342, NULL, 'TI', NULL),
-(54, 'vs dvkvkls', 'lcnksl', '2020-01-09', 'vklds', 'klvsdlk', 'Baik', 43, NULL, 'TI', NULL),
-(55, 'dskvn', 'kdslc', '2020-01-08', 'nxvns', 'vnkdsn', 'Baik', 32131, NULL, 'IT', NULL),
-(56, 'nsldknf', 'prfke', '2020-01-10', 'fnsdl', 'set', 'Baik', 41241, NULL, 're', NULL),
-(57, 'cbskb', 'cndskln', '2020-01-09', 'cnsdn', 'dsnk', 'Baik', 2312, NULL, 'TI', NULL),
-(58, 'vdkjbvkd', 'pembelian', '2020-01-16', 'dksli', 'ckjsdbc', 'Baik', 3432, NULL, 'ti', NULL),
-(59, 'ndsb', 'sdklnv', '2020-01-08', 'sdnk', 'fdksb', 'Baik', 241, NULL, 'TI', NULL),
-(60, 'njsdk', 'vskdnv', '2020-01-02', 'vkdjs', 'vdlk', 'Baik', 28283, NULL, 'TI', NULL),
-(61, 'Polycarbonat', 'pembelian', '2020-01-16', 'Hijau', 'set', 'Baik', 6778002, NULL, 'IT', NULL),
-(62, 'Polycarbonat', 'pembelian', '2020-01-15', 'Hijau', 'set', 'Baik', 483782, NULL, 'IT', NULL),
-(63, 'besi', 'Pembelian', '2020-01-16', 'kuning', 'Set', 'Baik', 8900049, NULL, 'TI', NULL),
-(64, 'jdkbakj', 'djsakb', '2020-12-25', 'hdsaj', 'Set', 'Baik', 78978978, NULL, 'IT', NULL),
-(65, 'jksdbs', 'pembelian', '2020-01-15', 'cjshcjs', 'set', 'Baik', 4535783, NULL, 'TU', NULL),
-(66, 'vdskjhvkj', 'diuscsui', '2020-01-23', 'kjbvjkcx', 'set', 'Baik', 3123, NULL, 'TI', NULL),
-(67, 'cjasbj', 'cjksbck', '2020-01-08', 'jcsbdj', 'nckasn', 'Baik', 8293289, NULL, 'TI', NULL),
-(68, 'jkasbd', 'jksadjsk', '2020-01-14', 'dsjgds', 'khjask', 'Baik', 231876, NULL, 'TI', NULL),
-(69, 'csdjkb', 'dhshksj', '2020-01-09', 'ckdshj', 'set', 'Baik', 3827, NULL, 'TI', NULL),
-(70, 'Polycarbonat', 'Pembelian', '2020-01-17', 'Hijau', 'set', 'Baik', 6000000, NULL, 'TI', NULL),
-(71, 'Besi', 'Pembelian', '2020-01-18', 'Putih', 'Set', 'Baik', 90000000, NULL, 'TU', NULL),
-(72, 'Besi', 'Pembelian', '2020-01-24', 'Gold', 'Set', 'Baik', 20000000, NULL, 'TI', NULL),
-(73, 'Polycarbonat', 'Pembelian', '2020-01-17', 'Kuning', 'Set', 'Baik', 90000000, NULL, 'TI', NULL),
-(74, 'Polycarbonat', 'Pembelian', '2020-01-17', 'Gold', 'Set', 'Baik', 90000000, NULL, 'TU', NULL),
-(75, 'Polycarbonat', 'Pembelian', '2020-01-22', 'Gold', 'Set', 'Baik', 90000000, NULL, 'TI', NULL),
-(77, 'Polycarbonat', 'Pembelian', '2020-01-09', 'Hijau', 'Rol', 'Baik', 10000000, NULL, 'TI', NULL),
-(87, 'cdskj', 'Pembelian', '2020-01-23', 'kjsdc', 'set', 'Baik', 8493, NULL, 'TI', NULL),
-(89, 'Polycarbonat', 'pembelian', '2020-01-24', 'Hijau', 'set', 'RUSAK', 2233344, '2020-01-28', 'Ti', NULL),
-(90, 'POLYCARBONAT', 'PEMBELIAN', '2020-01-15', 'HIJAU', 'ROL', 'RUSAK', 2000000, '2020-01-15', 'TI', 'kabel patah                               '),
-(91, 'Polycarbonat', 'Pembelian', '2020-01-16', 'Putih', 'set', 'Baik', 90000000, NULL, 'TU', 'Paku meja kurang 1'),
-(92, 'Plastik', 'Pembelian', '2019-12-17', 'Hijau', 'Set', 'Baik', 200000, NULL, 'IT', 'Masih Bagus'),
-(93, 'Polycarbonat', 'Pembelian', '2017-03-01', 'Hijau', 'Set', 'Baik', 90000000, NULL, 'TI', 'BAGUS SEKALI'),
-(94, 'Polycarbonat', 'Pembelian', '2017-03-01', 'Hitam', 'Set', 'Rusak', 100000, '2020-02-29', 'TI', 'Kurang Dingin'),
-(95, 'Polycarbonat', 'Pembelian', '2020-02-15', 'Putih', 'Set', 'Rusak', 90000000, NULL, 'IT', 'Tembaga nya hilang'),
-(96, 'Kertas', 'Pembelian', '2020-02-28', 'Putih', 'set', 'Baik', 800000, NULL, 'IT', 'Barang Masih Bagus');
+INSERT INTO `barangs` (`id_barang`, `bahan`, `cara_peroleh`, `tanggal_pengadaan`, `warna_barang`, `satuan`, `keadaan_barang`, `harga_satuan`, `tanggal_rusak`, `lokasi`, `ket_barang`, `foto`) VALUES
+(2, 'sintetis', 'pembelian', '0000-00-00', 'putih', 'set', 'Baik', 120000, NULL, 'TI', NULL, ''),
+(3, 'Polycarbonat', 'Ngepet', '0000-00-00', 'Hitam', 'Set', 'Keadaan Barang', 7500000, NULL, 'SD', NULL, ''),
+(4, 'Polycarbonat', 'Ngepet', '0000-00-00', 'Hitam', 'Set', 'Keadaan Barang', 7500000, NULL, 'SD', NULL, ''),
+(5, 'Besi', 'pembelian', '0000-00-00', 'Coklat', 'Set', 'Baik', 20000000, NULL, 'TI', NULL, ''),
+(6, 'Besi', 'pembelian', '0000-00-00', 'Coklat', 'Set', 'Baik', 20000000, NULL, 'TI', NULL, ''),
+(7, 'Plastik', 'ngepet', '0000-00-00', 'Hitam', 'Rol', 'Baik', 200000, NULL, 'TU', NULL, ''),
+(8, 'Kaca', 'Ngepet', '0000-00-00', 'Putih', 'Biji', 'Baik', 75000, NULL, 'TU', NULL, ''),
+(9, 'Plastik', 'Pembelian', '0000-00-00', 'Hitam', 'Set', 'Baik', 2000000, NULL, 'TU', NULL, ''),
+(10, 'Besi', 'Nggali', '0000-00-00', 'Kuning', 'Set', 'Baik', 90000000, NULL, 'TI', NULL, ''),
+(11, 'Besi', 'Nggali', '0000-00-00', 'Kuning', 'Set', 'Baik', 90000000, NULL, 'TI', NULL, ''),
+(12, 'Kuningan', 'pembelian', '0000-00-00', 'Hitam-Biru', 'Rol', 'Baik', 800000, NULL, 'TU', NULL, ''),
+(13, 'Polycarbonat', 'Pembelian', '0000-00-00', 'hijau', 'Set', 'Baik', 899000, NULL, 'TU', NULL, ''),
+(14, 'Polycarbonat', 'Pembelian', '0000-00-00', 'hijau', 'Set', 'Baik', 899000, NULL, 'TU', NULL, ''),
+(15, 'sintesis', 'pembelian', '2020-01-28', 'hijau', 'set', 'Rusak', 9000092, NULL, 'TI', NULL, ''),
+(16, 'sintesis', 'pembelian', '2020-01-28', 'hijau', 'set', 'Rusak', 9000092, NULL, 'TI', '  rol rusak                                  ', ''),
+(17, 'sintesis', 'pembelian', '2020-01-25', 'kuning', 'set', 'Baik', 6000000, NULL, 'TI', NULL, ''),
+(18, 'poly', 'pembelian', '2020-01-29', 'hitam', 'set', 'Baik', 1999923, NULL, 'TU', NULL, ''),
+(19, 'kain', 'pembelian', '2020-01-29', 'kuning', 'set', 'Baik', 120000, NULL, 'TI', NULL, ''),
+(20, 'Polycarbonat', 'pembelian', '2020-01-28', 'hitam', 'set', 'Baik', 120000, NULL, 'TI', NULL, ''),
+(21, 'plastik', 'pembelian', '2020-01-27', 'orange', 'set', 'Baik', 1230000, NULL, 'TU', NULL, ''),
+(22, 'plastik', 'pembelian', '2020-01-29', 'kuning', 'Set', 'Baik', 1233123, NULL, 'TI', NULL, ''),
+(23, 'plastik', 'pembelian', '2020-01-28', 'hijau', 'set', 'Baik', 1231231, NULL, 'TI', NULL, ''),
+(24, 'plastik', 'pembelian', '2020-01-27', 'kuning', 'set', 'Baik', 599999, NULL, 'TI', NULL, ''),
+(25, 'plastik', 'pembelian', '2020-01-20', 'biru', 'set', 'Baik', 699999, NULL, 'TI', NULL, ''),
+(26, 'olie', 'pembelian', '2020-01-21', 'hijau', 'set', 'Baik', 789003, NULL, 'TI', NULL, ''),
+(27, 'karbon', 'pembelian', '2020-01-14', 'hijau', 'set', 'Baik', 123231, NULL, 'TI', NULL, ''),
+(28, 'besi', 'pembelian', '2020-01-28', 'coklat', 'set', 'Baik', 799064, NULL, 'TU', NULL, ''),
+(29, 'kdfhksjd', 'pembelian', '2020-01-28', 'jfkd', 'set', 'Baik', 41413, NULL, 'TI', NULL, ''),
+(30, 'kdfhksjd', 'pembelian', '2020-01-28', 'jfkd', 'set', 'Baik', 41413, NULL, 'TI', NULL, ''),
+(31, 'fdshfj', 'pembelian', '2020-01-26', 'kuning', 'djhf', 'Baik', 342342, NULL, 'TI', NULL, ''),
+(32, 'fsdg', 'khdvkv', '2020-01-13', 'vkshdkvjd', 'kjshdvk', 'Baik', 3224, NULL, 'TU', NULL, ''),
+(33, 'fsf', 'pembelian', '2020-01-15', 'fdfsdf', 'Set', 'Baik', 3424343, NULL, 'TI', NULL, ''),
+(34, 'kuning', 'pembelian', '2020-01-28', 'hijau', 'set', 'Baik', 23321, NULL, 'TU', NULL, ''),
+(35, 'poly', 'pembelian', '2020-01-28', 'hijau', 'set', 'Baik', 500000, NULL, 'TU', NULL, ''),
+(36, 'bdsjas', 'pembelian', '2020-01-28', 'jfkds', 'set', 'Baik', 78905, NULL, 'TI', NULL, ''),
+(37, 'hikd', 'fjd', '2020-01-28', 'hiks', 'hfjsd', 'Baik', 231, NULL, 'TI', NULL, ''),
+(38, 'hikd', 'fjd', '2020-01-28', 'hiks', 'hfjsd', 'Baik', 231, NULL, 'TI', NULL, ''),
+(39, 'plastik', 'pembelian', '2020-01-28', 'hijau', 'set', 'Baik', 23432, NULL, 'TU', NULL, ''),
+(40, 'fnjkds', 'fdjsk', '2020-01-27', 'fndsjk', 'fmkdl', 'Baik', 23123, NULL, 'Ti', NULL, ''),
+(41, 'fbdsk', 'sklfnkd', '2020-01-28', 'fsdjk', 'fnsd', 'Baik', 43242, NULL, 'TI', NULL, ''),
+(42, 'fbsk', 'pembelian', '2020-01-01', 'hitam', 'set', 'Baik', 2313, NULL, 'TI', NULL, ''),
+(43, 'plastik', 'pembelian', '2020-01-08', 'hitam', 'fdsn', 'Baik', 2313, NULL, 'TI', NULL, ''),
+(44, 'fsjd', 'pembelian', '2020-01-02', 'hitam', 'fsd', 'Baik', 31231, NULL, 'TI', NULL, ''),
+(45, 'vfdkb', 'pembelian', '2020-01-09', 'vnjkdfn', 'set', 'Baik', 8394982, NULL, 'TI', NULL, ''),
+(46, 'nvsdnvjks', 'pembelian', '2020-01-02', 'skfskj', 'set', 'Baik', 31231, NULL, 'TI', NULL, ''),
+(47, 'kjsbjd', 'pembelian', '2020-01-01', 'dsifhsi', 'rol', 'Baik', 2312, NULL, 'IT', NULL, ''),
+(48, 'fsdkb', 'pembelian', '2020-01-10', 'fsdjk', 'fdskjf', 'Baik', 42342, NULL, 'TI', NULL, ''),
+(49, 'sefrei', 'jfkldjs', '2020-01-08', 'hijau', 'vjkdf', 'Baik', 322, NULL, 'TI', NULL, ''),
+(50, ' cds', 'dsjkb', '2020-01-16', 'cds', 'set', 'Baik', 3986, NULL, 'TI', NULL, ''),
+(51, 'dfjks', 'ufids', '2020-01-08', 'fdsnkl', 'fdsnk', 'Baik', 89789, NULL, 'TI', NULL, ''),
+(52, 'fdskn', 'vsdv', '0000-00-00', 'uisdhi', 'dsd', 'Baik', 31231, NULL, 'TI', NULL, ''),
+(53, 'f msd ', 'fsdkn', '2020-01-01', 'dsnfklsn', 'mksl', 'Baik', 342, NULL, 'TI', NULL, ''),
+(54, 'vs dvkvkls', 'lcnksl', '2020-01-09', 'vklds', 'klvsdlk', 'Baik', 43, NULL, 'TI', NULL, ''),
+(55, 'dskvn', 'kdslc', '2020-01-08', 'nxvns', 'vnkdsn', 'Baik', 32131, NULL, 'IT', NULL, ''),
+(56, 'nsldknf', 'prfke', '2020-01-10', 'fnsdl', 'set', 'Baik', 41241, NULL, 're', NULL, ''),
+(57, 'cbskb', 'cndskln', '2020-01-09', 'cnsdn', 'dsnk', 'Baik', 2312, NULL, 'TI', NULL, ''),
+(58, 'vdkjbvkd', 'pembelian', '2020-01-16', 'dksli', 'ckjsdbc', 'Baik', 3432, NULL, 'ti', NULL, ''),
+(59, 'ndsb', 'sdklnv', '2020-01-08', 'sdnk', 'fdksb', 'Baik', 241, NULL, 'TI', NULL, ''),
+(60, 'njsdk', 'vskdnv', '2020-01-02', 'vkdjs', 'vdlk', 'Baik', 28283, NULL, 'TI', NULL, ''),
+(61, 'Polycarbonat', 'pembelian', '2020-01-16', 'Hijau', 'set', 'Baik', 6778002, NULL, 'IT', NULL, ''),
+(62, 'Polycarbonat', 'pembelian', '2020-01-15', 'Hijau', 'set', 'Baik', 483782, NULL, 'IT', NULL, ''),
+(63, 'besi', 'Pembelian', '2020-01-16', 'kuning', 'Set', 'Baik', 8900049, NULL, 'TI', NULL, ''),
+(64, 'jdkbakj', 'djsakb', '2020-12-25', 'hdsaj', 'Set', 'Baik', 78978978, NULL, 'IT', NULL, ''),
+(65, 'jksdbs', 'pembelian', '2020-01-15', 'cjshcjs', 'set', 'Baik', 4535783, NULL, 'TU', NULL, ''),
+(66, 'vdskjhvkj', 'diuscsui', '2020-01-23', 'kjbvjkcx', 'set', 'Baik', 3123, NULL, 'TI', NULL, ''),
+(67, 'cjasbj', 'cjksbck', '2020-01-08', 'jcsbdj', 'nckasn', 'Baik', 8293289, NULL, 'TI', NULL, ''),
+(68, 'jkasbd', 'jksadjsk', '2020-01-14', 'dsjgds', 'khjask', 'Baik', 231876, NULL, 'TI', NULL, ''),
+(69, 'csdjkb', 'dhshksj', '2020-01-09', 'ckdshj', 'set', 'Baik', 3827, NULL, 'TI', NULL, ''),
+(70, 'Polycarbonat', 'Pembelian', '2020-01-17', 'Hijau', 'set', 'Baik', 6000000, NULL, 'TI', NULL, ''),
+(71, 'Besi', 'Pembelian', '2020-01-18', 'Putih', 'Set', 'Baik', 90000000, NULL, 'TU', NULL, ''),
+(72, 'Besi', 'Pembelian', '2020-01-24', 'Gold', 'Set', 'Baik', 20000000, NULL, 'TI', NULL, ''),
+(73, 'Polycarbonat', 'Pembelian', '2020-01-17', 'Kuning', 'Set', 'Baik', 90000000, NULL, 'TI', NULL, ''),
+(74, 'Polycarbonat', 'Pembelian', '2020-01-17', 'Gold', 'Set', 'Baik', 90000000, NULL, 'TU', NULL, ''),
+(75, 'Polycarbonat', 'Pembelian', '2020-01-22', 'Gold', 'Set', 'Baik', 90000000, NULL, 'TI', NULL, ''),
+(77, 'Polycarbonat', 'Pembelian', '2020-01-09', 'Hijau', 'Rol', 'Baik', 10000000, NULL, 'TI', NULL, ''),
+(87, 'cdskj', 'Pembelian', '2020-01-23', 'kjsdc', 'set', 'Baik', 8493, NULL, 'TI', NULL, ''),
+(89, 'Polycarbonat', 'pembelian', '2020-01-24', 'Hijau', 'set', 'RUSAK', 2233344, '2020-01-28', 'TI', NULL, ''),
+(90, 'POLYCARBONAT', 'PEMBELIAN', '2020-01-15', 'HIJAU', 'ROL', 'RUSAK', 2000000, '2020-01-15', 'TI', 'kabel patah                               ', ''),
+(91, 'Polycarbonat', 'Pembelian', '2020-01-16', 'Putih', 'set', 'Baik', 90000000, NULL, 'TI', 'Paku meja kurang 1', ''),
+(92, 'Plastik', 'Pembelian', '2019-12-17', 'Hijau', 'Set', 'Baik', 200000, NULL, 'TI', 'Masih Bagus', ''),
+(93, 'Polycarbonat', 'Pembelian', '2017-03-01', 'Hijau', 'Set', 'Baik', 90000000, NULL, 'TI', 'BAGUS SEKALI', ''),
+(94, 'Polycarbonat', 'Pembelian', '2017-03-01', 'Hitam', 'Set', 'Rusak', 100000, '2020-02-29', 'TI', 'Kurang Dingin', ''),
+(95, 'Polycarbonat', 'Pembelian', '2020-02-15', 'Putih', 'Set', 'Rusak', 90000000, '2020-02-11', 'TI', 'Warna putih tieng,kabel putus', ''),
+(96, 'Kertas', 'Pembelian', '2020-02-28', 'Putih', 'set', 'Baik', 800000, NULL, 'TI', 'Barang Masih Bagus', ''),
+(97, 'Kayu', 'Pembelian', '2020-02-14', 'Coklat', 'set', 'Baik', 1000000, NULL, 'TI', 'Barang Masih Bagus', ''),
+(99, 'Kayu', 'Pembelian', '2020-02-19', 'SET', 'Set', 'Baik', 2000000, NULL, 'IT', 'Bagus', 'meja3.jpg');
 
 -- --------------------------------------------------------
 
@@ -159,7 +162,9 @@ INSERT INTO `barcode` (`id_barcode`, `id_barang`, `id_departement`, `id_yayasan`
 (18, 92, 2, 1, 12, 19, 92),
 (19, 94, 2, 1, 3, 17, 94),
 (20, 95, 1, 1, 2, 20, 95),
-(21, 96, 1, 1, 2, 20, 96);
+(21, 96, 1, 1, 2, 20, 96),
+(22, 97, 1, 1, 2, 20, 97),
+(23, 99, 1, 1, 2, 20, 99);
 
 -- --------------------------------------------------------
 
@@ -246,7 +251,20 @@ INSERT INTO `data_transaksi` (`id_data_transaksi`, `id_transaksi`, `id_barcode`,
 (103, 72, 20, '2020-02-15', 'IT', ''),
 (104, 72, 21, '2020-02-15', 'IT', ''),
 (105, 73, 20, '2020-02-22', 'TI', 'IT'),
-(106, 73, 21, '2020-02-22', 'TI', 'IT');
+(106, 73, 21, '2020-02-22', 'TI', 'IT'),
+(108, 75, 20, '2020-04-11', 'SMP', 'TK'),
+(109, 75, 21, '2020-04-11', 'SMP', 'TI'),
+(110, 75, 22, '2020-04-11', 'SMP', 'TI'),
+(111, 76, 20, '2020-02-19', 'Ruang Guru', 'SMP'),
+(112, 77, 21, '2020-02-18', 'TU', 'SMP'),
+(113, 77, 22, '2020-02-18', 'TU', 'SMP'),
+(114, 78, 21, '2020-02-18', 'TU', 'TU'),
+(115, 78, 22, '2020-02-18', 'TU', 'TU'),
+(118, 80, 20, '2020-02-13', 'TI', 'Ruang Guru'),
+(119, 80, 22, '2020-02-13', 'TI', 'TI'),
+(120, 81, 21, '2020-02-15', 'TI', 'TI'),
+(121, 81, 22, '2020-02-15', 'TI', 'TI'),
+(122, 82, 23, '2020-02-21', 'IT', 'TI');
 
 -- --------------------------------------------------------
 
@@ -407,7 +425,9 @@ INSERT INTO `spesifikasi_barang` (`id_spesifikasi`, `nama_barang`, `merk`, `no_p
 (92, 'Gelas', 'Tupperware', 'oPJD890'),
 (94, 'AC', 'Panasonic', '67hhu556ols'),
 (95, 'HDMI', 'Samsung', '2093hrdcKi'),
-(96, 'BUKU CODING', 'Erlangga', '7839jjfurte');
+(96, 'BUKU CODING', 'Erlangga', '7839jjfurte'),
+(97, 'Lemari Robotc', 'Informa', 'XYL09781uri'),
+(99, 'Meja Anak', 'BJ', 'jkd893');
 
 -- --------------------------------------------------------
 
@@ -503,7 +523,16 @@ INSERT INTO `ttransaksi` (`Id_transaksi`, `jabatan_penerima`, `jabatan_penyerah`
 (70, 'Guru Kelas', 'Guru Kelas', 'BUKU CODING:Barang Masih Bagus,', 'TI', 'Johan Saifudin', 'Johan Saifudin', '2020-02-15'),
 (71, 'Guru Kelas', 'Guru Kelas', 'BUKU CODING:Barang Masih Bagus,', 'TI', 'Johan Saifudin', 'Johan Saifudin', '2020-02-15'),
 (72, 'Staff IT', 'Guru Kelas', 'HDMI:Tembaga nya hilang,BUKU CODING:Barang Masih Bagus,', 'IT', 'Imam Prasetyo, S.Kom.', 'Johan Saifudin', '2020-02-15'),
-(73, 'Direktur', 'Staff IT', 'HDMI:Tembaga nya hilang,BUKU CODING:Barang Masih Bagus,', 'TI', 'Muhammad Prastyo', 'Imam Prasetyo, S.Kom.', '2020-02-22');
+(73, 'Direktur', 'Staff IT', 'HDMI:Tembaga nya hilang,BUKU CODING:Barang Masih Bagus,', 'TI', 'Muhammad Prastyo', 'Imam Prasetyo, S.Kom.', '2020-02-22'),
+(74, 'Direktur', 'Staff IT', 'HDMI:Tembaga nya hilang,', 'TK', 'Muhammad Prastyo', 'Imam Prasetyo, S.Kom.', '2020-02-14'),
+(75, 'Guru Kelas', 'Staff IT', 'HDMI:Tembaga nya hilang,BUKU CODING:Barang Masih Bagus,Lemari Robotc:Barang Masih Bagus,', 'SMP', 'Johan Saifudin', 'Imam Prasetyo, S.Kom.', '2020-04-11'),
+(76, 'Guru Kelas', 'Staff IT', 'HDMI:Warna putih tieng,kabel putus,', 'Ruang Guru', 'Johan Saifudin', 'Imam Prasetyo, S.Kom.', '2020-02-19'),
+(77, 'Guru Kelas', 'Guru Kelas', 'BUKU CODING:Barang Masih Bagus,Lemari Robotc:Barang Masih Bagus,', 'TU', 'Johan Saifudin', 'Johan Saifudin', '2020-02-18'),
+(78, 'Guru Kelas', 'Guru Kelas', 'BUKU CODING:Barang Masih Bagus,Lemari Robotc:Barang Masih Bagus,', 'TU', 'Johan Saifudin', 'Johan Saifudin', '2020-02-18'),
+(79, 'Staff IT', 'Guru Kelas', 'BUKU CODING:Barang Masih Bagus,Lemari Robotc:Barang Masih Bagus,', 'TI', 'Imam Prasetyo, S.Kom.', 'Johan Saifudin', '2020-02-14'),
+(80, 'Staff IT', 'Guru Kelas', 'HDMI:Warna putih tieng,kabel putus,Lemari Robotc:Barang Masih Bagus,', 'TI', 'Imam Prasetyo, S.Kom.', 'Johan Saifudin', '2020-02-13'),
+(81, 'Guru Kelas', 'Guru Kelas', 'BUKU CODING:Barang Masih Bagus,Lemari Robotc:Barang Masih Bagus,', 'TI', 'Johan Saifudin', 'Johan Saifudin', '2020-02-15'),
+(82, 'Guru Kelas', 'Staff IT', 'Meja Anak:Bagus,', 'SMP', 'Johan Saifudin', 'Imam Prasetyo, S.Kom.', '2020-02-21');
 
 -- --------------------------------------------------------
 
@@ -596,19 +625,19 @@ ALTER TABLE `yayasan`
 -- AUTO_INCREMENT for table `barangs`
 --
 ALTER TABLE `barangs`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `barcode`
 --
 ALTER TABLE `barcode`
-  MODIFY `id_barcode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_barcode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `data_transaksi`
 --
 ALTER TABLE `data_transaksi`
-  MODIFY `id_data_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `id_data_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT for table `departement`
@@ -620,13 +649,13 @@ ALTER TABLE `departement`
 -- AUTO_INCREMENT for table `spesifikasi_barang`
 --
 ALTER TABLE `spesifikasi_barang`
-  MODIFY `id_spesifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id_spesifikasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `ttransaksi`
 --
 ALTER TABLE `ttransaksi`
-  MODIFY `Id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `Id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `yayasan`
