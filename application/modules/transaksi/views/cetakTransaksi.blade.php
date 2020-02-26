@@ -61,22 +61,23 @@
         position: fixed;
         right: 40px;        
       }
+      #icon{
+        margin-left:10px: 
+      }
       
     </style>
     @endsection
     @section('content')
-    <!-- Begin Page Content -->
-    
-
-    <!-- TABEL TRANSAKSI -->
     <div class="container-fluid" id="tabeltransaksi">
-      <div class="card card-register mx-auto mt-5">
-        <div class="card-header">
-        <center>
-          <h3><strong>TABEL DATA SURAT SERTIBAR</h3></strong>
-        </center>
+       <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+        <div class="card-header ">
+        
+          <h5 class=" mb-2 text-gray-800">TABEL DATA SURAT SERTIBAR</h5>
+        </div>
         <!-- ###### -->
-
+        <div class="container-fluid margintop margin-left">
          <div class="row">
          <div class="col-6-sm">
            <a href="{{base_url('barang/selectbarcode/')}}"><i class="fas fa-arrow-circle-left fa-2x" id="icon"></i></a>
@@ -88,12 +89,14 @@
            <button type="button" name="btnsave" id="btnsave" class="btn btn-success py-8 px-8" data-toggle="modal" data-target="#btnSave">Save</button>
          </div>
        </div>
+       </div>
+     </div>
         <!-- ###### -->
         
-        </div>
+        
         <div class="card-body">
-          <div class="container-fluid">
-          <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+         <div class="table-responsive">
+          <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <th>Action</th>
               <th>No</th>
@@ -145,6 +148,7 @@
         
       </table>
     </div>
+
       <?php
       $index1 = '0';
       $index2 = '1';
@@ -158,7 +162,7 @@
               <div class="container-fluid">
               <div class="row">
                 <div class="col-6-sm">
-                  <a href="{{base_url('transaksi')}}">
+                  <a href="{{base_url('transaksi/printbarcode/').$index1}}">
                     <button type="button" class="btn btn-outline-success" id="cetakqrdanbarcode"> QR/Barcode</button>
                   </a>
                 </div>
@@ -180,7 +184,7 @@
               <div class="container-fluid">
               <div class="row">
                 <div class="col-6-sm">
-                  <a href="{{base_url('transaksi')}}">
+                  <a href="{{base_url('transaksi/printbarcode/').$index2}}">
                     <button type="button" class="btn btn-outline-success" id="cetakqrdanbarcode"> QR/Barcode</button>
                   </a>
                 </div>
@@ -197,8 +201,8 @@
       </div>
       <!--  -->
       
-    
     </div>
+    
 
   </div>
 </div>
@@ -252,7 +256,7 @@
 <!-- ################## -->     
 <!-- Modal Edit-->
 <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="Edit" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="Edit">EDIT DATA SERTIBAR</h5>
@@ -374,7 +378,9 @@
 @section('scripts-js')
 <script src="{{base_url('assets/plugins/jquery/jquery.PrintArea.js')}}"></script>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+<script src="{{base_url('assets/plugins/select/js/select2.min.js')}}"></script>
 <script>
   $(document).ready(function() {
     $('.select2').select2();
@@ -461,6 +467,7 @@
         $.ajax({
           type: "post",
           url: 'http://localhost/templateyysi/transaksi/selectBox',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -478,6 +485,7 @@
         $.ajax({
           type: "post",
           url: 'http://localhost/templateyysi/transaksi/selectBox',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -526,6 +534,7 @@
         $.ajax({
           type: "post",
           url: 'http://localhost/templateyysi/transaksi/selectBox',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -543,6 +552,7 @@
         $.ajax({
           type: "post",
           url: 'http://localhost/templateyysi/transaksi/selectBox',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -554,6 +564,10 @@
     });
     
   </script>
-
+<script>
+  $(document).ready(function(){
+    var table = $('.dataTable').DataTable();
+  }); 
+</script>
 
   @endsection

@@ -288,10 +288,10 @@ class Transaksi extends MY_Controller {
 		}*/
 		
 
-$url=base_url('transaksi/datacetak/');
+		$url=base_url('transaksi/datacetak/');
 
-$this->session->set_userdata('btncetakkuu',
-'<a href='.$url.'><button class="btn btn-info">Verifikasi</button></a>');
+		$this->session->set_userdata('btncetakkuu',
+			'<a href='.$url.'><button class="btn btn-info">Verifikasi</button></a>');
 		
 
 
@@ -304,7 +304,7 @@ $this->session->set_userdata('btncetakkuu',
 			'nama_penyerah'=>$nama_penyerah,
 			'tgl_peletakan'=>$this->input->post('tglpenyerah')
 		];
-			$this->TransaksiModel->setTambahttransaksi($ttransaksi);
+		$this->TransaksiModel->setTambahttransaksi($ttransaksi);
 		$id_transaksi=$this->TransaksiModel->get_idtransaksi();
 		
 	//perulangan yang membutuhkan session array id barcode dan diinput ketabel data_transaksi atau history barang
@@ -318,7 +318,7 @@ $this->session->set_userdata('btncetakkuu',
 					'lokasi_update'=>$this->input->post('lokasibarang'),
 					'lokasi_sebelum'=>$lokasi[$i]
 				];
-		$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
+				$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
 				$i++;
 			}
 
@@ -333,24 +333,25 @@ $this->session->set_userdata('btncetakkuu',
 			$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
 			$this->blade->render("transaksiBarang",$data);
 		}
+
 		public function datacetak()
 		{
 			$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Transaksi Barang";
-		$status=$_SESSION['status'];
-		$data['active']="TransaksiBarang";
-		$idbar=$_SESSION['idcode'];
-		$this->session->set_userdata('syarat',1);
-		if($status==1)
-		{
-			$data['status']="admin";
-		}
-		else
-		{
-			$data['status']="direktur";	
-		}
-		$id_transaksi=$this->TransaksiModel->get_idtransaksi();
-		$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
+			$data['subtitle']="Transaksi Barang";
+			$status=$_SESSION['status'];
+			$data['active']="TransaksiBarang";
+			$idbar=$_SESSION['idcode'];
+			$this->session->set_userdata('syarat',1);
+			if($status==1)
+			{
+				$data['status']="admin";
+			}
+			else
+			{
+				$data['status']="direktur";	
+			}
+			$id_transaksi=$this->TransaksiModel->get_idtransaksi();
+			$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
 			$data['karyawan']=$this->KaryawanModelTrans->getKaryawan();
 
 		//ambil data di tabel ttransaksi
@@ -361,59 +362,59 @@ $this->session->set_userdata('btncetakkuu',
 		public function printsertibar($index,$id_transaksi)
 		{
 			
-		$pdf = new FPDF('P', 'mm', 'A4');
-		$id_transaksi=$this->TransaksiModel->getTransaksi($id_transaksi);
+			$pdf = new FPDF('P', 'mm', 'A4');
+			$id_transaksi=$this->TransaksiModel->getTransaksi($id_transaksi);
 		// membuat halaman baru
 
-		$pdf->AddPage();
-		$pdf->SetMargins(25, 5);
-		$pdf->SetAutoPageBreak('on', 60);
+			$pdf->AddPage();
+			$pdf->SetMargins(25, 5);
+			$pdf->SetAutoPageBreak('on', 60);
 
-		$image1 = base_url('assets/dist/img/Teladan.png');
-		$image2 = base_url('assets/dist/img/sinai.png');
+			$image1 = base_url('assets/dist/img/Teladan.png');
+			$image2 = base_url('assets/dist/img/sinai.png');
 		//$ctg = base_url('assets/dist/img/ctg.png');
 		//$nctg = base_url('assets/dist/img/nctg.png');
-		foreach ($id_transaksi as $k ) {
-			$date=strtotime($k['tanggal_pengadaan']);
-			$date_month[]=date('n',$date);
-            $date_year[]=date('y',$date);
+			foreach ($id_transaksi as $k ) {
+				$date=strtotime($k['tanggal_pengadaan']);
+				$date_month[]=date('n',$date);
+				$date_year[]=date('y',$date);
 
-		}
+			}
 		//Header
-		$pdf->Image($image2, 25, 4, 27);
-		$pdf->Image($image1, 165, 4, 20);
-		$pdf->Cell(0, 8, '', 0, 1);
-		$pdf->SetFont('Times', 'B', 14);
-		$pdf->Cell(0, 7, 'BERITA ACARA SERAH TERIMA BARANG', 0, 1, 'C');
-		$pdf->Cell(0, 7, 'YAYASAN SINAI INDONESIA', 0, 1, 'C');
-		$pdf->SetFont('Times', '', 12);
-		$pdf->Ln(4);
+			$pdf->Image($image2, 25, 4, 27);
+			$pdf->Image($image1, 165, 4, 20);
+			$pdf->Cell(0, 8, '', 0, 1);
+			$pdf->SetFont('Times', 'B', 14);
+			$pdf->Cell(0, 7, 'BERITA ACARA SERAH TERIMA BARANG', 0, 1, 'C');
+			$pdf->Cell(0, 7, 'YAYASAN SINAI INDONESIA', 0, 1, 'C');
+			$pdf->SetFont('Times', '', 12);
+			$pdf->Ln(4);
 
 
-		
+
 		//Tabel head
-		$pdf->cell(10, 6, 'No.', 1, 0);
-		$pdf->cell(35, 6, ' Nama Barang', 1, 0);
-		$pdf->cell(60, 6, 'Barcode', 1, 0);
-		$pdf->cell(55, 6, 'Keterangan', 1, 1);
-		
+			$pdf->cell(10, 6, 'No.', 1, 0);
+			$pdf->cell(35, 6, ' Nama Barang', 1, 0);
+			$pdf->cell(60, 6, 'Barcode', 1, 0);
+			$pdf->cell(55, 6, 'Keterangan', 1, 1);
+
 		//Tabel body
-		$i=1;
-		$j=0;
-	foreach($id_transaksi as $key)
-    {$nama_penerima=$key['nama_penerima'];
-    $nama_penyerah=$key['nama_penyerah'];
-    $jabatan_penyerah=$key['jabatan_penyerah'];
-    $jabatan_penerima=$key['jabatan_penerima'];
-    $tanggal_peletakan=$key['tanggal_peletakan'];
-        $pdf->cell(10,6,$i,1,0);
-        $pdf->cell(35,6,$key['nama_barang'],1,0);
-        $pdf->cell(60,6,$key['id_barang'].'/'.$key['nama_departement'].'/'.$key['nama'].'/'.$date_month[$j].'/'.$date_year[$j],1,0);
-        $pdf->cell(55,6,$key['ket_barang'],1,0);
-        $pdf->Ln();
-        $j++;
-        $i++;
-    }
+			$i=1;
+			$j=0;
+			foreach($id_transaksi as $key)
+				{$nama_penerima=$key['nama_penerima'];
+			$nama_penyerah=$key['nama_penyerah'];
+			$jabatan_penyerah=$key['jabatan_penyerah'];
+			$jabatan_penerima=$key['jabatan_penerima'];
+			$tanggal_peletakan=$key['tanggal_peletakan'];
+			$pdf->cell(10,6,$i,1,0);
+			$pdf->cell(35,6,$key['nama_barang'],1,0);
+			$pdf->cell(60,6,$key['id_barang'].'/'.$key['nama_departement'].'/'.$key['nama'].'/'.$date_month[$j].'/'.$date_year[$j],1,0);
+			$pdf->cell(55,6,$key['ket_barang'],1,0);
+			$pdf->Ln();
+			$j++;
+			$i++;
+		}
 
 		//Hari Tanggal
 		$pdf->cell(45, 6, 'Yogyakarta, '.$tanggal_peletakan.' ', 1, 1);
@@ -425,17 +426,17 @@ $this->session->set_userdata('btncetakkuu',
 
 		$pdf->multicell(80, 6, 'Yang menerima
 			'.$jabatan_penerima.'
-		
 
-		'.$nama_penerima, 1, 'C');
+
+			'.$nama_penerima, 1, 'C');
 		$get_xxx += $width_cell;
 		$pdf->SetXY($get_xxx, $get_yyy);
 
 		$pdf->multicell(80, 6, 'Yang menyerahkan
 			'.$jabatan_penyerah.'
-		
 
-		'.$nama_penyerah, 1, 'C');
+
+			'.$nama_penyerah, 1, 'C');
 		$get_xxx += $width_cell;
 		$pdf->SetXY($get_xxx, $get_yyy);
 
@@ -468,22 +469,23 @@ $this->session->set_userdata('btncetakkuu',
 		//Tabel body
 		$i=1;
 		$j=0;
-	foreach($id_transaksi as $key)
-    {$nama_penerima=$key['nama_penerima'];
-    $nama_penyerah=$key['nama_penyerah'];
-    $jabatan_penyerah=$key['jabatan_penyerah'];
-    $jabatan_penerima=$key['jabatan_penerima'];
-    $tanggal_peletakan=$key['tanggal_peletakan'];
-        $pdf->cell(10,6,$i++,1,0);
-        $pdf->cell(35,6,$key['nama_barang'],1,0);
-        $pdf->cell(60,6,$key['id_barang'].'/'.$key['nama_departement'].'/'.$key['nama'].'/'.$date_month[$j].'/'.$date_year[$j],1,0);
-        $pdf->cell(55,6,$key['ket_barang'],1,0);
-        $pdf->Ln();
-        $j++;
-        $i++;
-    }
+		foreach($id_transaksi as $key)
+		{
+			$nama_penerima=$key['nama_penerima'];
+			$nama_penyerah=$key['nama_penyerah'];
+			$jabatan_penyerah=$key['jabatan_penyerah'];
+			$jabatan_penerima=$key['jabatan_penerima'];
+			$tanggal_peletakan=$key['tanggal_peletakan'];
+			$pdf->cell(10,6,$i++,1,0);
+			$pdf->cell(35,6,$key['nama_barang'],1,0);
+			$pdf->cell(60,6,$key['id_barang'].'/'.$key['nama_departement'].'/'.$key['nama'].'/'.$date_month[$j].'/'.$date_year[$j],1,0);
+			$pdf->cell(55,6,$key['ket_barang'],1,0);
+			$pdf->Ln();
+			$j++;
+			$i++;
+		}
 
-		
+
 		//Hari Tanggal
 		$pdf->cell(45, 6, 'Yogyakarta, '.$tanggal_peletakan.' ', 1, 1);
 		//TTD
@@ -493,17 +495,17 @@ $this->session->set_userdata('btncetakkuu',
 
 		$pdf->multicell(80, 6, 'Yang menerima
 			'.$jabatan_penerima.'
-		
 
-		'.$nama_penerima, 1, 'C');
+
+			'.$nama_penerima, 1, 'C');
 		$get_xxx += $width_cell;
 		$pdf->SetXY($get_xxx, $get_yyy);
 
 		$pdf->multicell(80, 6, 'Yang menyerahkan
 			'.$jabatan_penyerah.'
-		
 
-		'.$nama_penyerah, 1, 'C');
+
+			'.$nama_penyerah, 1, 'C');
 		$get_xxx += $width_cell;
 		$pdf->SetXY($get_xxx, $get_yyy);
 
@@ -513,7 +515,83 @@ $this->session->set_userdata('btncetakkuu',
 		else if ($kode == '0')
 			$pdf->Output('I', 'SuratSertibar.pdf');
 
+	}
+
+	public function printbarcode($index)
+	{
+		$idbar=$_SESSION['idcode'];		
+		$daftar=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
+		foreach ($daftar as $key) {
+			$date=strtotime($key['tanggal_pengadaan']);
+			$date_month=date('n',$date);
+			$date_year=date('y',$date);
+			$nama_barang[]=$key['nama_barang'];
+			$coder[]=$key['id_barang'].$key['id_yayasan'].$key['id_departement'].$date_month.$date_year;
+		}
+		
+		
+		$hitung=count($coder);
+		
+		
+
+		$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+		$generator = new Picqer\Barcode\BarcodeGeneratorJPG();
+		$i=0;
+		$hitung=count($coder);
+		While($i<$hitung)
+		{		
+			file_put_contents('assets/dist/img/barcode/'.$coder[$i].'.jpg', $generator->getBarcode($coder[$i],$generator::TYPE_CODE_128));
+			$i++;
+		}
+		$pdf = new FPDF('P', 'mm', 'A4');
+		// membuat halaman baru
+		$pdf->AddPage();
+		$pdf->SetMargins(25, 5);
+		$pdf->SetAutoPageBreak('off', 2);
+
+		$image1 = base_url('assets/dist/img/Teladan.png');
+		$image2 = base_url('assets/dist/img/sinai.png');
+		
+
+		//Header
+		$pdf->Image($image2, 25, 4, 27);
+		$pdf->Image($image1, 165, 4, 20);
+		$pdf->Cell(0, 8, '', 0, 1);
+		$pdf->SetFont('Times', 'B', 14);
+		$pdf->Cell(0, 7, 'DAFTAR BARCODE', 0, 1, 'C');
+		$pdf->SetFont('Times', '', 12);
+		$pdf->Ln(3);
+
+		//Barcode
+		$j=0;
+		$y=50;
+		$t=30;
+
+		while($j<$hitung)
+		{
+			$image=base_url('assets/dist/img/barcode/'.$coder[$j].'.jpg');
+			$k=0;
+			$x=25;
+			$get_c=10;
+			$pdf->Cell($get_c, $t,$nama_barang[$j], 0,1);
+			while($k<4){
+				$pdf->Image($image,$x,$y, 30);
+
+				$x+=40;
+				
+				$k++;
+			}
+			$j++;
+			$y+=20;
+			$t=$t-15;
 		}
 
-
+		$kode = $index;
+		if ($kode == '1')
+			$pdf->Output('D', 'Barcode.pdf');
+		else if ($kode == '0')
+			$pdf->Output('I', 'Barcode.pdf');
 	}
+
+
+}

@@ -36,7 +36,7 @@
             <p>Tambah Barang</p>      
         </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item active">
         @if($active === 'HistoryMutasi')
         <a href="{{base_url('barang/historymutasi')}}" class="nav-link active">
             @else

@@ -1,29 +1,39 @@
   
   @layout('template/main/barang/main')
+ @section('scripts-css')
 
+  <link rel="stylesheet" href="{{base_url('assets/plugins/select2/css/select2.min.css')}}">
+  <style type="text/css">
+    
+      .margintop{
+        margin-top: 10px;
+      }
+      .marginleft{
+        margin-left: 25px;
+      }
+      
+      
+    </style>
+    @endsection
   @section('content')
 
-                      <!-- link trigger modal -->
-                        <a   id="button" data-toggle="modal" data-target="#exampleModalCenter">
-                          <i id="icon" class="fas fa-arrow-circle-left fa-2x"></i>
-                        </a>
-
+                     
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered" role="document">
                             <div class="modal-content">
                               <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Warning</h5>
+                                <h5 class="modal-title" id="exampleModalCenterTitle">Ada Kesalahan?</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true">&times;</span>
                                 </button>
                               </div>
                               <div class="modal-body">
-                                Apabila Menekan Tombol Kembali, data anda belum tersimpan
+                                Ulangi Proses Penginputannya !
                               </div>
                               <div class="modal-footer">
                                   <button type="button" class="btn btn-light">Cancel</button>
-                                  <a href="{{base_url('barang/deleteproses/').$id}}"><button type="button" class="btn btn-danger">Kembali</button></a> 
+                                  <a href="{{base_url('barang/deleteproses/').$id}}"><button type="button" class="btn btn-danger">Ya</button></a> 
                               </div>
                             </div>
                           </div>
@@ -48,23 +58,30 @@
 
 <!-- $tahun//=YEAR($g['tanggal_pengadaan']);
     $tahunb//=$tahun-2000; -->
-     <div class="card-header">Verifikasi Input Barang</div>
-     <?php
-     echo $id;
-     ?>
+     
   <!--  Begin Page Content --> 
   <?php foreach ($daftar as $g):
     $date=strtotime($g['tanggal_pengadaan']);
     $date_month=date('n',$date);
-    echo $date_year=date('y',$date);
+     $date_year=date('y',$date);
     
     ?> 
 
     <div class="container-fluid">
-        <div class="card card-register mx-auto mt-5">
-          <center>
-          <div class="card-header"><h4><strong>Verifikasi Input Barang</strong></h4></div>
-          </center>
+      <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
+        <div class="card shadow mb-4">
+         <div class="card-header"><h5>Verifikasi Input Barang</h5></div>
+          <!-- link trigger modal -->
+          <div class="container-fluid">
+          <div class="row ">
+            <div class="col-3-md"></div>
+                      <div class="col-3-md">
+                        <button   id="button" class="btn btn-warning margin-top margin-left" data-toggle="modal" data-target="#exampleModalCenter">
+                         Ada Kesalahan?
+                        </button>
+                        </div>
+          </div>
+          </div>
           <div class="card-body">
             <form action="{{base_url('barang/tambahbarcode/').$id.'/'.$yas.'/'.$date_month.'/'.$date_year}}" method="POST">
               <div class="form-group">

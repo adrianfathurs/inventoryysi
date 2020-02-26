@@ -27,12 +27,12 @@
   <!-- Begin Page Content -->
  <!-- TABLE BARANGNYA -->
   <div class="container-fluid">
-    
+    <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
        <div class="card-header">
-        <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
+        <h5 class="mb-2">{{$subtitle}}</h5>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -53,6 +53,7 @@
                 <th><center>Harga/Satuan</center></th>
                 <th><center>TGL Rusak</center></th>
                 <th><center>Lokasi Barang</center></th>  
+                <th><center>Foto</center></th>  
               </tr>
             </thead>
             <tbody id="bodyTable">
@@ -90,6 +91,7 @@
                   <td><center><?=$d['harga_satuan']?></center></td>
                   <td><center><?=$d['tanggal_rusak']?></center></td>
                   <td><center><?=strtoupper($d['lokasi'])?></center></td>
+                  <td><center><img src="{{base_url('assets/dist/img/imgbarang/').$d['foto']}}" width="80" height="80"></center></td>
                 </tr>
               <?php endforeach;?>
             </tbody>
@@ -111,6 +113,7 @@
       </div>
     </div>
   </div> 
+</div>
   
 <!-- End of Main Content -->
 @endsection

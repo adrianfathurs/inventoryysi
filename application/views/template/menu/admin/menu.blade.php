@@ -7,7 +7,7 @@
         @endif
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p><strong>
-            INVENTARIS YSI/BARANG YSI</strong>
+            BARANG YSI</strong>
             <i class="right fas fa-angle-left"></i>
         </p>
     </a>
@@ -95,10 +95,10 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{base_url('assets/dist/img/logout.png')}}" class="img-circle elevation-2" alt="logout">
+                <a href="{{base_url('start/logout')}}" ><img src="{{base_url('assets/dist/img/logout3.png')}}" class="img-circle elevation-4" alt="logout"></a>
             </div>
             <div class="info">
-                <a href="{{base_url('start/logout')}}" class="d-block">Logout</a>
+                <p><span class="warna">Logout/Keluar</span></p>
             </div>
         </div>
     </div>

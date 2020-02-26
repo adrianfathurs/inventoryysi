@@ -27,12 +27,13 @@
   <!-- Begin Page Content -->
   <!-- TABLE HISTORI MUTASI BARANG -->
   <div class="container-fluid">
+    <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
     <?= $this->session->tempdata('messaggecektransaksi');?>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
        <div class="card-header">
-        <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$headermutasi}}</strong></h1></center>
+         <h5 class=" mb-2 text-gray-800">{{$headermutasi}}</h5>
       </div>
       <div class="card-body">
         <div class="table-responsive">

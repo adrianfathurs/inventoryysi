@@ -18,6 +18,17 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
   <link rel="stylesheet" type="text/css" href="{{base_url('assets/plugins/select2/css/select2.min.css')}}">
+  <style type="text/css">
+    
+    .warna{
+      color:#FFFFFF ;
+    }
+    .size-circle{
+      width: 10px;
+      border-radius: 20px;
+    }
+  </style>
+
   @yield('scripts-css')
   <!-- PANGGIL UNTUK INJEK CSS KE TEMPAT INI -->
 </head>
@@ -36,7 +47,7 @@
           <a href="#" class="nav-link">Contact</a>
         </li>
       </ul>
-      <form class="form-inline ml-3">
+      <form class="form-inline ml-3"> 
       </form>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
@@ -46,12 +57,12 @@
         </li>
       </ul>
     </nav>
-    <aside class="main-sidebar bg-gray-dark elevation-4">
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <a href="index3.html" class="brand-link">
         <img src="{{base_url('assets/dist/img/TeladanPutih.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">YAYASAN SINAI INDONESIA</span>
+        <span class="brand-text font-weight-light">INVENTARIS TELADAN</span>
       </a>
-
+     
       <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
@@ -82,8 +93,8 @@
                 $nama="USER";
               }
               ?>
-            <p  class="d-block"><strong>{{$nama}}</strong></p>
-            <center><p  class="d-block">{{$jabatan.' '.'/'.' '.$stat}}</p></center>
+            <center><span class="brand-text font-weight-light warna">{{$nama}}</span></center>
+            <p  class=" font-weight-light warna">{{$jabatan.' '.'/'.' '.$stat}}</p>
           </div>
         </div>
         <nav class="mt-2">

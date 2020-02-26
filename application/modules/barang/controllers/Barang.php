@@ -15,7 +15,7 @@ class Barang extends MY_Controller {
 		$this->load->model('DepartementModel');
 		$this->load->model('YayasanModel');
 		$this->load->model('KaryawanModel');
-
+		$this->load->library('pdf');
 		$this->load->library('session');
 		/*Agar dapat ngeload user model tanpa deklasrasi disetiap fungsi yang ada dia auth*/
 		
@@ -63,9 +63,10 @@ class Barang extends MY_Controller {
 		}
 
 		//jika terdapat session pda awal load daftar barang maka akan di unset
-		if(isset($_SESSION['idcode']))
+		if(isset($_SESSION['idcode']) ||isset($_SESSION['idbarcode']))
 		{
 			unset($_SESSION['idcode']);
+			unset($_SESSION['idbarcode']);
 			$data['daftar']=$this->BarangModel->getAll();
 			
 			//var_dump($transaksi);
@@ -141,49 +142,65 @@ class Barang extends MY_Controller {
 		$data['subtitle']="Tambah Barang";
 		$data['active']="TambahBarang";
 		$data['status']="admin";
-
+		
+		
 		$nosertif=$this->input->post('noSertif');
 		if ($nosertif==NULL) {
 			# code...
 			$this->blade->render('tambahBarang',$data);
 		}
 		else{
-			
-			/*input barang untuk tambah Barang*/
-			$barangs=[
-				'bahan'=>$this->input->post('bahanBarang'),
-				'cara_peroleh'=>$this->input->post('caraBarang'),
-				'tanggal_pengadaan'=>$this->input->post('tglBarang'),
-				'warna_barang'=>$this->input->post('warnaBarang'),
-				'satuan'=>$this->input->post('satuanBarang'),
-				'keadaan_barang'=>$this->input->post('keadaanBarang'),
-				'harga_satuan'=>$this->input->post('hargaBarang'),
-				'tanggal_rusak'=>NULL,
-				'lokasi'=>$this->input->post('lokasiBarang'),
-				'ket_barang'=>$this->input->post('ket')
-			];
+			$foto= $_FILES['foto'];
+			if($foto=''){}
+				else{
+					$config['upload_path']='./assets/dist/img/imgbarang';
+					$config['allowed_types']='jpg|png';
+					$this->load->library('upload',$config);
+					if(!$this->upload->do_upload('foto'))
+					{
+						echo "Upload gagal";die();
+					}
+					else
+					{
+						$foto=$this->upload->data('file_name');
+					}
+				}
+				/*input barang untuk tambah Barang*/
+				$barangs=[
+					'bahan'=>$this->input->post('bahanBarang'),
+					'cara_peroleh'=>$this->input->post('caraBarang'),
+					'tanggal_pengadaan'=>$this->input->post('tglBarang'),
+					'warna_barang'=>$this->input->post('warnaBarang'),
+					'satuan'=>$this->input->post('satuanBarang'),
+					'keadaan_barang'=>$this->input->post('keadaanBarang'),
+					'harga_satuan'=>$this->input->post('hargaBarang'),
+					'tanggal_rusak'=>NULL,
+					'lokasi'=>$this->input->post('lokasiBarang'),
+					'ket_barang'=>$this->input->post('ket'),
+					'foto'=>$foto
+				];
 
-			$spesifikasi=[
-				'nama_barang'=>$this->input->post('namaBarang'),
-				'merk'=>$this->input->post('merkBarang'),
-				'no_pabrik'=>$this->input->post('noSertif')
-			];
+				$spesifikasi=[
+					'nama_barang'=>$this->input->post('namaBarang'),
+					'merk'=>$this->input->post('merkBarang'),
+					'no_pabrik'=>$this->input->post('noSertif')
+				];
 
 
 
-			$tambah=$this->BarangModel->setTambah($barangs,$spesifikasi);
+				$tambah=$this->BarangModel->setTambah($barangs,$spesifikasi);
 	//Ambil data table Yayasan
-			$data['yas']=$this->YayasanModel->getyayasan();
+				$data['yas']=$this->YayasanModel->getyayasan();
 	//Ambil data table departement
-			$data['dept']=$this->DepartementModel->getDepartement();	
+				$data['dept']=$this->DepartementModel->getDepartement();	
 	//contoh pengambilan id setelah proses insert dilakukan dengan mengambil id paling akhir
-			$id=$this->BarangModel->get_id();
-			$data['daftar']=$this->BarangModel->getAllbyId($id);
-			$data['id']=$this->BarangModel->get_id();
+				$id=$this->BarangModel->get_id();
+				$data['daftar']=$this->BarangModel->getAllbyId($id);
+				$data['id']=$this->BarangModel->get_id();
 
-			
+
 	//load function getdepartement model;
-			$this->blade->render('verifikasiBarang',$data);
+				$this->blade->render('verifikasiBarang',$data);
 
 
 	//contoh awal pembuatan id yang diambil setelah input
@@ -191,142 +208,142 @@ class Barang extends MY_Controller {
 		//$data['get']=$this->BarangModel->getAllbyId($id);
 		//$this->blade->render('tambahBarcode',$data);
 
-		}	
-	}
+			}	
+		}
 	//funtion untuk tampil History Mutasi
-	public function historymutasi ()
-	{
-		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Transaksi Barang";
-		$data['active']="HistoryMutasi";
-		$status=$_SESSION['status'];
-		$data['status']=$_SESSION['status'];
-		if($status==1)
+		public function historymutasi ()
 		{
-			$data['status']="admin";
-		}
-		else if($status==2)
-		{
-			$data['status']="direktur";	
-		}
-		else
-		{
-			$data['status']="user";
-		}
+			$data['title']="INVENTARIS YSI";
+			$data['subtitle']="Transaksi Barang";
+			$data['active']="HistoryMutasi";
+			$status=$_SESSION['status'];
+			$data['status']=$_SESSION['status'];
+			if($status==1)
+			{
+				$data['status']="admin";
+			}
+			else if($status==2)
+			{
+				$data['status']="direktur";	
+			}
+			else
+			{
+				$data['status']="user";
+			}
 
-		
+
 		//untuk melakukan pengecekan apakah sebelumya terdapat transaksi
-		$transaksi=$this->BarangModel->getAllHistory();
-		if(isset($transaksi))
-		{
-			$data['transaksi']=$this->BarangModel->getAllHistory();
-			$data['headermutasi']="HISTORY MUTASI BARANG";
-			
-			$this->blade->render('historyMutasi',$data);
-		}
-		else
-		{
-			$this->session->set_tempdata('messaggecektransaksi','
-				<div class="alert alert-warning" role="alert">
-				<center> BELUM ADA TRANSAKSI !</center>
-				</div>',5);
-			$this->blade->render('historyMutasi',$data);
-			
-		}
-		
+			$transaksi=$this->BarangModel->getAllHistory();
+			if(isset($transaksi))
+			{
+				$data['transaksi']=$this->BarangModel->getAllHistory();
+				$data['headermutasi']="HISTORY MUTASI BARANG";
+
+				$this->blade->render('historyMutasi',$data);
+			}
+			else
+			{
+				$this->session->set_tempdata('messaggecektransaksi','
+					<div class="alert alert-warning" role="alert">
+					<center> BELUM ADA TRANSAKSI !</center>
+					</div>',5);
+				$this->blade->render('historyMutasi',$data);
+
+			}
+
 		//$this->blade->render('historyMutasi',$data);
-	}
-	public function tambahbarcode($id,$id_yas,$bulan,$tahunb)
-	{
-		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Daftar Barang";
-		$data['active']="3";
-		$data['status']="admin";
-		$depart=$this->input->post('departement');
-		echo $depart;
-		echo $id.$id_yas.$bulan.$tahunb;
-		$barcode=[
-			'id_barang'=>$id,
-			'id_departement'=>$this->input->post('departement'),
-			'id_yayasan'=>$id_yas,
-			'bulan'=>$bulan,
-			'tahun'=>$tahunb,
-			'id_spesifikasi'=>$id
-		];
+		}
+		public function tambahbarcode($id,$id_yas,$bulan,$tahunb)
+		{
+			$data['title']="INVENTARIS YSI";
+			$data['subtitle']="Daftar Barang";
+			$data['active']="3";
+			$data['status']="admin";
+			$depart=$this->input->post('departement');
+			echo $depart;
+			echo $id.$id_yas.$bulan.$tahunb;
+			$barcode=[
+				'id_barang'=>$id,
+				'id_departement'=>$this->input->post('departement'),
+				'id_yayasan'=>$id_yas,
+				'bulan'=>$bulan,
+				'tahun'=>$tahunb,
+				'id_spesifikasi'=>$id
+			];
 	//untuk memanggil function setBarcode di Barang Model
-		$this->BarangModel->setBarcode($barcode);
-		$data['daftar']=$this->BarangModel->getAll();
-		$this->blade->render('daftarBarangview',$data);
-	}
+			$this->BarangModel->setBarcode($barcode);
+			$data['daftar']=$this->BarangModel->getAll();
+			$this->blade->render('daftarBarangview',$data);
+		}
 
 	//function hapus data pada tombol back verifikasi barang
-	public function deleteproses($id)
-	{
-		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Tambah Proses";
-		$data['active']="2";
-		$data['status']="admin";
-		$this->BarangModel->setDelete($id);
+		public function deleteproses($id)
+		{
+			$data['title']="INVENTARIS YSI";
+			$data['subtitle']="Tambah Proses";
+			$data['active']="2";
+			$data['status']="admin";
+			$this->BarangModel->setDelete($id);
 		//$data['daftar']=$this->BarangModel->getAll();
-		$this->blade->render('tambahBarang',$data);	
-	}
+			$this->blade->render('tambahBarang',$data);	
+		}
 
 	//function yang digunakan untuk mendelete id baarcode dari view daftar barang beserta data di table barangs dan spesifikasi
-	public function deleteidbarcode($id)
-	{
-		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Daftar Barang";
-		$data['active']="3";
-		$data['status']="admin";
-		$id_barang=$this->BarangModel->getIdBaranginBarcode($id);
-		$this->BarangModel->setDeleteIdDataTransaksi($id);
-		$this->BarangModel->setDeleteIdBarcode($id);
-		$this->BarangModel->setDelete($id_barang);
-		$data['daftar']=$this->BarangModel->getAll();
-		$this->blade->render('daftarBarang',$data);	
-	}
+		public function deleteidbarcode($id)
+		{
+			$data['title']="INVENTARIS YSI";
+			$data['subtitle']="Daftar Barang";
+			$data['active']="3";
+			$data['status']="admin";
+			$id_barang=$this->BarangModel->getIdBaranginBarcode($id);
+			$this->BarangModel->setDeleteIdDataTransaksi($id);
+			$this->BarangModel->setDeleteIdBarcode($id);
+			$this->BarangModel->setDelete($id_barang);
+			$data['daftar']=$this->BarangModel->getAll();
+			$this->blade->render('daftarBarang',$data);	
+		}
 
 	//function untuk memanggil semua data barangs dan spesifikasi
-	public function selectidbarcode($id,$id_barang)
-	{
+		public function selectidbarcode($id,$id_barang)
+		{
 		//parameter $id adalah parameter id_barcode
-		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Transaksi Barang";
-		$data['active']="3";
-		$data['status']="admin";
-		$idbar=$_SESSION['idcode'];
-		$data['daftar']=$this->BarangModel->getAllbyIdbarcode($id);
-		var_dump($_SESSION['idcode']);
-		$data['kembali']=$this->BarangModel->getAllbyIdbarcodewherein($idbar);
-		$this->blade->render('updateBarang',$data);
-	}
+			$data['title']="INVENTARIS YSI";
+			$data['subtitle']="Transaksi Barang";
+			$data['active']="3";
+			$data['status']="admin";
+			$idbar=$_SESSION['idcode'];
+			$data['daftar']=$this->BarangModel->getAllbyIdbarcode($id);
+			var_dump($_SESSION['idcode']);
+			$data['kembali']=$this->BarangModel->getAllbyIdbarcodewherein($idbar);
+			$this->blade->render('updateBarang',$data);
+		}
 
 	//function untuk memanggil semua data barangs dan spesifkasi dari view transaksibarang
-	public function selectidbarang($id,$id_barang,$iddepartement,$idyayasan,$date_month,$date_year)
-	{
+		public function selectidbarang($id,$id_barang,$iddepartement,$idyayasan,$date_month,$date_year)
+		{
 		//parameter $id adalah parameter id_barcode
-		$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Transaksi Barang";
-		$data['active']="3";
-		$data['status']="admin";
+			$data['title']="INVENTARIS YSI";
+			$data['subtitle']="Transaksi Barang";
+			$data['active']="3";
+			$data['status']="admin";
 		//session utnuk menyimpan id barang
-		$this->session->set_userdata('idrang',$id_barang);
-		$this->session->set_userdata('iddepartement',$iddepartement);
+			$this->session->set_userdata('idrang',$id_barang);
+			$this->session->set_userdata('iddepartement',$iddepartement);
 		//array $id barcode select
-		$this->session->set_userdata('idbarcode',$id);
+			$this->session->set_userdata('idbarcode',$id);
 		//array session barcode
-		$idbar=$_SESSION['idcode'];
-		$data['daftar']=$this->BarangModel->getAllbyIdbarcode($id);
-		var_dump($date_month);
-		$data['kembali']=$this->BarangModel->getAllbyIdbarcodewherein($idbar);
-		
+			$idbar=$_SESSION['idcode'];
+			$data['daftar']=$this->BarangModel->getAllbyIdbarcode($id);
+			var_dump($date_month);
+			$data['kembali']=$this->BarangModel->getAllbyIdbarcodewherein($idbar);
+
 	//buat menyetak qr code dan barcode
-		$code=$id_barang.$iddepartement.$idyayasan.$date_month.$date_year;
-		$coder=(int)($id_barang.$iddepartement.$idyayasan.$date_month.$date_year);
-		
+			$code=$id_barang.$iddepartement.$idyayasan.$date_month.$date_year;
+			$coder=(int)($id_barang.$iddepartement.$idyayasan.$date_month.$date_year);
+
 		//vardumb buat convert dari int ke string
-		$codestr=var_dump((string) $coder);
-		
+			$codestr=var_dump((string) $coder);
+
 		//untuk code convert qrcode
 		/*$qrCode= new Endroid\QrCode\QrCode($code);
 		$qrCode->writeFile('temp/'.$code.'.png');
@@ -474,6 +491,7 @@ class Barang extends MY_Controller {
 			$data['status']="user";
 		}
 		$idbarcode=$this->input->post('idbarcode');
+		$this->session->set_userdata('idbarcode',$idbarcode);
 		if(isset($_POST['idbarcode']))
 		{
 			//$id ini akan mengambil id dept dan id yayasan
@@ -496,7 +514,7 @@ class Barang extends MY_Controller {
 			$qrCode->writeFile('temp/'.$code.'.png');
 			*/
 			error_reporting(0);
-			$tempdir = "temp/"; 
+			$tempdir = "assets/dist/img/qrcode/"; 
 			if (!file_exists($tempdir))#kalau folder belum ada, maka buat.
 			mkdir($tempdir);
 			$isi_teks = $code;
@@ -507,9 +525,9 @@ class Barang extends MY_Controller {
 			QRCode::png($isi_teks,$tempdir.$namafile,$quality,$ukuran,$padding);
 
 			//untuk code convert barcode
-			$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+			
 			$generator = new Picqer\Barcode\BarcodeGeneratorJPG();
-			file_put_contents('temp/barcode/'.$code.'.jpg', $generator->getBarcode($coder,$generator::TYPE_CODABAR));
+			file_put_contents('assets/dist/img/barcode/'.$coder.'.jpg', $generator->getBarcode($coder,$generator::TYPE_CODE_128));
 
 			//untuk melempar ke view
 			$data['kode']=$idbarang.$iddepartement.$idyayasan.$date_month.$date_year;
@@ -519,10 +537,169 @@ class Barang extends MY_Controller {
 		{
 			redirect('barang/daftarbarangview');
 		}
+	}
+
+/////////
+	public function qrcode($index)
+	{
+		$idbarcode=$_SESSION['idbarcode'];		
+		$daftar=$this->BarangModel->getAllbyIdbarcodewhere($idbarcode);
+		foreach ($daftar as $key) {
+			$date=strtotime($key['tanggal_pengadaan']);
+			$date_month=date('n',$date);
+			$date_year=date('y',$date);
+			$nama_barang=$key['nama_barang'];
+			$coder=$key['id_barang'].$key['id_yayasan'].$key['id_departement'].$date_month.$date_year;
+		}
+		$cek=base_url('assets/dist/img/qrcode/'.$coder.'.png');
+		if(isset($cek))
+		{
+			$image=base_url('assets/dist/img/qrcode/'.$coder.'.png');
+		}
+		else
+		{
+			$tempdir = "assets/dist/img/qrcode/"; 
+			if (!file_exists($tempdir))#kalau folder belum ada, maka buat.
+			mkdir($tempdir);
+			$isi_teks = $coder;
+			$namafile = $coder.".png";
+			$quality = 'H'; //ada 4 pilihan, L (Low), M(Medium), Q(Good), H(High)
+			$ukuran = 2; //batasan 1 paling kecil, 10 paling besar
+			$padding = 1;
+			QRCode::png($isi_teks,$tempdir.$namafile,$quality,$ukuran,$padding);
+			$image=base_url('assets/dist/img/qrcode/'.$coder.'.png');
+		}
+
+		$pdf = new FPDF('P', 'mm', 'A4');
+		// membuat halaman baru
+		$pdf->AddPage();
+		$pdf->SetMargins(25, 5);
+		$pdf->SetAutoPageBreak('off', 2);
+
+		$image1 = base_url('assets/dist/img/Teladan.png');
+		$image2 = base_url('assets/dist/img/sinai.png');
+
+
+		//Header
+		$pdf->Image($image2, 25, 4, 27);
+		$pdf->Image($image1, 165, 4, 20);
+		$pdf->Cell(0, 8, '', 0, 1);
+		$pdf->SetFont('Times', 'B', 14);
+		$pdf->Cell(0, 7, 'DAFTAR BARCODE', 0, 1, 'C');
+		$pdf->SetFont('Times', '', 12);
+		$pdf->Ln(3);
+		
+		$j=0;
+		$y=50;
+		$t=30;
+
+		while($j<1)
+		{
+			
+			$k=0;
+			$x=25;
+			$get_c=10;
+			$pdf->Cell($get_c, $t,$nama_barang, 0,1);
+			while($k<4){
+				$pdf->Image($image,$x,$y, 30);
+
+				$x+=40;
+
+				$k++;
+			}
+			$j++;
+			$y+=20;
+			$t=$t-15;
+		}
+
+		$kode = $index;
+		if ($kode == '1')
+			$pdf->Output('D', 'Qrcode.pdf');
+		else if ($kode == '0')
+			$pdf->Output('I', 'Qrcode.pdf');
+
+
+	}	
+///////////////////
+
+	public function barcode($index)
+	{
+		$idbarcode=$_SESSION['idbarcode'];		
+		$daftar=$this->BarangModel->getAllbyIdbarcodewhere($idbarcode);
+		foreach ($daftar as $key) {
+			$date=strtotime($key['tanggal_pengadaan']);
+			$date_month=date('n',$date);
+			$date_year=date('y',$date);
+			$nama_barang=$key['nama_barang'];
+			$coder=$key['id_barang'].$key['id_yayasan'].$key['id_departement'].$date_month.$date_year;
+		}
+			//kalo udah ada diflie assets/dist/img/barcode tinggal ngambil
+		$cek=base_url('assets/dist/img/barcode/'.$coder.'.jpg');
+		if(isset($cek))
+		{
+			$image=base_url('assets/dist/img/barcode/'.$coder.'.jpg');
+		}
+		else
+		{
+
+			$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+			$generator = new Picqer\Barcode\BarcodeGeneratorJPG();
+			file_put_contents('assets/dist/img/barcode/'.$coder.'.jpg', $generator->getBarcode($coder,$generator::TYPE_CODE_128));
+			$image=base_url('assets/dist/img/barcode/'.$coder.'.jpg');
+		}
+
+		$pdf = new FPDF('P', 'mm', 'A4');
+		// membuat halaman baru
+		$pdf->AddPage();
+		$pdf->SetMargins(25, 5);
+		$pdf->SetAutoPageBreak('off', 2);
+
+		$image1 = base_url('assets/dist/img/Teladan.png');
+		$image2 = base_url('assets/dist/img/sinai.png');
+
+
+		//Header
+		$pdf->Image($image2, 25, 4, 27);
+		$pdf->Image($image1, 165, 4, 20);
+		$pdf->Cell(0, 8, '', 0, 1);
+		$pdf->SetFont('Times', 'B', 14);
+		$pdf->Cell(0, 7, 'DAFTAR BARCODE', 0, 1, 'C');
+		$pdf->SetFont('Times', '', 12);
+		$pdf->Ln(3);
+		
+		$j=0;
+		$y=50;
+		$t=30;
+
+		while($j<1)
+		{
+			
+			$k=0;
+			$x=25;
+			$get_c=10;
+			$pdf->Cell($get_c, $t,$nama_barang, 0,1);
+			while($k<4){
+				$pdf->Image($image,$x,$y, 30);
+
+				$x+=40;
+
+				$k++;
+			}
+			$j++;
+			$y+=20;
+			$t=$t-15;
+		}
+
+		$kode = $index;
+		if ($kode == '1')
+			$pdf->Output('D', 'Barcode.pdf');
+		else if ($kode == '0')
+			$pdf->Output('I', 'Barcode.pdf');
+	}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	}
+	
 	/*##########################################################*/
 	//function untuk update barang/edit data barang
 	public function updatedata()
@@ -531,66 +708,82 @@ class Barang extends MY_Controller {
 
 			$id_barang=$this->input->post('idBarang');
 			$id_barcode=$this->input->post('idBarcode');
-			$barangs=[
-				'id_barang'=>$id_barang,	
-				'bahan'=>$this->input->post('bahanBarang'),
-				'cara_peroleh'=>$this->input->post('caraBarang'),
-				'tanggal_pengadaan'=>$this->input->post('tglBarang'),
-				'warna_barang'=>$this->input->post('warnaBarang'),
-				'satuan'=>$this->input->post('satuanBarang'),
-				'keadaan_barang'=>$this->input->post('keadaanBarang'),
-				'harga_satuan'=>$this->input->post('hargaBarang'),
-				'tanggal_rusak'=>$this->input->post('tglBarangRusak'),
-				'lokasi'=>$this->input->post('lokasiBarang'),
-				'ket_barang'=>$this->input->post('ketBarang')
-			];
-			var_dump($barangs);
-			$setUpdateBarangs=$this->BarangModel->setUpdateBarangs($barangs,$id_barang);
-			var_dump($setUpdateBarangs);
-			redirect('barang/daftarbarang');
-			
+			$foto= $_FILES['foto'];
+			if($foto=''){}
+				else{
+					$config['upload_path']='./assets/dist/img/imgbarang';
+					$config['allowed_types']='jpg|png';
+					$this->load->library('upload',$config);
+					if(!$this->upload->do_upload('foto'))
+					{
+						echo "Upload gagal";die();
+					}
+					else
+					{
+						$foto=$this->upload->data('file_name');
+					}
+				}
+				$barangs=[
+					'id_barang'=>$id_barang,	
+					'bahan'=>$this->input->post('bahanBarang'),
+					'cara_peroleh'=>$this->input->post('caraBarang'),
+					'tanggal_pengadaan'=>$this->input->post('tglBarang'),
+					'warna_barang'=>$this->input->post('warnaBarang'),
+					'satuan'=>$this->input->post('satuanBarang'),
+					'keadaan_barang'=>$this->input->post('keadaanBarang'),
+					'harga_satuan'=>$this->input->post('hargaBarang'),
+					'tanggal_rusak'=>$this->input->post('tglBarangRusak'),
+					'lokasi'=>$this->input->post('lokasiBarang'),
+					'ket_barang'=>$this->input->post('ketBarang'),
+					'foto'=>$foto
+				];
+				var_dump($barangs);
+				$setUpdateBarangs=$this->BarangModel->setUpdateBarangs($barangs,$id_barang);
+				var_dump($setUpdateBarangs);
+				redirect('barang/daftarbarang');
+
+			}
+			else
+			{
+				redirect('barang/daftarbarang');
+			}
 		}
-		else
-		{
-			redirect('barang/daftarbarang');
-		}
-	}
-	/*##########################################################*/
+		/*##########################################################*/
 	//function untuk mengedit ketbarang di view update barang
-	public function updateket()
-	{$data['status']="admin";
-	$idrang=$_SESSION['idrang'];
+		public function updateket()
+		{$data['status']="admin";
+		$idrang=$_SESSION['idrang'];
 
-	if (isset($_POST['btnupdate']))
-	{
-		$array=array(
-			'ket_barang'=>$this->input->post('txtketBarang')
-		);
-		$where=array('id_barang'=>$idrang);
-		$update=$this->BarangModel->setupdateket($array,$where);
-		var_dump($idrang);
-		$iddepartement=$_SESSION['iddepartement'];
-		$idyayasan=$this->YayasanModel->getyayasan();
-		$ambildate=$this->BarangModel->getAllbyId($idrang);
-		foreach ($ambildate as $key ) {
-			$date=strtotime($key['tanggal_pengadaan']);
-		}
-		$date_month=date('m',$date);
-		$date_year=date('y',$date);
+		if (isset($_POST['btnupdate']))
+		{
+			$array=array(
+				'ket_barang'=>$this->input->post('txtketBarang')
+			);
+			$where=array('id_barang'=>$idrang);
+			$update=$this->BarangModel->setupdateket($array,$where);
+			var_dump($idrang);
+			$iddepartement=$_SESSION['iddepartement'];
+			$idyayasan=$this->YayasanModel->getyayasan();
+			$ambildate=$this->BarangModel->getAllbyId($idrang);
+			foreach ($ambildate as $key ) {
+				$date=strtotime($key['tanggal_pengadaan']);
+			}
+			$date_month=date('m',$date);
+			$date_year=date('y',$date);
 
-		$idbar=$_SESSION['idcode'];
-		$id=$_SESSION['idbarcode'];
-		$data['daftar']=$this->BarangModel->getAllbyIdbarcode($id);
-		var_dump($date_month);
-		$data['kembali']=$this->BarangModel->getAllbyIdbarcodewherein($idbar);
-		
+			$idbar=$_SESSION['idcode'];
+			$id=$_SESSION['idbarcode'];
+			$data['daftar']=$this->BarangModel->getAllbyIdbarcode($id);
+			var_dump($date_month);
+			$data['kembali']=$this->BarangModel->getAllbyIdbarcodewherein($idbar);
+
 	//buat menyetak qr code dan barcode
-		$code=$idrang.$iddepartement.$idyayasan.$date_month.$date_year;
-		$coder=(int)($idrang.$iddepartement.$idyayasan.$date_month.$date_year);
-		
+			$code=$idrang.$iddepartement.$idyayasan.$date_month.$date_year;
+			$coder=(int)($idrang.$iddepartement.$idyayasan.$date_month.$date_year);
+
 		//vardumb buat convert dari int ke string
-		$codestr=var_dump((string) $coder);
-		
+			$codestr=var_dump((string) $coder);
+
 		//untuk code convert qrcode
 		/*$qrCode= new Endroid\QrCode\QrCode($code);
 		$qrCode->writeFile('temp/'.$code.'.png');
@@ -618,68 +811,7 @@ class Barang extends MY_Controller {
 
 	}
 }
-	//funtion untuk mengedit ketbarang di view update barang
-	/*public function updateket()
-	{ if(isset($_POST['id_barang'])){
-
 	
-		if ($_POST['id_barang'] !='')
-		{
-			$idbarang=$this->input->post('id_barang');
-			
-			$array=array(
-				'ket_barang'=>$this->input->post('txtketBarang')
-			);
-			echo json_encode($array);
-			$where=array('id_barang'=>$idbarang);
-			$update=$this->BarangModel->setupdateket($array,$where);
-		
-			$idbar=$_SESSION['idcode'];
-		$data['daftar']=$this->BarangModel->getAllbyIdbarcode($id);
-		var_dump($_SESSION['idcode']);
-		$data['kembali']=$this->BarangModel->getAllbyIdbarcodewherein($idbar);
-		
-	//buat menyetak qr code dan barcode
-	$code=$id_barang.$iddepartement.$idyayasan.$date_month.$date_year;
-		$coder=(int)($id_barang.$iddepartement.$idyayasan.$date_month.$date_year);
-		
-		//vardumb buat convert dari int ke string
-		$codestr=var_dump((string) $coder);
-		
-		//untuk code convert qrcode
-		$qrCode= new Endroid\QrCode\QrCode($code);
-		$qrCode->writeFile('temp/'.$code.'.png');
-		
-	
-		$tempdir = "temp/"; 
-		if (!file_exists($tempdir))#kalau folder belum ada, maka buat.
-	    mkdir($tempdir);
-		$isi_teks = $code;
-		$namafile = $code.".png";
-		$quality = 'H'; //ada 4 pilihan, L (Low), M(Medium), Q(Good), H(High)
-		$ukuran = 2; //batasan 1 paling kecil, 10 paling besar
-		$padding = 1;
-		QRCode::png($isi_teks,$tempdir.$namafile,$quality,$ukuran,$padding);
-
-		//untuk code convert barcode
-		$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
-		$generator = new Picqer\Barcode\BarcodeGeneratorJPG();
-		file_put_contents('temp/barcode/'.$code.'.jpg', $generator->getBarcode($coder,$generator::TYPE_CODABAR));
-
-		//untuk melempar ke view
-		$data['kode']=$id_barang.$iddepartement.$idyayasan.$date_month.$date_year;
-		
-		$this->blade->render('updateBarang',$data);
-
-
-		}
-		else
-		{
-			var_dump($_POST['id_barang']);
-		}
-	}
-	}
-*/
 	//function untuk mengedit tanggal dan keadaan barang
 	public function updatebarang($id,$idbarang,$iddepartement,$idyayasan,$date_month,$date_year)
 	{	$data['title']="INVENTARIS YSI";
@@ -757,42 +889,7 @@ class Barang extends MY_Controller {
 
 
 
-	//function 
-public function barcode()
-{
-	$data['status']="admin";
-	$generator = new Picqer\Barcode\BarcodeGeneratorHTML();
-	/*SVG*///echo $generator->getBarcode('1', $generator::TYPE_CODE_128);
-	$generatorPNG = new Picqer\Barcode\BarcodeGeneratorPNG();
-	echo '<img src="data:image/png;base64,' . base64_encode($generatorPNG->getBarcode('123111299', $generatorPNG::TYPE_CODE_128)) . '">';
 
-	
-	
-	/*kalo mau menyimpan qr ccode disuatu local dist*/
-	/*$tempdir = "temp/"; //<-- Nama Folder file QR Code kita nantinya akan disimpan
-	if (!file_exists($tempdir))#kalau folder belum ada, maka buat.
-    mkdir($tempdir);
-	
- 
-	$isi_teks = "1111111";
-	$namafile = "tono.png";
-	$quality = 'H'; //ada 4 pilihan, L (Low), M(Medium), Q(Good), H(High)
-	$ukuran = 5; //batasan 1 paling kecil, 10 paling besar
-	$padding = 0;
- 
-	$Qrcode=QRCode::png($isi_teks,$tempdir.$namafile,$quality,$ukuran,$padding);
-	echo '<img src=templateyysi/temp/coba.png>';*/
-}
-
-public function qrcode()
-{$data['status']="admin";
-$code=123170051;
-$qrCode= new Endroid\QrCode\QrCode($code);
-
-$qrCode->writeFile('temp/'.$code.'.png');
-;
-redirect('barang');
-}
 
 
 

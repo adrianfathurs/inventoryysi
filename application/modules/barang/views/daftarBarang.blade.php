@@ -26,13 +26,15 @@
   @section('content')
   <!-- Begin Page Content -->
   <div class="container-fluid">
+    <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
     <!-- Page Heading -->
     <?= $this->session->userdata('message');?>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
        <div class="card-header">
-        <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
+         <h5 class="mb-2">{{$subtitle}}</h5>
+        </div>
         <div class="row">
          <div class="col-1-md">
            <button name="btnsubmit" id="btncheckbox" class="btn btn-success py-8 px-8"  type="submit">PILIH BARANG</button>
@@ -44,7 +46,6 @@
            <button type="button" name="btninfo" id="btncheckbox" class="btn btn-info py-8 px-8" data-toggle="modal" data-target="#exampleModalCenterInfo"><i class="fas fa-info"></i></button>
          </div>
        </div>
-     </div>
      <div class="card-body">
       <div class="table-responsive">
         <form id="form_cek" name="form_cek" method="POST" action="{{base_url('barang/selectbarcode')}}">  
@@ -65,6 +66,8 @@
                 <th><center>Harga/Satuan</center></th>
                 <th><center>TGL Rusak</center></th>
                 <th><center>Lokasi Barang</center></th>
+                <th><center>Foto</center></th>
+
               </tr>
             </thead>
             <tbody id="bodyTable">
@@ -100,7 +103,10 @@
                       data-keadaan_barang="<?= $d['keadaan_barang']?>"
                       data-lokasi="<?= $d['lokasi']?>"
                       data-tanggal_rusak="<?= $d['tanggal_rusak']?>"
-                       data-ket_barang="<?= $d['ket_barang']?>">
+                       data-ket_barang="<?= $d['ket_barang']?>"
+                       data-foto="<?= $d['foto']?>"
+                       >
+
                        <i class="fas fa-edit fa-1x"></i>
                      </a>
                      <?php
@@ -133,6 +139,7 @@
                <td><center><?=$d['harga_satuan']?></center></td>
                <td><center><?=$d['tanggal_rusak']?></center></td>
                <td><center><?=strtoupper($d['lokasi'])?></center></td>
+               <td><center><img src="{{base_url('assets/dist/img/imgbarang/').$d['foto']}}" width="80" height="80"></center></td>
              </tr>
            <?php endforeach;?>
          </tbody>
@@ -223,7 +230,8 @@
       </div>
       <div class="modal-body">
         <!-- ######################################################################## -->
-        <form method="POST" action="{{base_url('barang/updatedata')}}">
+        <?php echo form_open_multipart('barang/updatedata/');?>
+        
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
@@ -329,6 +337,12 @@
                 </div>
               </div>
             </div>
+            <div class="form-group">
+              <div class="form-label-group">
+                <label for="imgbarang">Upload Gambar Barang</label>
+                 <input type="file" name="foto" class="form-control" id="fotoBar" required="true" >
+              </div>
+          </div>
         
       </div>    
         <div class="modal-footer">
@@ -336,8 +350,8 @@
           <!-- value nya da di java script -->
           <input type="hidden" name="idBarang" id="idBarang"> 
           <input type="hidden" name="idBarcode" id="idBarcode">
-          <button type="submit" class="btn btn-success" name="btnSubmit">EDIT</button>           
-        </form>
+          <button type="submit" class="btn btn-success" name="btnSubmit">Edit&Save</button>           
+        <?php echo form_close();?>
       </div>
     </div>
   </div>
@@ -412,6 +426,7 @@
       var keadaan_barang=$(this).data('keadaan_barang');
       var lokasi=$(this).data('lokasi');
       var tanggal_rusak=$(this).data('tanggal_rusak');
+      var foto=$(this).data('foto');
       $(".modal-footer #idBarcode").val(id);
       $(".modal-footer #idBarang").val(id_barang);
       $(".modal-body #namaBarang").val(nama);
@@ -428,6 +443,7 @@
       $(".modal-body #lokasiBarang").val(lokasi);
       $(".modal-body #ketBarang").val(ket_barang);
       $(".modal-body #tglBarangRusak").val(tanggal_rusak);
+      $(".modal-body #fotoBar").val(foto);
     });
   </script>
 

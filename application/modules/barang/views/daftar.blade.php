@@ -35,7 +35,7 @@
             <div class="card-header py-3">
                <div class="card-header">
                  
-                    <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h1></center>
+                     <h5 class="h3 mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h5>
                </div>
 
 

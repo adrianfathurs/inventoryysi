@@ -46,12 +46,15 @@
       #tabeltransaksi{
         display: none;
       }
+      #icon{
+        margin-top: 10px;
+      }
     </style>
     @endsection
     @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
-
+    <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
       <!-- Page Heading -->
 
 
@@ -59,9 +62,9 @@
       <div class="card shadow mb-4">
         <div class="card-header py-3">
          <div class="card-header">
-          <center> <h1 class="h3 mb-2 text-gray-800"><strong>{{$headerpencetakan}}</strong></h1></center>
-          <a data-toggle="modal" data-target="#btnDelete"><i class="fas fa-arrow-circle-left fa-2x" id="icon"></i></a>
+           <h5 class=" mb-2 text-gray-800">{{$headerpencetakan}}</h5>
         </div>
+          <a data-toggle="modal" data-target="#btnDelete"><i class="fas fa-arrow-circle-left fa-2x " id="icon"></i></a>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -229,7 +232,7 @@
               <div class="col-6">
                 <div class="form-group">
                   <div class="form-label-group">
-                    <label for="ygMenyerahkan">Nama yang Menyerahkan</label><br>
+                    <label for="ygMenyerahkan">Nama Penyerah</label><br>
                     <!-- <input type="text" id="ygMenyerahkan" class="form-control" placeholder="Nama yang Menyerahkan" required="required " name="penyerah"> -->
                     <select class=" select2 js-example-responsive form-control " style="width: 100%" name="idpenyerah" id="nama_penyerah" required="true">
                       <option value="">-----------------------------------------------------------------Pilih Nama------------------------------------------------------------------------</option>
@@ -248,7 +251,7 @@
                 </div>
                 <div class="form-group">
                   <div class="form-label-group">
-                    <label for="jabMenyerahkan">Jabatan yang Menyerahkan</label><br>
+                    <label for="jabMenyerahkan">Jabatan Penyerah</label><br>
 
                     <input type="text" class=" form-control " readonly="true" name="jabpenyerah" id="jabMenyerahkan">    
                   </input>
@@ -283,7 +286,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-3">
+          <div class="col-4-md margin">
             <div class="form-group">
               <div class="form-label-group">
                 <label for="lokasiBarang">Lokasi Pindah/Lokasi Mutasi </label>
@@ -291,7 +294,7 @@
               </div>
             </div>
           </div>
-          <div class="col-3">
+          <div class="col-4-md">
             <div class="form-group">
               <div class="form-label-group">
                 <label for="tglPenyerahan">Tanggal Penyerahan Barang</label>
@@ -573,7 +576,7 @@
   @section('scripts-js')
   <script src="{{base_url('assets/plugins/jquery/jquery.PrintArea.js')}}"></script>
 
-  <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+  <script src="{{base_url('assets/plugins/select/js/select2.min.js')}}"></script>
   <script>
     $(document).ready(function() {
       $('.select2').select2();
@@ -660,6 +663,7 @@
         $.ajax({
           type: "post",
           url: 'http://localhost/templateyysi/transaksi/selectBox',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -677,6 +681,7 @@
         $.ajax({
           type: "post",
           url: 'http://localhost/templateyysi/transaksi/selectBox',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -725,6 +730,7 @@
         $.ajax({
           type: "post",
           url: 'http://localhost/templateyysi/transaksi/selectBox',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -742,6 +748,7 @@
         $.ajax({
           type: "post",
           url: 'http://localhost/templateyysi/transaksi/selectBox',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);

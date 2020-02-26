@@ -10,14 +10,14 @@
     </style>
  
    <div class="container-fluid">
-    <div class="card card-register mx-auto mt-5">
-      <center> 
+    <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
+    <div class="card shadow mb-4">
       <div class="card-header">
-         <center><h2><strong>Form Tambah Barang</strong></h2></center>
+        <h5>Form Tambah Barang</h5>
       </div>
-      </center>
+      
       <div class="card-body">
-        <form method="POST" action="{{base_url('barang/tambahbarang')}}">
+        <?php echo form_open_multipart('barang/tambahbarang/');?>
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
@@ -116,8 +116,15 @@
                 </div>
               </div>
             </div>
-          <button class="btn btn-success btn-block">Tambah</button>
-        </form>
+          <div class="form-group">
+              <div class="form-label-group">
+                <label for="imgbarang">Gambar Barang</label>
+                 <input type="file" name="foto" class="form-control" required="true" >
+              </div>
+          </div>
+
+          <button type="submit" class="btn btn-success btn-block" >Tambah</button>
+        <?php echo form_close();?>
       </div>
     </div>
   </div>
