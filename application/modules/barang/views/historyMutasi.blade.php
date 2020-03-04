@@ -54,31 +54,51 @@
             </thead>
             <tbody id="bodyTable">
               <!-- load table spesifikasi barang dan barang kedalam tabel  -->
-              <?php $i=0;foreach($transaksi as $t):?>
-                <tr>
-                  <td>{{$i++}}</td>
-                  <td><center><?=strtoupper($t['nama_barang'])?></center></td>
-                  <td><center><?=strtoupper($t['merk'])?></center></td>
-                  <td><center><?=strtoupper($t['no_pabrik'])?></center></td>
-                  <td><center><?=strtoupper($t['tanggal_rusak'])?></center></td>
-                  <td><center><?=strtoupper($t['ket_barang'])?></center></td>
-                  <td><center><?=$t['tanggal_pengadaan']?></center></td>
-                  <td><center><?=strtoupper($t['tanggal_peletakan'])?></center></td>
-                  <td><center><?=strtoupper($t['lokasi_update'])?></center></td>
-                  <td><center><?=strtoupper($t['lokasi_sebelum'])?></center></td>
-                  
-                </tr>
-              <?php endforeach;?>
-            </tbody>
-          </table>
-         
-        </div>
-      </div>
-    </div>
-  </div> 
-  
+              <?php $i=0;foreach($transaksi as $t):
+              //convert format tanggal_mutasi/tanggal_peletakan
+              $datemut=strtotime($t['tanggal_peletakan']);
+                $tanggal_Peletakan= date('d-m-Y', $datemut);
+              //convert format tanggal_pengadaan
+              $date=strtotime($t['tanggal_pengadaan']);
+                $tanggal_Pengadaan= date('d-m-Y', $date);
+              //convert format tanggal_rusak
+              $tanggalrusak=$t['tanggal_rusak'];
+                if(isset($tanggalrusak))
+                {
+                  $tanggalrusak=strtotime($t['tanggal_rusak']);
+                  $tanggal_Rusak=date('d-m-Y',$tanggalrusak);
 
-  <!-- ####################################################################################################################### -->
+                }
+                else
+                {
+                 $tanggal_Rusak=$t['tanggal_rusak'];
+               }
+
+             ?>
+             <tr>
+              <td>{{$i++}}</td>
+              <td><center><?=strtoupper($t['nama_barang'])?></center></td>
+              <td><center><?=strtoupper($t['merk'])?></center></td>
+              <td><center><?=strtoupper($t['no_pabrik'])?></center></td>
+              <td><center><?=$tanggal_Rusak?></center></td>
+              <td><center><?=strtoupper($t['ket_barang'])?></center></td>
+              <td><center><?=$tanggal_Pengadaan?></center></td>
+              <td><center><?=$tanggal_Peletakan?></center></td>
+              <td><center><?=strtoupper($t['lokasi_update'])?></center></td>
+              <td><center><?=strtoupper($t['lokasi_sebelum'])?></center></td>
+
+            </tr>
+          <?php endforeach;?>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+</div> 
+
+
+<!-- ####################################################################################################################### -->
 </div> 
 <!-- End of Main Content -->
 @endsection

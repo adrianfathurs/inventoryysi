@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
       <form action="{{base_url('start/auth/')}}" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="username" placeholder="username">
+          <input type="text" class="form-control" name="username" placeholder="username" required="true">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password" placeholder="Password">
+          <input type="password" class="form-control" name="password" placeholder="Password" required="true">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>

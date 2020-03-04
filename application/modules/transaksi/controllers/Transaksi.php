@@ -140,7 +140,7 @@ class Transaksi extends MY_Controller {
 		}
 	//function untuk menampilkan history data
 		public function historyTransaksi()
-		{
+		{if($_SESSION['status'] !== NULL){
 			$data['title']="INVENTARIS YSI";
 			$data['subtitle']="HISTORY TRRANSAKSI";
 			$data['active']="HistoryTransaksi";
@@ -159,55 +159,66 @@ class Transaksi extends MY_Controller {
 			$data['historytransaksi']=$this->TransaksiModel->getAllHistoryTransaksi();
 
 			$this->blade->render('historyTransaksi',$data);
-
-		}
-	//mengupdate data transaksi sebelum dicetak
-		public function updatetransaksi()
-		{$data['title']="INVENTARIS YSI";
-		$data['subtitle']="Transaksi Barang";
-		$data['headerpencetakan']="SERAH TERIMA BARANG";
-		$data['active']="TransaksiBarang";
-		$ketbarang=$this->input->post('ket');
-		$idbar=$_SESSION['idcode'];
-		$status=$_SESSION['status'];
-		if($status==1)
-		{
-			$data['status']="admin";
 		}
 		else
 		{
-			$data['status']="direktur";	
+			redirect('start/start');
+		}	
+
+	}
+	//mengupdate data transaksi sebelum dicetak
+	public function updatetransaksi()
+	{
+		if($_SESSION['status'] !== NULL){
+			$data['title']="INVENTARIS YSI";
+			$data['subtitle']="Transaksi Barang";
+			$data['headerpencetakan']="SERAH TERIMA BARANG";
+			$data['active']="TransaksiBarang";
+			$ketbarang=$this->input->post('ket');
+			$idbar=$_SESSION['idcode'];
+			$status=$_SESSION['status'];
+			if($status==1)
+			{
+				$data['status']="admin";
+			}
+			else
+			{
+				$data['status']="direktur";	
+			}
+			$id_transaksi=$this->input->post('idTransaksi');
+			$idPenerima=$this->input->post('idPenerima');
+			$idPenyerah=$this->input->post('idPenyerah');
+			$nama_penerima=$this->KaryawanModelTrans->getNamaKaryawanbyId($idPenerima);
+			$nama_penyerah=$this->KaryawanModelTrans->getNamaKaryawanbyId($idPenyerah);
+			$ttransaksi=[
+				'id_transaksi'=>$id_transaksi,
+				'jabatan_penerima'=>$this->input->post('jabPenerima'),
+				'jabatan_penyerah'=>$this->input->post('jabPenyerah'),
+				'lokasi_peletakan'=>$this->input->post('lokasiBarang'),
+				'nama_penerima'=>$nama_penerima,
+				'nama_penyerah'=>$nama_penyerah,
+				'tgl_peletakan'=>$this->input->post('tglPenyerah')
+			];
+			$setUpdateTransaksi=$this->TransaksiModel->setUpdateTransaksi($ttransaksi,$id_transaksi);
+
+			$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
+			$this->session->set_userdata('editbutton','<button type="button"  class="btn btn-success"  id="btntabeltransaksi"				>
+				Edit Data Transaksi
+				</button>');
+			$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
+			$data['karyawan']=$this->KaryawanModelTrans->getKaryawan();
+			$this->blade->render('cetakTransaksi',$data);
+
 		}
-		$id_transaksi=$this->input->post('idTransaksi');
-		$idPenerima=$this->input->post('idPenerima');
-		$idPenyerah=$this->input->post('idPenyerah');
-		$nama_penerima=$this->KaryawanModelTrans->getNamaKaryawanbyId($idPenerima);
-		$nama_penyerah=$this->KaryawanModelTrans->getNamaKaryawanbyId($idPenyerah);
-		$ttransaksi=[
-			'id_transaksi'=>$id_transaksi,
-			'jabatan_penerima'=>$this->input->post('jabPenerima'),
-			'jabatan_penyerah'=>$this->input->post('jabPenyerah'),
-			'lokasi_peletakan'=>$this->input->post('lokasiBarang'),
-			'nama_penerima'=>$nama_penerima,
-			'nama_penyerah'=>$nama_penyerah,
-			'tgl_peletakan'=>$this->input->post('tglPenyerah')
-		];
-		$setUpdateTransaksi=$this->TransaksiModel->setUpdateTransaksi($ttransaksi,$id_transaksi);
-		
-		$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
-		$this->session->set_userdata('editbutton','<button type="button"  class="btn btn-success"  id="btntabeltransaksi"				>
-			Edit Data Transaksi
-			</button>');
-		$data['daftar']=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
-		$data['karyawan']=$this->KaryawanModelTrans->getKaryawan();
-		$this->blade->render('cetakTransaksi',$data);
-
-
+		else
+		{
+			redirect('start/start');
+		}	
 	}
 
 	//function untuk insert data transaksi di table ttransaksi
 	public function setTambah()
-	{
+	{if($_SESSION['status'] !== NULL){
 		$data['title']="INVENTARIS YSI";
 		$data['subtitle']="Transaksi Barang";
 		$data['headerpencetakan']="SERAH TERIMA BARANG";
@@ -227,7 +238,7 @@ class Transaksi extends MY_Controller {
 		$jumlah=count($idbar);
 		$ketbar=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
 		$ket_bar="";
-		
+
 		foreach ($ketbar as $key) {
 			$ket_bar.=$key['nama_barang'].":".$key['ket_barang'].",";
 			//lokasi adalah lokasi awal yang diinpukan ditabel barangs
@@ -249,11 +260,11 @@ class Transaksi extends MY_Controller {
 			];
 
 			$update=$this->TransaksiModel->setUpdateBarangsbyId($idbarang,$barangs);
-			
+
 		}
-		
-		var_dump($update);
-		
+
+
+
 		$idpenerima=$this->input->post('idpenerima');
 		$idpenyerah=$this->input->post('idpenyerah');
 		$nama_penyerah=$this->KaryawanModelTrans->getNamaKaryawanbyId($idpenyerah);
@@ -332,10 +343,15 @@ class Transaksi extends MY_Controller {
 		//ambil data di tabel ttransaksi
 			$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
 			$this->blade->render("transaksiBarang",$data);
+			}
+		else
+		{
+			redirect('start/start');
+		}	
 		}
 
 		public function datacetak()
-		{
+		{if($_SESSION['status'] !== NULL){
 			$data['title']="INVENTARIS YSI";
 			$data['subtitle']="Transaksi Barang";
 			$status=$_SESSION['status'];
@@ -357,6 +373,11 @@ class Transaksi extends MY_Controller {
 		//ambil data di tabel ttransaksi
 			$data['ttransaksi']=$this->TransaksiModel->getAllttransaksi($id_transaksi);
 			$this->blade->render("cetakTransaksi",$data);
+				}
+		else
+		{
+			redirect('start/start');
+		}
 		}
 
 		public function printsertibar($index,$id_transaksi)

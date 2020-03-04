@@ -25,7 +25,7 @@
   
   @section('content')
   <!-- Begin Page Content -->
- <!-- TABLE BARANGNYA -->
+  <!-- TABLE BARANGNYA -->
   <div class="container-fluid">
     <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
     <!-- DataTales Example -->
@@ -65,61 +65,66 @@
                   $idbarang=$d['id_barang'];
                   $iddepartement=$d['id_departement'];
                   $idyayasan=$d['id_yayasan'];
+                  $harga_satuan=base_url('barang/convert_to_rupiah/').$d['harga_satuan'];
+                  /////////////////////////////////////////
                   $date=strtotime($d['tanggal_pengadaan']);
                   $date_month=date('n',$date);
                   $date_year=date('y',$date);
-                  ?>
-                  <td>
-                    <form action="{{base_url('barang/tampilcode')}}" method="POST">
-                      <input type="hidden" name="idbarcode" id="idbarcode" value="{{$id}}">
-                      <input type="hidden" name="idbarang" id="idbarang" value="{{$idbarang}}">
-                      <input type="hidden" name="date_month" id="date_month" value="{{$date_month}}">
-                      <input type="hidden" name="date_year" id="date_year" value="{{$date_year}}">
-                      <button type="submit" class="btn btn-primary"id="btncode" >Code</button>
-                    </form>
-                  </td>
-                  <td>{{$d['id_barcode']}}</td>
-                  <td><center><?=strtoupper($d['nama_barang'])?></center></td>
-                  <td><center><?=strtoupper($d['merk'])?></center></td>
-                  <td><center><?=strtoupper($d['no_pabrik'])?></center></td>
-                  <td><center><?=strtoupper($d['bahan'])?></center></td>
-                  <td><center><?=strtoupper($d['cara_peroleh'])?></center></td>
-                  <td><center><?=$d['tanggal_pengadaan']?></center></td>
-                  <td><center><?=strtoupper($d['warna_barang'])?></center></td>
-                  <td><center><?=strtoupper($d['satuan'])?></center></td>
-                  <td><center><?=strtoupper($d['keadaan_barang'])?></center></td>
-                  <td><center><?=$d['harga_satuan']?></center></td>
-                  <td><center><?=$d['tanggal_rusak']?></center></td>
-                  <td><center><?=strtoupper($d['lokasi'])?></center></td>
-                  <td><center><img src="{{base_url('assets/dist/img/imgbarang/').$d['foto']}}" width="80" height="80"></center></td>
-                </tr>
-              <?php endforeach;?>
-            </tbody>
-          </table>
-          <!-- CArd view Lihart History Barang -->
-          <div class="card" style="width: 15rem;">
-            <div class="card-header py-2">
-              <h5 class="card-title" style="margin: center"><strong>Lihat</strong></h5>
-            </div>
-            <a href="{{base_url('barang/historymutasi')}}">
-            <div class="card-body">
-              <button class="btn btn-info" id="btnHistory">History Mutasi Barang</button>
-            </div>
-            </a>
-          </div>
-          
-          <!-- ------------------------------- -->
-        </div>
+                  //convert format tanggal_pengadaan
+                  $tanggal_Pengadaan= date('d-m-Y', $date);
+                  //convert format tanggal_rusak
+                  $tanggalrusak=$d['tanggal_rusak'];
+                  if(isset($tanggalrusak))
+                  {
+                    $tanggalrusak=strtotime($d['tanggal_rusak']);
+                    $tanggal_Rusak=date('d-m-Y',$tanggalrusak);
+
+                  }
+                  else
+                  {
+                   $tanggal_Rusak=$d['tanggal_rusak'];
+                 }
+
+                  ////////////////////////////////////////
+                 ?>
+                 <td>
+                  <form action="{{base_url('barang/tampilcode')}}" method="POST">
+                    <input type="hidden" name="idbarcode" id="idbarcode" value="{{$id}}">
+                    <input type="hidden" name="idbarang" id="idbarang" value="{{$idbarang}}">
+                    <input type="hidden" name="date_month" id="date_month" value="{{$date_month}}">
+                    <input type="hidden" name="date_year" id="date_year" value="{{$date_year}}">
+                    <button type="submit" class="btn btn-primary"id="btncode" >Code</button>
+                  </form>
+                </td>
+                <td>{{$d['id_barcode']}}</td>
+                <td><center><?=strtoupper($d['nama_barang'])?></center></td>
+                <td><center><?=strtoupper($d['merk'])?></center></td>
+                <td><center><?=strtoupper($d['no_pabrik'])?></center></td>
+                <td><center><?=strtoupper($d['bahan'])?></center></td>
+                <td><center><?=strtoupper($d['cara_peroleh'])?></center></td>
+                <td><center><?=$tanggal_Pengadaan?></center></td>
+                <td><center><?=strtoupper($d['warna_barang'])?></center></td>
+                <td><center><?=strtoupper($d['satuan'])?></center></td>
+                <td><center><?=strtoupper($d['keadaan_barang'])?></center></td>
+                <td><center><?='Rp.'.number_format($d['harga_satuan'],2,",",".");?></center></td>
+                <td><center><?=$tanggal_Rusak?></center></td>
+                <td><center><?=strtoupper($d['lokasi'])?></center></td>
+                <td><center><img src="{{base_url('assets/dist/img/imgbarang/').$d['foto']}}" width="80" height="80"></center></td>
+              </tr>
+            <?php endforeach;?>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div> 
+  </div>
+</div> 
 </div>
-  
+
 <!-- End of Main Content -->
 @endsection
 <!-- script js -->
 @section('scripts-js')
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="{{base_url('assets/plugins/datatables/jquery.dataTables.js')}}"></script>
 <script>
   $(document).ready(function(){
     var table = $('.dataTable').DataTable();

@@ -111,6 +111,8 @@
             <tbody>
               <?php $j=0;foreach($ttransaksi as $tr): 
               $id_transaksi=$tr['Id_transaksi'];
+              $datemut=strtotime($tr['tgl_peletakan']);
+                $tanggal_Peletakan= date('d-m-Y', $datemut);
               ?>
 
               <tr>
@@ -139,7 +141,7 @@
               <td>{{$tr['nama_penerima']}}</td>
               <td>{{$tr['jabatan_penerima']}}</td>
               <td>{{$tr['lokasi_peletakan']}}</td>
-              <td>{{$tr['tgl_peletakan']}}</td>
+              <td>{{$tanggal_Peletakan}}</td>
               <td>{{$tr['ket']}}</td>
               
             </tr>
@@ -380,7 +382,7 @@
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
 
-<script src="{{base_url('assets/plugins/select/js/select2.min.js')}}"></script>
+<script  src="{{base_url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
 <script>
   $(document).ready(function() {
     $('.select2').select2();

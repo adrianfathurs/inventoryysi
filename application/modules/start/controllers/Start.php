@@ -47,7 +47,7 @@ public function __construct()
 								
 							);
 							$this->session->set_userdata($data);
-							redirect('admin');
+							redirect('admin/admin');
 						}
 						else if($status==2)
 						{
@@ -65,7 +65,7 @@ public function __construct()
 
 							);
 							$this->session->set_userdata($data);
-							redirect('direktur');	
+							redirect('direktur/direktur');	
 						}
 						else
 						{
@@ -100,7 +100,7 @@ public function __construct()
 
 	public function logout()
 	{
-		$data =array('nama','akun_id','id_karyawan','nama_jabatan','logged_in');
+		$data =array('nama','akun_id','id_karyawan','nama_jabatan','logged_in','status');
 							
 		$this->session->unset_userdata($data);
 		$this->session->unset_userdata('idrang');

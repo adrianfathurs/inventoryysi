@@ -54,7 +54,7 @@
     @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
-    <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
+      <h4 class=" mb-2 text-gray-800"><strong>{{$subtitle}}</strong></h4>
       <!-- Page Heading -->
 
 
@@ -63,9 +63,9 @@
         <div class="card-header py-3">
          <div class="card-header">
            <h5 class=" mb-2 text-gray-800">{{$headerpencetakan}}</h5>
-        </div>
-          <a data-toggle="modal" data-target="#btnDelete"><i class="fas fa-arrow-circle-left fa-2x " id="icon"></i></a>
-        <div class="card-body">
+         </div>
+         <a data-toggle="modal" data-target="#btnDelete"><i class="fas fa-arrow-circle-left fa-2x " id="icon"></i></a>
+         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
@@ -102,227 +102,242 @@
                     $id_barang=$d['id_barang'];
                     $id_dept=$d['id_departement'];
                     $id_yayasan=$d['id_yayasan'];
+              //convert format tanggal_pengadaan
                     $date=strtotime($d['tanggal_pengadaan']);
                     $date_month=date('m',$date);
                     $date_year=date('y',$date);
-                    ?>
+                    $tanggal_Pengadaan= date('d-m-Y', $date);
+              //convert format tanggal_rusak
+                    $tanggalrusak=$d['tanggal_rusak'];
+                    if(isset($tanggalrusak))
+                    {
+                      $tanggalrusak=strtotime($d['tanggal_rusak']);
+                      $tanggal_Rusak=date('d-m-Y',$tanggalrusak);
 
-                    <td>{{$j}}</td>
-                    <td><center><?=strtoupper($d['nama_barang'])?></center></td>
-                    <td><center><?=strtoupper($d['merk'])?></center></td>
-                    <td><center><?=strtoupper($d['no_pabrik'])?></center></td>
-                    <td><center><?=strtoupper($d['bahan'])?></center></td>
-                    <td><center><?=strtoupper($d['cara_peroleh'])?></center></td>
-                    <td><center><?=$d['tanggal_pengadaan']?></center></td>
-                    <td><center><?=strtoupper($d['warna_barang'])?></center></td>
-                    <td><center><?=strtoupper($d['satuan'])?></center></td>
-                    <td><center><?=strtoupper($d['keadaan_barang'])?></center></td>
-                    <td><center><?=$d['harga_satuan']?></center></td>
-                    <td><center><?=$d['tanggal_rusak']?></center></td>
-                    <td><center><?=strtoupper($d['lokasi'])?></center></td>
+                    }
+                    else
+                    {
+                     $tanggal_Rusak=$d['tanggal_rusak'];
+                   }
 
-                  </tr>
-                  <!--  <input type="hidden" name="idbar[]" value="{{$id}}"> -->
-                  <?php $j++;endforeach;?> 
-                  <!-- Belum JAdi masih memikirkan gimana caranya agar 2 id barcode fdapat di parsing -->
-                  <!-- <input type="hidden" name="idbar[]" value="{{$d['id_barcode']}}"> -->
-                </tbody>
-              </table>
-            </div>
+                   ?>
+
+                   <td>{{$j}}</td>
+                   <td><center><?=strtoupper($d['nama_barang'])?></center></td>
+                   <td><center><?=strtoupper($d['merk'])?></center></td>
+                   <td><center><?=strtoupper($d['no_pabrik'])?></center></td>
+                   <td><center><?=strtoupper($d['bahan'])?></center></td>
+                   <td><center><?=strtoupper($d['cara_peroleh'])?></center></td>
+                   <td><center><?=$tanggal_Pengadaan?></center></td>
+                   <td><center><?=strtoupper($d['warna_barang'])?></center></td>
+                   <td><center><?=strtoupper($d['satuan'])?></center></td>
+                   <td><center><?=strtoupper($d['keadaan_barang'])?></center></td>
+                   <td><center><?='Rp.'.number_format($d['harga_satuan'],2,",",".");?></center></td>
+                   <td><center><?=$tanggal_Rusak?></center></td>
+                   <td><center><?=strtoupper($d['lokasi'])?></center></td>
+
+                 </tr>
+                 <!--  <input type="hidden" name="idbar[]" value="{{$id}}"> -->
+                 <?php $j++;endforeach;?> 
+                 <!-- Belum JAdi masih memikirkan gimana caranya agar 2 id barcode fdapat di parsing -->
+                 <!-- <input type="hidden" name="idbar[]" value="{{$d['id_barcode']}}"> -->
+               </tbody>
+             </table>
+           </div>
 
 
-            <div class="row">
-              <div class="col-md-8 margin">
-                <div class="card" style="width: 15rem;"><br>      
-                  <h5 class="card-title"><strong><center>Lihat</center></strong></h5>
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-xs-6 margin">
-                    <?php if(!isset($_SESSION['btncetakkuu'])) :?>
-                      <button type="button" class="btn btn-info" id="jsform">Form Sertibar</button> 
-                      <?php else : ?>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#btnalert" >Form Sertibar</button> 
-                      <?php endif;?>
+           <div class="row">
+            <div class="col-md-8 margin">
+              <div class="card" style="width: 15rem;"><br>      
+                <h5 class="card-title"><strong><center>Lihat</center></strong></h5>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-xs-6 margin">
+                      <?php if(!isset($_SESSION['btncetakkuu'])) :?>
+                        <button type="button" class="btn btn-info" id="jsform">Form Sertibar</button> 
+                        <?php else : ?>
+                          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#btnalert" >Form Sertibar</button> 
+                        <?php endif;?>
                       </div>
                       <div class="col-xs-6">
-                      <?php echo $this->session->userdata('btncetakkuu')?>
+                        <?php echo $this->session->userdata('btncetakkuu')?>
                       </div>
-                      </div>
-                    </div><!-- div row -->
-                  </div>
-                </div>
-
-                
-                <!-- ####################################### -->
-
-
-
-
-              </div> <!-- div row -->
-
-            </div>
-          </div>
-        </div>
-
-        <!-- TABEL TRANSAKSI -->
-        <div class="container-fluid" id="tabeltransaksi">
-          <div class="card card-register mx-auto mt-5">
-            <button type="button" class="btn btn-info" id="hidetabel">Hide</button>
-            <center>
-              <h4 class="card-header">Table Data Surat SERTIBAR</h4>
-            </center>
-            <div class="card-body">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                  <th>Action</th>
-                  <th>No</th>
-                  <th>Nama Penyerah</th>  
-                  <th>Jabatan Penyerah</th>  
-                  <th>Nama Penerima</th>  
-                  <th>Jababan Penerima</th>  
-                  <th>Lokasi Pindah</th>  
-                  <th>Tanggal Penyerahan Barang</th>
-                  <th>Keterangan Barang</th>  
-                </thead>
-                <tbody>
-                  <?php $j=0;foreach($ttransaksi as $tr): var_dump($tr['nama_penyerah']);var_dump($tr['Id_transaksi']);?>
-
-                  <tr>
-                    <td>
-                      <button type="button" class="btn btn-primary" id="btnedit" data-toggle="modal" data-target="#Edit"
-                      data-idtrans="<?= $tr['Id_transaksi']?>"
-                      data-nama_penyerah="<?= $tr['nama_penyerah']?>"
-                      data-jabatan_penyerah="<?= $tr['jabatan_penyerah']?>"
-                      data-nama_penerima="<?= $tr['nama_penerima']?>"
-                      data-jabatan_penerima="<?= $tr['jabatan_penerima']?>"
-                      data-lokasi_peletakan="<?= $tr['lokasi_peletakan']?>"
-                      data-tgl_peletakan="<?= $tr['tgl_peletakan']?>"
-                      data-ket="<?=$tr['ket']?>"
-                      >
-                      EDIT
-                    </button>
-                  </td>
-                  <td>{{$j++;}}</td>
-                  <td>{{$tr['nama_penyerah']}}</td>
-                  <td>{{$tr['jabatan_penyerah']}}</td>
-                  <td>{{$tr['nama_penerima']}}</td>
-                  <td>{{$tr['jabatan_penerima']}}</td>
-                  <td>{{$tr['lokasi_peletakan']}}</td>
-                  <td>{{$tr['tgl_peletakan']}}</td>
-                  <td>{{$tr['ket']}}</td>
-
-                </tr>
-              <?php endforeach;?>
-            </tbody>
-
-          </table>
-        </div>
-      </div>
-    </div>
-    <!--/////////////////////////////////////////////////////////////////////////////  -->
-    <div class="container-fluid" id="containers">
-      <div class="card card-register mx-auto mt-5">
-        <button type="button" class="btn btn-info" id="hide">Hide</button>
-        <center>
-          <h5 class="card-header">Form Berita Acara Serah Terima</h5>
-        </center>
-        <div class="card-body">
-          <form id="form" method="POST" action="{{base_url('transaksi/setTambah/')}}">
-            <div class="row">
-              <div class="col-6">
-                <div class="form-group">
-                  <div class="form-label-group">
-                    <label for="ygMenyerahkan">Nama Penyerah</label><br>
-                    <!-- <input type="text" id="ygMenyerahkan" class="form-control" placeholder="Nama yang Menyerahkan" required="required " name="penyerah"> -->
-                    <select class=" select2 js-example-responsive form-control " style="width: 100%" name="idpenyerah" id="nama_penyerah" required="true">
-                      <option value="">-----------------------------------------------------------------Pilih Nama------------------------------------------------------------------------</option>
-                      <?php foreach ($karyawan as $key): ?>
-                        <?php if($key['nama']==$nama):?>
-                          <option value="{{$key['id_karyawan']}}">{{$key['nama'].'/'}}</option>
-                        <?php endif;?> 
-                        <?php if($key['nama']!=$nama):?>
-                          <option value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
-                        <?php endif;?> 
-
-                        <?php 
-                      endforeach;?>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="form-label-group">
-                    <label for="jabMenyerahkan">Jabatan Penyerah</label><br>
-
-                    <input type="text" class=" form-control " readonly="true" name="jabpenyerah" id="jabMenyerahkan">    
-                  </input>
+                    </div>
+                  </div><!-- div row -->
                 </div>
               </div>
-            </div>
 
+
+              <!-- ####################################### -->
+
+
+
+
+            </div> <!-- div row -->
+
+          </div>
+        </div>
+      </div>
+
+      <!-- TABEL TRANSAKSI -->
+      <div class="container-fluid" id="tabeltransaksi">
+        <div class="card card-register mx-auto mt-5">
+          <button type="button" class="btn btn-info" id="hidetabel">Hide</button>
+          <center>
+            <h4 class="card-header">Table Data Surat SERTIBAR</h4>
+          </center>
+          <div class="card-body">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <th>Action</th>
+                <th>No</th>
+                <th>Nama Penyerah</th>  
+                <th>Jabatan Penyerah</th>  
+                <th>Nama Penerima</th>  
+                <th>Jababan Penerima</th>  
+                <th>Lokasi Pindah</th>  
+                <th>Tanggal Penyerahan Barang</th>
+                <th>Keterangan Barang</th>  
+              </thead>
+              <tbody>
+                <?php $j=0;foreach($ttransaksi as $tr): var_dump($tr['nama_penyerah']);var_dump($tr['Id_transaksi']);?>
+
+                <tr>
+                  <td>
+                    <button type="button" class="btn btn-primary" id="btnedit" data-toggle="modal" data-target="#Edit"
+                    data-idtrans="<?= $tr['Id_transaksi']?>"
+                    data-nama_penyerah="<?= $tr['nama_penyerah']?>"
+                    data-jabatan_penyerah="<?= $tr['jabatan_penyerah']?>"
+                    data-nama_penerima="<?= $tr['nama_penerima']?>"
+                    data-jabatan_penerima="<?= $tr['jabatan_penerima']?>"
+                    data-lokasi_peletakan="<?= $tr['lokasi_peletakan']?>"
+                    data-tgl_peletakan="<?= $tr['tgl_peletakan']?>"
+                    data-ket="<?=$tr['ket']?>"
+                    >
+                    EDIT
+                  </button>
+                </td>
+                <td>{{$j++;}}</td>
+                <td>{{$tr['nama_penyerah']}}</td>
+                <td>{{$tr['jabatan_penyerah']}}</td>
+                <td>{{$tr['nama_penerima']}}</td>
+                <td>{{$tr['jabatan_penerima']}}</td>
+                <td>{{$tr['lokasi_peletakan']}}</td>
+                <td>{{$tr['tgl_peletakan']}}</td>
+                <td>{{$tr['ket']}}</td>
+
+              </tr>
+            <?php endforeach;?>
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--/////////////////////////////////////////////////////////////////////////////  -->
+  <div class="container-fluid" id="containers">
+    <div class="card card-register mx-auto mt-5">
+      <button type="button" class="btn btn-info" id="hide">Hide</button>
+      <center>
+        <h5 class="card-header">Form Berita Acara Serah Terima</h5>
+      </center>
+      <div class="card-body">
+        <form id="form" method="POST" action="{{base_url('transaksi/setTambah/')}}">
+          <div class="row">
             <div class="col-6">
               <div class="form-group">
                 <div class="form-label-group">
-                  <label for="nama_penerima">Nama Penerima</label><br>
-
-                  <!-- <input type="text" id="ygMenerima" class="form-control" placeholder="Nama Penerima" required="required" name="penerima"> -->
-
-                  <select class="form-control js-example-responsive select2" id="nama_penerima" style="width: 100%" name="idpenerima" required="true">
-                    <option value="">-----------------------------------------------------------------Pilih Nama--------------------------------------</option>
+                  <label for="ygMenyerahkan">Nama Penyerah</label><br>
+                  <!-- <input type="text" id="ygMenyerahkan" class="form-control" placeholder="Nama yang Menyerahkan" required="required " name="penyerah"> -->
+                  <select class=" select2 js-example-responsive form-control " style="width: 100%" name="idpenyerah" id="nama_penyerah" required="true">
+                    <option value="">-----------------------------------------------------------------Pilih Nama------------------------------------------------------------------------</option>
                     <?php foreach ($karyawan as $key): ?>
-                      <option class="form control" value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
-                    <?php endforeach?>
-                  </select>
-                </div> 
+                      <?php if($key['nama']==$nama):?>
+                        <option value="{{$key['id_karyawan']}}">{{$key['nama'].'/'}}</option>
+                      <?php endif;?> 
+                      <?php if($key['nama']!=$nama):?>
+                        <option value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
+                      <?php endif;?> 
 
+                      <?php 
+                    endforeach;?>
+                  </select>
+                </div>
               </div>
               <div class="form-group">
                 <div class="form-label-group">
-                  <label for="jabPenerima">Jabatan Penerima</label>
-                  <input type="text" class=" form-control " readonly="true" name="jabpenerima" id="jabPenerima">    
+                  <label for="jabMenyerahkan">Jabatan Penyerah</label><br>
+
+                  <input type="text" class=" form-control " readonly="true" name="jabpenyerah" id="jabMenyerahkan">    
                 </input>
               </div>
             </div>
+          </div>
 
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-4-md margin">
+          <div class="col-6">
             <div class="form-group">
               <div class="form-label-group">
-                <label for="lokasiBarang">Lokasi Pindah/Lokasi Mutasi </label>
-                <input type="text" id="lokasiBarang" class="form-control" placeholder="Lokasi Peletakan " required="required" name="lokasibarang" >
-              </div>
+                <label for="nama_penerima">Nama Penerima</label><br>
+
+                <!-- <input type="text" id="ygMenerima" class="form-control" placeholder="Nama Penerima" required="required" name="penerima"> -->
+
+                <select class="form-control js-example-responsive select2" id="nama_penerima" style="width: 100%" name="idpenerima" required="true">
+                  <option value="">-----------------------------------------------------------------Pilih Nama--------------------------------------</option>
+                  <?php foreach ($karyawan as $key): ?>
+                    <option class="form control" value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
+                  <?php endforeach?>
+                </select>
+              </div> 
+
             </div>
-          </div>
-          <div class="col-4-md">
             <div class="form-group">
               <div class="form-label-group">
-                <label for="tglPenyerahan">Tanggal Penyerahan Barang</label>
-                <input type="date" id="tglPenyerahan" class="form-control" placeholder="Tanggal Penyerahan Barang" required="required" name="tglpenyerah">
-              </div>
+                <label for="jabPenerima">Jabatan Penerima</label>
+                <input type="text" class=" form-control " readonly="true" name="jabpenerima" id="jabPenerima">    
+              </input>
             </div>
           </div>
+
         </div>
-        <!-- keterangan barang diambil dari id barang yang telah dipilih dan berasal dari table barangs nantinya dimasukan di table ttransaksi -->
-        <?php $j=1;foreach($daftar as $k =>$d):?>
-        <div class="form-group">
+      </div>
+      <div class="row">
+        <div class="col-4-md margin">
           <div class="form-group">
             <div class="form-label-group">
-              <label for="keterangan">Keterangan Barang {{$d['nama_barang']}}</label>
-              <textarea class="form-control" rows="3" placeholder="{{$d['ket_barang']}}" required="required" name="ket[]" readonly="true" value="{{$d['ket_barang']}}"></textarea>
+              <label for="lokasiBarang">Lokasi Pindah/Lokasi Mutasi </label>
+              <input type="text" id="lokasiBarang" class="form-control" placeholder="Lokasi Peletakan " required="required" name="lokasibarang" >
             </div>
           </div>
         </div>
-        <?php $j++; endforeach;?>
+        <div class="col-4-md">
+          <div class="form-group">
+            <div class="form-label-group">
+              <label for="tglPenyerahan">Tanggal Penyerahan Barang</label>
+              <input type="date" id="tglPenyerahan" class="form-control" placeholder="Tanggal Penyerahan Barang" required="required" name="tglpenyerah">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- keterangan barang diambil dari id barang yang telah dipilih dan berasal dari table barangs nantinya dimasukan di table ttransaksi -->
+      <?php $j=1;foreach($daftar as $k =>$d):?>
+      <div class="form-group">
+        <div class="form-group">
+          <div class="form-label-group">
+            <label for="keterangan">Keterangan Barang {{$d['nama_barang']}}</label>
+            <textarea class="form-control" rows="3" placeholder="{{$d['ket_barang']}}" required="required" name="ket[]" readonly="true" value="{{$d['ket_barang']}}"></textarea>
+          </div>
+        </div>
+      </div>
+      <?php $j++; endforeach;?>
 
 
 
 
-      </div>          
-      <button type="submit" name="btnforminput" class="btn btn-success" id="submit">Submit</button>
+    </div>          
+    <button type="submit" name="btnforminput" class="btn btn-success" id="submit">Submit</button>
 
-    </form>
-  </div>
+  </form>
+</div>
 </div>
 </div>
 
@@ -343,9 +358,9 @@
       <div class="modal-footer">
         <a href="{{base_url('transaksi/clearId')}}"><button type="button" class=" btn btn-Danger" >
           <span aria-hidden="true">Tinggalkan Halaman</span></button></a>
-        <button type="button" class=" btn btn-success" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">Tetap di Halaman ini</span>
-        </button>
+          <button type="button" class=" btn btn-success" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">Tetap di Halaman ini</span>
+          </button>
         </button>                         
       </div>
     </div>
@@ -576,7 +591,7 @@
   @section('scripts-js')
   <script src="{{base_url('assets/plugins/jquery/jquery.PrintArea.js')}}"></script>
 
-  <script src="{{base_url('assets/plugins/select/js/select2.min.js')}}"></script>
+  <script  src="{{base_url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
   <script>
     $(document).ready(function() {
       $('.select2').select2();

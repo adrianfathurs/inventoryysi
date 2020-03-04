@@ -58,7 +58,25 @@
             </thead>
             <tbody id="bodyTable">
               <!-- load table spesifikasi barang dan barang kedalam tabel  -->
-              <?php $i=1;foreach($historytransaksi as $h):?>
+              <?php $i=1;foreach($historytransaksi as $h):
+
+              //convert format tanggal_mutasi/tanggal_peletakan
+              $datemut=strtotime($h['tanggal_peletakan']);
+                $tanggal_Peletakan= date('d-m-Y', $datemut);
+              //convert format tanggal_rusak
+              $tanggalrusak=$h['tanggal_rusak'];
+                if(isset($tanggalrusak))
+                {
+                  $tanggalrusak=strtotime($h['tanggal_rusak']);
+                  $tanggal_Rusak=date('d-m-Y',$tanggalrusak);
+
+                }
+                else
+                {
+                 $tanggal_Rusak=$h['tanggal_rusak'];
+               }
+              ?>
+
                 <tr>
                   <?php $download='1';$id_transaksi=$h['id_transaksi'];?>
                   <td><a href="{{base_url('transaksi/printsertibar/').$download.'/'.$id_transaksi}}"><button class="btn btn-primary">Sertibar</button></a></td>
@@ -67,8 +85,8 @@
                   <td><center><?=strtoupper($h['merk'])?></center></td>
                   <td><center><?=strtoupper($h['no_pabrik'])?></center></td>
                   <td><center><?=strtoupper($h['ket_barang'])?></center></td>
-                  <td><center><?=strtoupper($h['tanggal_rusak'])?></center></td>
-                  <td><center><?=strtoupper($h['tanggal_peletakan'])?></center></td>
+                  <td><center><?=$tanggal_Rusak?></center></td>
+                  <td><center><?=$tanggal_Peletakan?></center></td>
                   <td><center><?=strtoupper($h['lokasi_update'])?></center></td>
                   <td><center><?=strtoupper($h['lokasi_sebelum'])?></center></td>
                   <td><center><?=$h['nama_penyerah']?></center></td>

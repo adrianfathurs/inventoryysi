@@ -64,7 +64,7 @@
     $date=strtotime($g['tanggal_pengadaan']);
     $date_month=date('n',$date);
      $date_year=date('y',$date);
-    
+    var_dump($g['harga_satuan']);
     ?> 
 
     <div class="container-fluid">
