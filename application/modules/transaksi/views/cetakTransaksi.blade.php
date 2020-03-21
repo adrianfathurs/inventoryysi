@@ -468,8 +468,8 @@
         };
         $.ajax({
           type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          //url: 'http://localhost/templateyysi/transaksi/selectBox',
+          url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -486,8 +486,8 @@
         };
         $.ajax({
           type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          //url: 'http://localhost/templateyysi/transaksi/selectBox',
+          url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -535,8 +535,8 @@
         };
         $.ajax({
           type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          //url: 'http://localhost/templateyysi/transaksi/selectBox',
+          url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -553,8 +553,8 @@
         };
         $.ajax({
           type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          //url: 'http://localhost/templateyysi/transaksi/selectBox',
+          url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);

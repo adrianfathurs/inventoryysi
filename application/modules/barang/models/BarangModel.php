@@ -160,7 +160,7 @@ class BarangModel extends CI_Model {
 	 {
 
 
-	 	$query=$this->db->select('bs.tanggal_pengadaan,bs.ket_barang,bs.keadaan_barang,bs.tanggal_rusak,s.nama_barang,s.no_pabrik,s.merk,tt.nama_penerima,tt.nama_penyerah,tt.jabatan_penerima,tt.jabatan_penyerah,d.tanggal_peletakan,d.lokasi_update,d.lokasi_sebelum')
+	 	$query=$this->db->select('bs.tanggal_pengadaan,bs.ket_barang,bs.keadaan_barang,bs.tanggal_rusak,s.nama_barang,s.no_pabrik,s.merk,tt.nama_penerima,tt.nama_penyerah,tt.jabatan_penerima,tt.jabatan_penyerah,d.tanggal_peletakan,d.lokasi_update,d.lokasi_sebelum,d.lokasi_detail_update,d.lokasi_detail_sebelum')
 	 	->from('data_transaksi d')
 	 	->join('barcode b','b.id_barcode=d.id_barcode')
 	 	->join('ttransaksi tt','tt.id_transaksi=d.id_transaksi')
@@ -169,5 +169,50 @@ class BarangModel extends CI_Model {
 	 	->get();
 	 	return $query->result_array();
 
+	 }
+//untuk mengambil data table pemilik
+	 public function getpemilik()
+	 {
+	 	$query=$this->db->select('instansi')
+	 					->from('pemilik')
+	 					->get();
+	 	return $query->result_array();
+	 }
+//untuk mengambil data table lokasi
+	 public function getlokasi()
+	 {
+	 	$query=$this->db->select('id_lokasi,nama_lokasi')
+	 					->from('lokasi')
+	 					->get();
+	 	return $query->result_array();
+	 }
+
+
+//untuk mengambil data dari table lokasi by id_lokasi
+	 public function getlokasidetail($id)
+	 {
+	 	$query=$this->db->select('d.detail_nama_ruangan,d.id_detail_ruangan')
+	 					->from('detail_ruangan d')
+	 					->where('d.id_lokasi',$id)
+	 					->get();
+	 	return $query->result_array();
+	 }
+//untuk mengmabil data detainamaruangan dari tabel detail ruangan by id_detail_ruangan
+	 public function getdetailruangan($id)
+	 {
+	 	$query=$this->db->select('d.detail_nama_ruangan')
+	 					->from('detail_ruangan d')
+	 					->where('d.id_detail_ruangan',$id)
+	 					->get();
+	 	return $query->row()->detail_nama_ruangan;
+	 }
+//untuk mengambil data nama_lokasi dari tabel lokasi by id_lokasi
+	 public function getnamalokasi($idlok)
+	 {
+	 	$query=$this->db->select('l.nama_lokasi')
+	 					->from('lokasi l')
+	 					->where('l.id_lokasi',$idlok)
+	 					->get();
+	 	return $query->row()->nama_lokasi;	
 	 }
 	}

@@ -53,6 +53,8 @@
                 <th><center>Harga/Satuan</center></th>
                 <th><center>TGL Rusak</center></th>
                 <th><center>Lokasi Barang</center></th>  
+                <th><center>Lokasi Detail</center></th>  
+                <th><center>Pemilik</center></th>  
                 <th><center>Foto</center></th>  
               </tr>
             </thead>
@@ -109,6 +111,8 @@
                 <td><center><?='Rp.'.number_format($d['harga_satuan'],2,",",".");?></center></td>
                 <td><center><?=$tanggal_Rusak?></center></td>
                 <td><center><?=strtoupper($d['lokasi'])?></center></td>
+                <td><center><?=strtoupper($d['lokasi_detail'])?></center></td>
+                <td><center><?=strtoupper($d['pemilik'])?></center></td>
                 <td><center><img src="{{base_url('assets/dist/img/imgbarang/').$d['foto']}}" width="80" height="80"></center></td>
               </tr>
             <?php endforeach;?>

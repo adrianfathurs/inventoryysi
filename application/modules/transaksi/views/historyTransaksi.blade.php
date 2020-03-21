@@ -40,7 +40,6 @@
           <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
-                <th><center>Download</center></th>
                 <th><center>No</center></th>
                 <th><center>Nama Barang</center></th>
                 <th><center>Merk</center></th>
@@ -54,6 +53,7 @@
                 <th><center>Jabatan Menyerahkan</center></th>
                 <th><center>Nama Penerima</center></th>
                 <th><center>Jabatan Penerima</center></th>
+                <th><center>Download</center></th>
               </tr>
             </thead>
             <tbody id="bodyTable">
@@ -79,7 +79,6 @@
 
                 <tr>
                   <?php $download='1';$id_transaksi=$h['id_transaksi'];?>
-                  <td><a href="{{base_url('transaksi/printsertibar/').$download.'/'.$id_transaksi}}"><button class="btn btn-primary">Sertibar</button></a></td>
                   <td>{{$i}}</td>
                   <td><center><?=strtoupper($h['nama_barang'])?></center></td>
                   <td><center><?=strtoupper($h['merk'])?></center></td>
@@ -93,6 +92,7 @@
                   <td><center><?=$h['jabatan_penyerah']?></center></td>
                   <td><center><?=strtoupper($h['nama_penerima'])?></center></td>
                   <td><center><?=strtoupper($h['jabatan_penerima'])?></center></td>
+                  <td><a href="{{base_url('transaksi/printsertibar/').$download.'/'.$id_transaksi}}"><button class="btn btn-primary">Sertibar</button></a></td>
                 </tr>
               <?php $i++;endforeach;?>
             </tbody>

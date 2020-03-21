@@ -16,7 +16,7 @@
         </li>
         
         <li class="nav-item">
-            <a href="{{base_url('barang/tambahbarang')}}" class="nav-link">
+            <a href="{{base_url('barang/load_pemilik')}}" class="nav-link">
                 
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tambah Barang</p>

@@ -27,7 +27,7 @@
       
       <li class="nav-item active">
         @if($active === 'TambahBarang')
-        <a href="{{base_url('barang/tambahbarang')}}" class="nav-link active">
+        <a href="{{base_url('barang/load_pemilik')}}" class="nav-link active">
             @else
         <a href="{{base_url('barang/tambahbarang')}}" class="nav-link">
             @endif

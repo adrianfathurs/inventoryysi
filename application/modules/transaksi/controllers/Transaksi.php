@@ -13,6 +13,7 @@ class Transaksi extends MY_Controller {
 		$this->load->helper('form');
 		$this->load->model('TransaksiModel');
 		$this->load->model('KaryawanModelTrans');
+		$this->load->model('LokasiModelTrans');
 		$this->load->library('pdf');
 		
 		/*Agar dapat ngeload user model tanpa deklasrasi disetiap fungsi yang ada dia auth*/
@@ -138,6 +139,26 @@ class Transaksi extends MY_Controller {
 				echo $nama_jabatan;
 			}
 		}
+	//function API untuk menampilkan select Box lokasi Barang
+	public function selectBox_lokasi()
+	{
+		$id = $this->input->post('id');
+		$this->session->set_userdata('idlok',$id);
+		$option = $this->input->post('op');
+		if ($option==1)
+			{ 	$lokasidetail=$this->LokasiModelTrans->getlokasidetail($id);
+				 echo "<option value=''>----------------------------------Pilih Detail Ruangan----------------------------------------</option>";
+				foreach($lokasidetail as $ld)
+				{
+					 echo "<option value='".$ld['id_detail_ruangan']."'>".$ld['detail_nama_ruangan']."</option>";
+				}
+				
+			}
+		else
+		{
+			
+		}
+	}	
 	//function untuk menampilkan history data
 		public function historyTransaksi()
 		{if($_SESSION['status'] !== NULL){
@@ -238,11 +259,17 @@ class Transaksi extends MY_Controller {
 		$jumlah=count($idbar);
 		$ketbar=$this->TransaksiModel->getAllbyIdbarcodewherein($idbar);
 		$ket_bar="";
+		//id lokasi yang didapat dari session yang ada di function selectBox_lokasi()
+		$idlok=$_SESSION['idlok'];
+		$id_detail_ruangan=$this->input->post('lokasiDetail');
+		$nama_lokasi=$this->LokasiModelTrans->getnamalokasi($idlok);
+		$nama_detail_ruangan=$this->LokasiModelTrans->getdetailruangan($id_detail_ruangan);
 
 		foreach ($ketbar as $key) {
 			$ket_bar.=$key['nama_barang'].":".$key['ket_barang'].",";
 			//lokasi adalah lokasi awal yang diinpukan ditabel barangs
 			$lokasi[]=$key['lokasi'];
+			$lokasi_detail[]=$key['lokasi_detail'];
 			//update tablebarang
 			$idbarang=$key['id_barang'];
 			$barangs=[
@@ -255,15 +282,16 @@ class Transaksi extends MY_Controller {
 				'keadaan_barang'=>$key['keadaan_barang'],
 				'harga_satuan'=>$key['harga_satuan'],
 				'tanggal_rusak'=>$key['tanggal_rusak'],
-				'lokasi'=>$this->input->post('lokasibarang'),
-				'ket_barang'=>$key['ket_barang']
+				'lokasi'=>$nama_lokasi,
+				'lokasi_detail'=>$nama_detail_ruangan,
+				'ket_barang'=>$key['ket_barang'],
+				'pemilik'=>$key['pemilik'],
+				'foto'=>$key['foto']
 			];
 
 			$update=$this->TransaksiModel->setUpdateBarangsbyId($idbarang,$barangs);
 
 		}
-
-
 
 		$idpenerima=$this->input->post('idpenerima');
 		$idpenyerah=$this->input->post('idpenyerah');
@@ -310,7 +338,8 @@ class Transaksi extends MY_Controller {
 			'jabatan_penerima'=>$this->input->post('jabpenerima'),
 			'jabatan_penyerah'=>$this->input->post('jabpenyerah'),
 			'ket'=>$ket_bar,
-			'lokasi_peletakan'=>$this->input->post('lokasibarang'),
+			'lokasi_peletakan'=>$nama_lokasi,
+			'lokasi_detail'=>$nama_detail_ruangan,
 			'nama_penerima'=>$nama_penerima,
 			'nama_penyerah'=>$nama_penyerah,
 			'tgl_peletakan'=>$this->input->post('tglpenyerah')
@@ -326,8 +355,10 @@ class Transaksi extends MY_Controller {
 					'id_transaksi'=>$id_transaksi,
 					'id_barcode'=>$id,
 					'tanggal_peletakan'=>$this->input->post('tglpenyerah'),
-					'lokasi_update'=>$this->input->post('lokasibarang'),
-					'lokasi_sebelum'=>$lokasi[$i]
+					'lokasi_update'=>$nama_lokasi,
+					'lokasi_sebelum'=>$lokasi[$i],
+					'lokasi_detail_update'=>$nama_detail_ruangan,
+					'lokasi_detail_sebelum'=>$lokasi_detail[$i]
 				];
 				$this->TransaksiModel->setTambahdatatransaksi($datatransaksi);
 				$i++;
@@ -392,7 +423,7 @@ class Transaksi extends MY_Controller {
 			$pdf->SetAutoPageBreak('on', 60);
 
 			$image1 = base_url('assets/dist/img/Teladan.png');
-			$image2 = base_url('assets/dist/img/sinai.png');
+			//$image2 = base_url('assets/dist/img/sinai.png');
 		//$ctg = base_url('assets/dist/img/ctg.png');
 		//$nctg = base_url('assets/dist/img/nctg.png');
 			foreach ($id_transaksi as $k ) {
@@ -402,14 +433,14 @@ class Transaksi extends MY_Controller {
 
 			}
 		//Header
-			$pdf->Image($image2, 25, 4, 27);
+			//$pdf->Image($image2, 25, 4, 27);
 			$pdf->Image($image1, 165, 4, 20);
 			$pdf->Cell(0, 8, '', 0, 1);
 			$pdf->SetFont('Times', 'B', 14);
 			$pdf->Cell(0, 7, 'BERITA ACARA SERAH TERIMA BARANG', 0, 1, 'C');
 			$pdf->Cell(0, 7, 'YAYASAN SINAI INDONESIA', 0, 1, 'C');
 			$pdf->SetFont('Times', '', 12);
-			$pdf->Ln(4);
+			$pdf->Ln(6);
 
 
 
@@ -438,8 +469,9 @@ class Transaksi extends MY_Controller {
 		}
 
 		//Hari Tanggal
-		$pdf->cell(45, 6, 'Yogyakarta, '.$tanggal_peletakan.' ', 1, 1);
-
+		$pdf->Ln(8);
+		$pdf->Cell(240, 6, 'Yogyakarta, '.$tanggal_peletakan.' ', 0, 1,'C');;
+		$pdf->Ln(1);
 		//TTD
 		$get_xxx = $pdf->GetX();
 		$get_yyy = $pdf->GetY();
@@ -449,7 +481,7 @@ class Transaksi extends MY_Controller {
 			'.$jabatan_penerima.'
 
 
-			'.$nama_penerima, 1, 'C');
+			'.$nama_penerima, 0, 'C');
 		$get_xxx += $width_cell;
 		$pdf->SetXY($get_xxx, $get_yyy);
 
@@ -457,11 +489,12 @@ class Transaksi extends MY_Controller {
 			'.$jabatan_penyerah.'
 
 
-			'.$nama_penyerah, 1, 'C');
+			'.$nama_penyerah, 0, 'C');
 		$get_xxx += $width_cell;
 		$pdf->SetXY($get_xxx, $get_yyy);
 
 
+		$pdf->Ln(6);
 		$pdf->Cell(0, 31, '', 0, 1);
 		$pdf->Cell(0, 5, '___________________________________________________________________________', 0, 1);
 		$pdf->Cell(0, 5, '', 0, 1);
@@ -470,14 +503,14 @@ class Transaksi extends MY_Controller {
 		$get_X = $pdf->GetX();
 		$pdf->SetXY($get_X, $get_Y);
 //Header
-		$pdf->Image($image2, 25, 110, 27);
-		$pdf->Image($image1, 165, 110, 20);
+		//$pdf->Image($image2, 25, 110, 27);
+		$pdf->Image($image1, 165, 118, 20);
 		$pdf->Cell(0, 8, '', 0, 1);
 		$pdf->SetFont('Times', 'B', 14);
 		$pdf->Cell(0, 7, 'BERITA ACARA SERAH TERIMA BARANG', 0, 1, 'C');
 		$pdf->Cell(0, 7, 'YAYASAN SINAI INDONESIA', 0, 1, 'C');
 		$pdf->SetFont('Times', '', 12);
-		$pdf->Ln(4);
+		$pdf->Ln(6);
 
 
 		
@@ -508,17 +541,20 @@ class Transaksi extends MY_Controller {
 
 
 		//Hari Tanggal
-		$pdf->cell(45, 6, 'Yogyakarta, '.$tanggal_peletakan.' ', 1, 1);
+		$pdf->Ln(8);
+		$pdf->Cell(240, 6, 'Yogyakarta, '.$tanggal_peletakan.' ', 0, 1,'C');;;
+		$pdf->Ln(1);
 		//TTD
 		$get_xxx = $pdf->GetX();
 		$get_yyy = $pdf->GetY();
 		$width_cell = 80;
 
+
 		$pdf->multicell(80, 6, 'Yang menerima
 			'.$jabatan_penerima.'
 
 
-			'.$nama_penerima, 1, 'C');
+			'.$nama_penerima, 0, 'C');
 		$get_xxx += $width_cell;
 		$pdf->SetXY($get_xxx, $get_yyy);
 
@@ -526,7 +562,7 @@ class Transaksi extends MY_Controller {
 			'.$jabatan_penyerah.'
 
 
-			'.$nama_penyerah, 1, 'C');
+			'.$nama_penyerah, 0, 'C');
 		$get_xxx += $width_cell;
 		$pdf->SetXY($get_xxx, $get_yyy);
 

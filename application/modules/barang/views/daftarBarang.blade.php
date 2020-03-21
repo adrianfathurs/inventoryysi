@@ -32,6 +32,10 @@
       display: none;
       width: 100%;
     }
+    .border {
+      border-radius: 2px;
+        height: 38px;
+      }
   }
 </style>
 @endsection
@@ -79,6 +83,8 @@
                 <th><center>Harga/Satuan</center></th>
                 <th><center>TGL Rusak</center></th>
                 <th><center>Lokasi Barang</center></th>
+                <th><center>Lokasi Detail</center></th>
+                <th><center>Pemilik</center></th>
                 <th><center>Foto</center></th>
 
               </tr>
@@ -166,6 +172,8 @@
              <td><center><?='Rp.'.number_format($d['harga_satuan'],2,",",".");?></center></td>
              <td><center><?=$tanggal_Rusak?></center></td>
              <td><center><?=strtoupper($d['lokasi'])?></center></td>
+             <td><center><?=strtoupper($d['lokasi_detail'])?></center></td>
+             <td><center><?=strtoupper($d['pemilik'])?></center></td>
              <td><center><img src="{{base_url('assets/dist/img/imgbarang/').$d['foto']}}" width="80" height="80"></center></td>
            </tr>
          <?php endforeach;?>
@@ -308,7 +316,14 @@
             <div class="col-md-6">
               <div class="form-label-group">
                 <label for="hargaBarang">Harga Barang</label>
-                <input type="text" id="hargaBarang" class="form-control" placeholder="Harga Barang" name="hargaBarang" required="required">
+                <div class="input-group">
+                  <div class="input-group-append ">
+                    <div class="input-group-text border">
+                      <label class="label">Rp</label>
+                    </div>
+                  </div>
+                  <input type="text" id="hargaBarang" class="form-control hargaBarang"  placeholder="Harga Barang" name="hargaBarang" required="required">
+                </div>
               </div>
             </div>
           </div>
@@ -337,7 +352,9 @@
                 
                 <select class="form-control" id="keadaanBarang" name ="keadaanBarang" required="required">
                   <option value="Baik">Baik</option>
+                  <option value="Rusak">Hilang</option>
                   <option value="Rusak">Rusak</option>
+                  <option value="Rusak">Dijual</option>
                 </select>
                 
               </div>
@@ -351,8 +368,25 @@
           </div>
         </div>
         <div class="form-group">
+          <div class="form-label-group">
+           
+                  <label for="pemilikBarang">Pemilik Barang</label>
+                  <select class=" select2 js-example-responsive form-control " id="pemilikBarang" name ="pemilikBarang" required="required" style="width: 100%">
+                    <option value="">-----------------------Pilih Pemilik Barang-------------------------------</option>
+                    <?php
+                    foreach($pemilik as $p):
+                      ?>
+                      <option class="form control" value="{{$p['instansi']}}">{{$p['instansi']}}</option>
+                    <?php endforeach?>
+                  </select>
+                
+          </div>
+        </div>
+
+
+        <div class="form-group">
          <div class="form-label-group">
-          <label for="tglBarang">Tanggal Barang Rusak (kosongi kolom jika keadaan barang baik !)</label>
+          <label for="tglBarang">Tanggal Barang Rusak/Hilang/Dijual (kosongi kolom jika keadaan barang baik !)</label>
           <input type="date" id="tglBarangRusak" class="form-control" placeholder="Tanggal Barang Rusak" name="tglBarangRusak" >  
         </div>
       </div>
@@ -374,15 +408,12 @@
           </div>
           <div class="col-md-5">
             <div class="image-preview" name="imagePreview" id="imagePreview">
-             <img src="" alt="Image Preview " class="image-preview__image">
+             <img src="" alt="Image Preview " class="image-preview__image" width="100px" height="100px">
              <span class="image-preview_default-text">Image Preview</span>
            </div>
          </div>
        </div>
      </div>
-
-
-
 
    </div>    
    <div class="modal-footer">
@@ -499,7 +530,6 @@
     $(".modal-body #bahanBarang").val(bahan);
     $(".modal-body #warnaBarang").val(warna_barang);
     $(".modal-body #satuanBarang").val(satuan);
-    $(".modal-body #hargaBarang").val(harga_satuan);
     $(".modal-body #caraBarang").val(cara_peroleh);
     $(".modal-body #tglBarang").val(tanggal_pengadaan);
     $(".modal-body #keadaanBarang").val(keadaan_barang);
@@ -508,6 +538,12 @@
     $(".modal-body #tglBarangRusak").val(tanggal_rusak);
   //  $(".modal-body #fotoBar").val(fot);
 
+  var reverse = harga_satuan.toString().split('').reverse().join(''),
+  ribuan = reverse.match(/\d{1,3}/g);
+  ribuan = ribuan.join('.').split('').reverse().join('');
+  rupiah=ribuan;
+  $(".modal-body #hargaBarang").val(rupiah);
+  $( '.modal-body #hargaBarang' ).mask('000.000.000,00', {reverse: true});
 
 });
 </script>

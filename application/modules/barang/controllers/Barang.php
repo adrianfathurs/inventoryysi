@@ -143,11 +143,13 @@ public function daftarbarang()
 		{
 			unset($_SESSION['idcode']);
 			$data['daftar']=$this->BarangModel->getAll();
+			$data['pemilik']=$this->BarangModel->getpemilik();
 			$this->blade->render('daftarBarang',$data);
 		}
 		else
 		{		
 			$data['daftar']=$this->BarangModel->getAll();
+			$data['pemilik']=$this->BarangModel->getpemilik();
 			$this->blade->render('daftarBarang',$data);
 		}
 	}
@@ -157,7 +159,50 @@ public function daftarbarang()
 	}
 }
 
+public function load_pemilik()
+{
+	$data['title']="INVENTARIS YSI";
+		$data['subtitle']="Tambah Barang";
+		$data['active']="TambahBarang";
+		$status=$_SESSION['status'];
+		$data['status']=$_SESSION['status'];
 
+		if($status==1)
+		{
+			$data['status']="admin";
+		}
+		else if($status==2)
+		{
+			$data['status']="direktur";	
+		}
+		else
+		{
+			$data['status']="user";
+		}
+	$data['pemilik']=$this->BarangModel->getpemilik();
+	$data['lokasi']=$this->BarangModel->getlokasi();
+	$this->blade->render('tambahBarang',$data);
+}
+//function API untuk menampilkan select Box lokasi Barang
+	public function selectBox_lokasi()
+	{
+		$id = $this->input->post('id');
+		$this->session->set_userdata('idlok',$id);
+		$option = $this->input->post('op');
+		if ($option==1)
+			{ 	$lokasidetail=$this->BarangModel->getlokasidetail($id);
+				 echo "<option value=''>--------------------------------------------------------------Pilih Detail Ruangan----------------------------------------------------------------------------</option>";
+				foreach($lokasidetail as $ld)
+				{
+					 echo "<option value='".$ld['id_detail_ruangan']."'>".$ld['detail_nama_ruangan']."</option>";
+				}
+				
+			}
+		else
+		{
+			
+		}
+	}	
 
 public function tambahbarang()
 {
@@ -185,6 +230,8 @@ public function tambahbarang()
 		$nosertif=$this->input->post('noSertif');
 		if ($nosertif==NULL) {
 			# code...
+			$data['pemilik']=$this->BarangModel->getpemilik();
+			$data['lokasi']=$this->BarangModel->getlokasi();
 			$this->blade->render('tambahBarang',$data);
 		}
 		else{
@@ -207,8 +254,11 @@ public function tambahbarang()
 						$foto=$this->upload->data('file_name');
 					}
 				}
-				
-				
+					//session id_lokasi 
+					$idlok=$_SESSION['idlok'];
+					$id_detail_ruangan=$this->input->post('lokasiDetail');
+					$nama_lokasi=$this->BarangModel->getnamalokasi($idlok);
+					$nama_detail_ruangan=$this->BarangModel->getdetailruangan($id_detail_ruangan);
 				/*input barang untuk tambah Barang*/
 				$barangs=[
 					'bahan'=>$this->input->post('bahanBarang'),
@@ -219,8 +269,10 @@ public function tambahbarang()
 					'keadaan_barang'=>$this->input->post('keadaanBarang'),
 					'harga_satuan'=>$hargaku,
 					'tanggal_rusak'=>NULL,
-					'lokasi'=>$this->input->post('lokasiBarang'),
+					'lokasi'=>$nama_lokasi,
+					'lokasi_detail'=>$nama_detail_ruangan,
 					'ket_barang'=>$this->input->post('ket'),
+					'pemilik'=>$this->input->post('pemilikBarang'),
 					'foto'=>$foto
 				];
 
@@ -491,6 +543,8 @@ public function selectidbarang($id,$id_barang,$iddepartement,$idyayasan,$date_mo
 			$data['karyawan']=$this->KaryawanModel->getKaryawan();
 			$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
 			$data['headerpencetakan']="SERAH TERIMA BARANG";
+			$data['lokasi']=$this->BarangModel->getlokasi();
+			
 			$this->blade->render('transaksi/transaksiBarang',$data);
 		}
 		//pengendalian apabila tidak terdapat session dan idbarcoude unidenfined
@@ -535,6 +589,8 @@ public function selectidbarang($id,$id_barang,$iddepartement,$idyayasan,$date_mo
 			$data['karyawan']=$this->KaryawanModel->getKaryawan();
 			$data['daftar']=$this->BarangModel->getAllbyIdbarcodewherein($idbarcode);
 			$data['headerpencetakan']="SERAH TERIMA BARANG";
+			$data['lokasi']=$this->BarangModel->getlokasi();
+			
 			$this->blade->render('transaksi/transaksiBarang',$data);
 		}	
 
@@ -794,8 +850,8 @@ public function qrcode($index)
 			$rupiah=$this->input->post('hargaBarang');
 			if ($hargadab!== $rupiah)
 			{
-			$hargaku=$this->convert_to_number($rupiah);
-			$hargaku=(int)$hargaku/100;
+				$hargaku=$this->convert_to_number($rupiah);
+				$hargaku=(int)$hargaku/100;
 			}
 			else
 			{
@@ -828,6 +884,7 @@ public function qrcode($index)
 					'tanggal_rusak'=>$this->input->post('tglBarangRusak'),
 					'lokasi'=>$this->input->post('lokasiBarang'),
 					'ket_barang'=>$this->input->post('ketBarang'),
+					'pemilik'=>$this->input->post('pemilikBarang'),
 					'foto'=>$foto
 				];
 				var_dump($barangs);

@@ -48,7 +48,9 @@
                 <th><center>TGL Pengadaan</center></th>
                 <th><center>TGL Mutasi</center></th>
                 <th><center>Lokasi Sekarang</center></th>
+                <th><center>Lokasi Detail Sekarang</center></th>
                 <th><center>Lokasi Sebelum</center></th>
+                <th><center>Lokasi Detail Sebelum</center></th>
                 
               </tr>
             </thead>
@@ -85,7 +87,9 @@
               <td><center><?=$tanggal_Pengadaan?></center></td>
               <td><center><?=$tanggal_Peletakan?></center></td>
               <td><center><?=strtoupper($t['lokasi_update'])?></center></td>
+              <td><center><?=strtoupper($t['lokasi_detail_update'])?></center></td>
               <td><center><?=strtoupper($t['lokasi_sebelum'])?></center></td>
+              <td><center><?=strtoupper($t['lokasi_detail_sebelum'])?></center></td>
 
             </tr>
           <?php endforeach;?>

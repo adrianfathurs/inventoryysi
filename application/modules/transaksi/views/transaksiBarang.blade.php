@@ -43,6 +43,9 @@
         margin-right: 10px;
 
       }
+      .margin-top{
+        margin-top: 10px;
+      }
       #tabeltransaksi{
         display: none;
       }
@@ -250,7 +253,7 @@
                   <label for="ygMenyerahkan">Nama Penyerah</label><br>
                   <!-- <input type="text" id="ygMenyerahkan" class="form-control" placeholder="Nama yang Menyerahkan" required="required " name="penyerah"> -->
                   <select class=" select2 js-example-responsive form-control " style="width: 100%" name="idpenyerah" id="nama_penyerah" required="true">
-                    <option value="">-----------------------------------------------------------------Pilih Nama------------------------------------------------------------------------</option>
+                    <option value="">-------------------------------------------------------------Pilih Nama------------------------------------------------------</option>
                     <?php foreach ($karyawan as $key): ?>
                       <?php if($key['nama']==$nama):?>
                         <option value="{{$key['id_karyawan']}}">{{$key['nama'].'/'}}</option>
@@ -267,7 +270,6 @@
               <div class="form-group">
                 <div class="form-label-group">
                   <label for="jabMenyerahkan">Jabatan Penyerah</label><br>
-
                   <input type="text" class=" form-control " readonly="true" name="jabpenyerah" id="jabMenyerahkan">    
                 </input>
               </div>
@@ -282,7 +284,7 @@
                 <!-- <input type="text" id="ygMenerima" class="form-control" placeholder="Nama Penerima" required="required" name="penerima"> -->
 
                 <select class="form-control js-example-responsive select2" id="nama_penerima" style="width: 100%" name="idpenerima" required="true">
-                  <option value="">-----------------------------------------------------------------Pilih Nama--------------------------------------</option>
+                  <option value="">-------------------------------------------------------------Pilih Nama------------------------------------------------------</option>
                   <?php foreach ($karyawan as $key): ?>
                     <option class="form control" value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
                   <?php endforeach?>
@@ -301,42 +303,63 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-4-md margin">
-          <div class="form-group">
+        <div class="col-4 margin">
+          <!-- <div class="form-group">
             <div class="form-label-group">
               <label for="lokasiBarang">Lokasi Pindah/Lokasi Mutasi </label>
               <input type="text" id="lokasiBarang" class="form-control" placeholder="Lokasi Peletakan " required="required" name="lokasibarang" >
             </div>
-          </div>
-        </div>
-        <div class="col-4-md">
-          <div class="form-group">
-            <div class="form-label-group">
-              <label for="tglPenyerahan">Tanggal Penyerahan Barang</label>
-              <input type="date" id="tglPenyerahan" class="form-control" placeholder="Tanggal Penyerahan Barang" required="required" name="tglpenyerah">
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- keterangan barang diambil dari id barang yang telah dipilih dan berasal dari table barangs nantinya dimasukan di table ttransaksi -->
-      <?php $j=1;foreach($daftar as $k =>$d):?>
-      <div class="form-group">
-        <div class="form-group">
+          </div> -->
+
           <div class="form-label-group">
-            <label for="keterangan">Keterangan Barang {{$d['nama_barang']}}</label>
-            <textarea class="form-control" rows="3" placeholder="{{$d['ket_barang']}}" required="required" name="ket[]" readonly="true" value="{{$d['ket_barang']}}"></textarea>
+            <label for="LokasiBarang">Lokasi Barang</label>
+            <select class=" select2 js-example-responsive form-control " id="LokasiBarang" name ="lokasiBarang" required="required" style="width: 100%">
+              <option value="">----------------------------------Pilih Lokasi Barang------------------------------------------</option>
+              <?php foreach ($lokasi as $l):?>
+               <option class="form control" value="{{$l['id_lokasi']}}">{{$l['nama_lokasi']}}</option>
+             <?php endforeach?>
+           </select>
+         </div>
+       </div>
+       <div class="col-4 margin">
+         <div class="form-label-group">
+          <label for="LokasiDetail">Lokasi/Ruangan Detail</label>
+          <select class=" select2 js-example-responsive form-control "id="LokasiDetail" name ="lokasiDetail" required="required" style="width: 100%">
+            <option value="">----------------------------------Pilih Detail Ruangan------------------------------------------</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 margin-top">
+        <div class="form-group margin-top" style="width: 100%">
+          <div class="form-label-group">
+            <label for="tglPenyerahan">Tanggal Penyerahan Barang</label>
+            <input type="date" id="tglPenyerahan" class="form-control" placeholder="Tanggal Penyerahan  Barang" required="required" name="tglpenyerah">
           </div>
         </div>
       </div>
-      <?php $j++; endforeach;?>
+      
+    </div>
+  <!-- keterangan barang diambil dari id barang yang telah dipilih dan berasal dari table barangs nantinya dimasukan di table ttransaksi -->
+  <?php $j=1;foreach($daftar as $k =>$d):?>
+  <div class="form-group">
+    <div class="form-group">
+      <div class="form-label-group">
+        <label for="keterangan">Keterangan Barang {{$d['nama_barang']}}</label>
+        <textarea class="form-control" rows="3" placeholder="{{$d['ket_barang']}}" required="required" name="ket[]" readonly="true" value="{{$d['ket_barang']}}"></textarea>
+      </div>
+    </div>
+  </div>
+  <?php $j++; endforeach;?>
 
 
 
 
-    </div>          
-    <button type="submit" name="btnforminput" class="btn btn-success" id="submit">Submit</button>
+</div>          
+<button type="submit" name="btnforminput" class="btn btn-success" id="submit">Submit</button>
 
-  </form>
+</form>
 </div>
 </div>
 </div>
@@ -389,119 +412,6 @@
     </div>
   </div>
 </div>
-<!--####################  -->
-<!-- Modal Edit-->
-<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="Edit" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="Edit">EDIT DATA SERTIBAR</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- ########################### -->
-        <form id="form" method="POST" action="{{base_url('transaksi/updatetransaksi/')}}">
-          <div class="row">
-            <div class="col-6">
-              <div class="form-group">
-                <div class="form-label-group">
-                  <label for="penyerah">Nama yang Menyerahkan</label><br>
-                  <!-- <input type="text" id="ygMenyerahkan" class="form-control" placeholder="Nama yang Menyerahkan" required="required " name="penyerah"> -->
-                  <select class=" select2 js-example-responsive form-control " style="width: 100%" name="idPenyerah" id="penyerah" required="true">
-                    <option value="">---Pilih Nama----</option>
-                    <?php foreach ($karyawan as $key): ?>
-
-                      <option value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
-                      <?php 
-                    endforeach;?>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="form-label-group">
-                  <label for="jabPenyerah">Jabatan yang Menyerahkan</label><br>
-
-                  <input type="text" class=" form-control " readonly="true" name="jabPenyerah" id="jabPenyerah">    
-                </input>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-6">
-            <div class="form-group">
-              <div class="form-label-group">
-                <label for="penerima">Nama Penerima</label><br>
-
-                <!-- <input type="text" id="ygMenerima" class="form-control" placeholder="Nama Penerima" required="required" name="penerima"> -->
-
-                <select class="form-control js-example-responsive select2" id="penerima" style="width: 100%" name="idPenerima" required="true">
-                  <option value="">----Pilih Nama---</option>
-                  <?php foreach ($karyawan as $key): ?>
-                    <option class="form control"value="{{$key['id_karyawan']}}">{{$key['nama']}}</option>
-                  <?php endforeach?>
-                </select>
-              </div> 
-
-            </div>
-            <div class="form-group">
-              <div class="form-label-group">
-                <label for="jabPenerimaan">Jabatan Penerima</label>
-                <input type="text" class=" form-control " readonly="true" name="jabPenerima" id="jabPenerimaan">    
-              </input>
-            </div>
-          </div>
-
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-5-md margin">
-          <div class="form-group">
-            <div class="form-label-group">
-              <label for="lokasiBarang">Lokasi Pindah/Lokasi Mutasi </label>
-              <input type="text" id="lokasiBarang" class="form-control" placeholder="Lokasi Peletakan " required="required" name="lokasiBarang" >
-            </div>
-          </div>
-        </div>
-        <div class="col-5-md">
-          <div class="form-group">
-            <div class="form-label-group">
-              <label for="tglPenyerahan">Tanggal Penyerahan Barang</label>
-              <input type="date" id="tglPenyerahan" class="form-control" placeholder="Tanggal Penyerahan Barang" required="required" name="tglPenyerah">
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- keterangan barang diambil dari id barang yang telah dipilih dan berasal dari table barangs nantinya dimasukan di table ttransaksi -->
-      <?php $j=1;foreach($daftar as $k =>$d):?>
-      <div class="form-group">
-        <div class="form-group">
-          <div class="form-label-group">
-            <label for="keterangan">Keterangan Barang {{$d['nama_barang']}}</label>
-            <textarea class="form-control" rows="3" placeholder="{{$d['ket_barang']}}" required="required" name="ket[]" readonly="true" value="{{$d['ket_barang']}}"></textarea>
-          </div>
-        </div>
-      </div>
-      <?php $j++; endforeach;?>
-
-
-
-
-    </div>          
-
-    <div class="modal-footer">
-
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <input type="hidden" name="idTransaksi" id="id_transaksi"/>
-      <button type="submit" name="btnsubmit" class="btn btn-primary">Edit & Save</button>
-    </div>
-  </form>  
-</div>
-</div>
-</div> 
-
-<!-- ####################################### -->
 
 
 
@@ -657,13 +567,6 @@
       $("#jsform").click(function(){
         $("#containers").show();
       });
-
-
-
-
-
-
-
     });
   </script>
 
@@ -700,13 +603,34 @@
           data: postForm,
           success: function(data) {
             console.log(data);
-
             $("#jabPenerima").val(data);
           }
         });
       });
     });
     
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#LokasiBarang").change(function() {
+        var postForm = {
+          'id': document.getElementById("LokasiBarang").value,
+          'op': 1
+        };
+        $.ajax({
+          type: "post",
+          url: 'http://localhost/templateyysi/transaksi/selectBox_lokasi',
+          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          data: postForm,
+          success: function(data) {
+            console.log(data);
+            $("#LokasiDetail").html(data);
+          }
+        });
+      });
+    });
+
   </script>
 
   <script type="text/javascript">
@@ -733,48 +657,7 @@
     });
   </script>
 
-  <!-- Cript modal edit -->
-  <script>
-    $(document).ready(function() {
-      $("#penyerah").change(function() {
-
-        var postForm = {
-          'id': document.getElementById("penyerah").value,
-          'op': 1
-        };
-        $.ajax({
-          type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
-          data: postForm,
-          success: function(data) {
-            console.log(data);
-            $("#jabPenyerah").val(data);
-          }
-        });
-      });
-
-      $("#penerima").change(function() {
-
-        var postForm = {
-          'id': document.getElementById("penerima").value,
-          'op': 2
-        };
-        $.ajax({
-          type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
-          data: postForm,
-          success: function(data) {
-            console.log(data);
-
-            $("#jabPenerimaan").val(data);
-          }
-        });
-      });
-    });
-    
-  </script>
+  
 
 
   @endsection
