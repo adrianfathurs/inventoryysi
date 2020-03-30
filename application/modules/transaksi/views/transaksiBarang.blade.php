@@ -402,7 +402,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Anda Telah Melakukan Input Form Sertibar, Lakukan Verifikasi Dengan Menekan Tombol<img src="{{base_url('assets/dist/img/Verifikasi.jpg')}}" height="50px" width="100px"></p>
+        <p>Anda Telah Melakukan Input Form Sertibar, Lakukan Verifikasi Dengan Menekan Tombol<img src="{{base_url('assets/dist/img/img/Verifikasi.jpg')}}" height="50px" width="100px"></p>
       </div>
       <div class="modal-footer">
         <button type="button" class=" btn btn-info" data-dismiss="modal" aria-label="Close">
@@ -580,8 +580,8 @@
         };
         $.ajax({
           type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          //url: 'http://localhost/templateyysi/transaksi/selectBox',
+          url: 'http://ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -598,8 +598,8 @@
         };
         $.ajax({
           type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          //url: 'http://localhost/templateyysi/transaksi/selectBox',
+          url: 'http://ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -620,8 +620,8 @@
         };
         $.ajax({
           type: "post",
-          url: 'http://localhost/templateyysi/transaksi/selectBox_lokasi',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          //url: 'http://localhost/templateyysi/transaksi/selectBox_lokasi',
+          url: 'http://ysinvetaris.epizy.com/transaksi/selectBox_lokasi',
           data: postForm,
           success: function(data) {
             console.log(data);

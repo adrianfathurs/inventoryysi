@@ -216,7 +216,7 @@
 
     @section('scripts-js')
     <script type="text/javascript" src="{{base_url('assets/dist/js/jquery.mask.min.js')}}"></script>
-    <script  src="{{base_url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script type="text/javascript" charset="utf8" src="{{base_url('assets/plugins/select2/js/select2.full.min.js')}}"></script>
     
     <script type="text/javascript">
       $(document).ready(function() {
@@ -268,8 +268,8 @@
         };
         $.ajax({
           type: "post",
-          url: 'http://localhost/templateyysi/barang/selectBox_lokasi',
-          //url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          //url: 'http://localhost/templateyysi/barang/selectBox_lokasi',
+          url:'http://ysinvetaris.epizy.com/barang/selectBox_lokasi',
           data: postForm,
           success: function(data) {
             console.log(data);

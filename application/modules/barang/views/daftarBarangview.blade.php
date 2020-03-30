@@ -1,6 +1,7 @@
   @layout('template/main/barang/main')
   <!-- script css -->
   @section('scripts-css')
+  
   <style type="text/css">
     .selecting{
       color:#000000;

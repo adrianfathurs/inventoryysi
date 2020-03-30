@@ -244,7 +244,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>1)Apabila Dalam Menginput Data Sertibar terdapat Kesalahan, Anda Bisa Menekan Tombol <img src="{{base_url('assets/dist/img/Edit.jpg')}}"> Untuk Memperbaiki Kesalahan</p>
+        <p>1)Apabila Dalam Menginput Data Sertibar terdapat Kesalahan, Anda Bisa Menekan Tombol <img src="{{base_url('assets/dist/img/Edit.JPG')}}"> Untuk Memperbaiki Kesalahan</p>
         <p>2)Silahkan Download/Cetak Sertibar maupun Barcode Sebelum Menekan Tombol Save</p>
       </div>
       <div class="modal-footer">
@@ -469,7 +469,7 @@
         $.ajax({
           type: "post",
           //url: 'http://localhost/templateyysi/transaksi/selectBox',
-          url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          url: 'http://ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -487,7 +487,7 @@
         $.ajax({
           type: "post",
           //url: 'http://localhost/templateyysi/transaksi/selectBox',
-          url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          url: 'http://ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -536,7 +536,7 @@
         $.ajax({
           type: "post",
           //url: 'http://localhost/templateyysi/transaksi/selectBox',
-          url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          url: 'http://ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);
@@ -554,7 +554,7 @@
         $.ajax({
           type: "post",
           //url: 'http://localhost/templateyysi/transaksi/selectBox',
-          url: 'http://www.ysinvetaris.epizy.com/transaksi/selectBox',
+          url: 'http://ysinvetaris.epizy.com/transaksi/selectBox',
           data: postForm,
           success: function(data) {
             console.log(data);

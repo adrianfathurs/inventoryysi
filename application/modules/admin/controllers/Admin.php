@@ -19,5 +19,5 @@ class Admin extends MY_Controller
 	else{
 		$this->blade->render('start/start');
 	}
-	}
+	
 }

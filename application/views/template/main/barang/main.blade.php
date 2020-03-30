@@ -16,7 +16,8 @@
   <link rel="stylesheet" href="{{base_url('assets/plugins/daterangepicker/daterangepicker.css')}}">
   <link rel="stylesheet" href="{{base_url('assets/plugins/summernote/summernote-bs4.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"/>
+  
   <link rel="stylesheet" type="text/css" href="{{base_url('assets/plugins/select2/css/select2.min.css')}}">
   <style type="text/css">
     
@@ -160,7 +161,7 @@
   
   <script src="{{base_url('assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
   <script src="{{base_url('assets/dist/js/adminlte.js')}}"></script>
-  <script type="text/javascript" charset="utf8" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+ 
   <script type="text/javascript" charset="utf8" src="{{base_url('assets/plugins/jquery/jquery.min.js')}}"></script>
   
   
